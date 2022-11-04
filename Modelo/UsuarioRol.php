@@ -1,14 +1,14 @@
 <?php   
 
-class UsuarioRol{
+class UsuarioRol extends BaseDatos{
 
     private $objUsuario;
     private $objRol;
     private $mensajeOperacion;
 
     public function __construct(){
-        $this->objUsuario="";
-        $this->objRol="";
+        $this->objUsuario= new Usuario();
+        $this->objRol= new Rol();
         $this->mensajeOperacion="";
     }
 
@@ -22,7 +22,7 @@ class UsuarioRol{
     public function cargar(){
         $resp = false;
         $base=new BaseDatos();
-        $idUsuario=$this->getObjUsuario()->getIdUsuario();
+        $idUsuario=$this->getObjUsuario()->getIdusuario();
         $sql="SELECT * FROM usuariorol WHERE idusuario = ".$idUsuario;
         if ($base->Iniciar()) {
             $res = $base->Ejecutar($sql);
@@ -50,8 +50,8 @@ class UsuarioRol{
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO usuariorol(idusuario, idrol) 
             VALUES('"
-            .$this->getObjUsuario()."', '"
-            .$this->getObjRol()."'
+            .$this->getObjUsuario()->getIdUsuario()."', '"
+            .$this->getObjRol()->getIdRol()."'
         );";
         if ($base->Iniciar()) {
             if ($esteid = $base->Ejecutar($sql)) {
@@ -69,7 +69,7 @@ class UsuarioRol{
     
     public function modificar(){
         $resp = false;
-        $base=new BaseDatos();
+        /*$base=new BaseDatos();
         $idUsuario=$this->getObjUsuario()->getIdUsuario();
         $idRol=$this->getObjRol()->getIdRol();
         $sql="UPDATE usuariorol SET idrol='".$idRol."' WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
@@ -81,7 +81,7 @@ class UsuarioRol{
             }
         } else {
             $this->setMensajeOperacion("usuariorol->modificar: ".$base->getError());
-        }
+        }*/
         return $resp;
     }
     

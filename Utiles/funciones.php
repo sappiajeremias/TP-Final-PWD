@@ -1,6 +1,5 @@
 <?php
 
-
 function data_submitted()
 {
     // Función auxiliar para tomar los datos recibidos sin importar el método usado
@@ -22,8 +21,8 @@ function data_submitted()
 
 spl_autoload_register(function ($clase) {
     $directorys = array(
-        $GLOBALS['ROOT'].'Modelo/',
-        $GLOBALS['ROOT'].'Control/',
+        $GLOBALS['ROOT'].'modelo/',
+        $GLOBALS['ROOT'].'control/',
     );
     foreach ($directorys as $directory) {
         if (file_exists($directory.$clase.'.php')) {

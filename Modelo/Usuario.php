@@ -1,28 +1,28 @@
 <?php   
-class Usuario{
+class Usuario extends BaseDatos{
 
-    private $idUsuario;
-    private $usNombre;
-    private $usPass;
-    private $usMail;
-    private $usDeshabilitado;
+    private $idusuario;
+    private $usnombre;
+    private $uspass;
+    private $usmail;
+    private $usdeshabilitado;
     private $mensajeOperacion;
 
     public function __construct(){
-        $this->idUsuario="";
-        $this->usNombre="";
-        $this->usPass="";
-        $this->usMail="";
-        $this->usDeshabilitado=null;
+        $this->idusuario="";
+        $this->usnombre="";
+        $this->uspass="";
+        $this->usmail="";
+        $this->usdeshabilitado=null;
         $this->mensajeOperacion="";
     }
 
-    public function setear($idUsuario,$usNombre,$usPass,$usMail,$usDeshabilitado){
-        $this->setIdUsuario($idUsuario);
-        $this->setUsNombre($usNombre);
-        $this->setUsPass($usPass);
-        $this->setUsMail($usMail);
-        $this->setUsDeshabilitado($usDeshabilitado);
+    public function setear($idusuario,$usnombre,$uspass,$usmail,$usdeshabilitado){
+        $this->setIdusuario($idusuario);
+        $this->setUsnombre($usnombre);
+        $this->setUspass($uspass);
+        $this->setUsmail($usmail);
+        $this->setUsdeshabilitado($usdeshabilitado);
     }
 
     //MÉTODOS PROPIOS DE LA CLASE
@@ -30,7 +30,7 @@ class Usuario{
     public function cargar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="SELECT * FROM usuario WHERE idusuario = ".$this->getIdUsuario();
+        $sql="SELECT * FROM usuario WHERE idusuario = ".$this->getIdusuario();
         if ($base->Iniciar()) {
             $res = $base->Ejecutar($sql);
             if($res>-1){
@@ -52,10 +52,10 @@ class Usuario{
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO usuario(usnombre, uspass, usmail, usdeshabilitado) 
             VALUES('"
-            .$this->getUsNombre()."', '"
-            .$this->getUsPass()."', '"
-            .$this->getUsMail()."', '"
-            .$this->getUsDeshabilitado()."'
+            .$this->getUsnombre()."', '"
+            .$this->getUspass()."', '"
+            .$this->getUsmail()."', '"
+            .$this->getUsdeshabilitado()."'
         );";
         if ($base->Iniciar()) {
             if ($esteid = $base->Ejecutar($sql)) {
@@ -75,11 +75,11 @@ class Usuario{
         $resp = false;
         $base=new BaseDatos();
         $sql="UPDATE usuario 
-        SET usnombre='".$this->getUsNombre()
-        ."', uspass='".$this->getUsPass()
-        ."', usmail='".$this->getUsMail()
-        ."', usdeshabilitado='".$this->getUsDeshabilitado()
-        ."' WHERE idusuario='".$this->getIdUsuario()."'";
+        SET usnombre='".$this->getUsnombre()
+        ."', uspass='".$this->getUspass()
+        ."', usmail='".$this->getUsmail()
+        ."', usdeshabilitado='".$this->getUsdeshabilitado()
+        ."' WHERE idusuario='".$this->getIdusuario()."'";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 $resp = true;
@@ -95,7 +95,7 @@ class Usuario{
     public function eliminar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="DELETE FROM usuario WHERE idusuario=".$this->getIdUsuario();
+        $sql="DELETE FROM usuario WHERE idusuario=".$this->getIdusuario();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 return true;
@@ -133,58 +133,128 @@ class Usuario{
     }
 
     //MÉTODOS GET
-    public function getIdUsuario(){
-        return $this->idUsuario;
+   
+
+
+    /**
+     * Get the value of idusuario
+     */ 
+    public function getIdusuario()
+    {
+        return $this->idusuario;
     }
 
-    public function getUsNombre(){
-        return $this->usNombre;
+    /**
+     * Set the value of idusuario
+     *
+     * @return  self
+     */ 
+    public function setIdusuario($idusuario)
+    {
+        $this->idusuario = $idusuario;
+
+        return $this;
     }
 
-    public function getUsPass(){
-        return $this->usPass;
+    /**
+     * Get the value of usnombre
+     */ 
+    public function getUsnombre()
+    {
+        return $this->usnombre;
     }
 
-    public function getUsMail(){
-        return $this->usMail;
+    /**
+     * Set the value of usnombre
+     *
+     * @return  self
+     */ 
+    public function setUsnombre($usnombre)
+    {
+        $this->usnombre = $usnombre;
+
+        return $this;
     }
 
-    public function getUsDeshabilitado(){
-        return $this->usDeshabilitado;
+    /**
+     * Get the value of uspass
+     */ 
+    public function getUspass()
+    {
+        return $this->uspass;
     }
 
-    public function getMensajeOperacion(){
+    /**
+     * Set the value of uspass
+     *
+     * @return  self
+     */ 
+    public function setUspass($uspass)
+    {
+        $this->uspass = $uspass;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of usdeshabilitado
+     */ 
+    public function getUsdeshabilitado()
+    {
+        return $this->usdeshabilitado;
+    }
+
+    /**
+     * Set the value of usdeshabilitado
+     *
+     * @return  self
+     */ 
+    public function setUsdeshabilitado($usdeshabilitado)
+    {
+        $this->usdeshabilitado = $usdeshabilitado;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of mensajeOperacion
+     */ 
+    public function getMensajeOperacion()
+    {
         return $this->mensajeOperacion;
     }
 
-    //MÉTODOS SET
-    public function setIdUsuario($newIdUsuario){
-        $this->idUsuario=$newIdUsuario;
-        return $this;
-    }
-    
-    public function setUsNombre($newUsNombre){
-        $this->usNombre=$newUsNombre;
-        return $this;
-    }
-    public function setUsPass($newUsPass){
-        $this->usPass=$newUsPass;
-        return $this;
-    }
-    public function setUsMail($newUsMail){
-        $this->usMail=$newUsMail;
-        return $this;
-    }
-    public function setUsDeshabilitado($newUsDeshabilitado){
-        $this->usDeshabilitado=$newUsDeshabilitado;
-        return $this;
-    }
-    public function setMensajeOperacion($newMensajeOperacion){
-        $this->mensajeOperacion=$newMensajeOperacion;
+    /**
+     * Set the value of mensajeOperacion
+     *
+     * @return  self
+     */ 
+    public function setMensajeOperacion($mensajeOperacion)
+    {
+        $this->mensajeOperacion = $mensajeOperacion;
+
         return $this;
     }
 
+    /**
+     * Get the value of usmail
+     */ 
+    public function getUsmail()
+    {
+        return $this->usmail;
+    }
 
+    /**
+     * Set the value of usmail
+     *
+     * @return  self
+     */ 
+    public function setUsmail($usmail)
+    {
+        $this->usmail = $usmail;
+
+        return $this;
+    }
 }    
 
 

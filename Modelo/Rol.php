@@ -1,14 +1,14 @@
 <?php
 
-class Rol{
+class Rol extends BaseDatos{
 
-    private $idRol;
-    private $rolDescripcion;
+    private $idrol;
+    private $rodescripcion;
     private $mensajeOperacion;
 
     public function __construct(){
-        $this->idRol="";
-        $this->rolDescripcion="";
+        $this->idrol="";
+        $this->rodescripcion="";
         $this->mensajeOperacion="";
     }
 
@@ -29,7 +29,7 @@ class Rol{
             if($res>-1){
                 if($res>0){
                     $row = $base->Registro();
-                    $this->setear($row['idrol'], $row['roldescripcion']);
+                    $this->setear($row['idrol'], $row['rodescripcion']);
                 }
             }
         } else {
@@ -42,14 +42,14 @@ class Rol{
         $resp = false;
         $base=new BaseDatos();
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql="INSERT INTO rol(roldescripcion) 
+        $sql="INSERT INTO rol(rodescrpcion) 
             VALUES('"
             .$this->getRolDescripcion()."'
         );";
         if ($base->Iniciar()) {
             if ($esteid = $base->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
-                $this->setidusuario($esteid);
+                $this->setIdRol($esteid);
                 $resp = true;
             } else {
                 $this->setMensajeOperacion("rol->insertar: ".$base->getError());
@@ -64,7 +64,7 @@ class Rol{
         $resp = false;
         $base=new BaseDatos();
         $sql="UPDATE rol 
-        SET roldescripcion='".$this->getRolDescripcion().
+        SET rodescripcion='".$this->getRolDescripcion().
         "' WHERE idrol='".$this->getIdRol()."'";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
@@ -106,7 +106,7 @@ class Rol{
             if($res>0){
                 while ($row = $base->Registro()){
                     $obj= new rol();
-                    $obj->setear($row['idrol'], $row['roldescripcion']);
+                    $obj->setear($row['idrol'], $row['rodescripcion']);
                     array_push($arreglo, $obj);
                 }
             }
@@ -120,11 +120,11 @@ class Rol{
 
     //MÉTODOS GET
     public function getIdRol(){
-        return $this->idRol;
+        return $this->idrol;
     }
 
     public function getRolDescripcion(){
-        return $this->rolDescripcion;
+        return $this->rodescripcion;
     }
 
     public function getMensajeOperacion(){
@@ -133,12 +133,12 @@ class Rol{
 
     //MÉTODOS SET
     public function setIdRol($newIdRol){
-        $this->idRol=$newIdRol;
+        $this->idrol=$newIdRol;
         return $this;
     }
 
     public function setRolDescripcion($newRolDescripcion){
-        $this->rolDescripcion=$newRolDescripcion;
+        $this->rodescripcion=$newRolDescripcion;
         return $this;
 
     }
