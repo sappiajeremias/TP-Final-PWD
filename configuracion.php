@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['ROOT'] =$_SERVER['DOCUMENT_ROOT']."/PWD/TP-Seguridad/";
+$GLOBALS['ROOT'] =$_SERVER['DOCUMENT_ROOT']."/TP-Final-PWD/";
 
 // FUNCIONES data_submitted Y spl_autoload_register
 // TAMBIÉN FUNCIONES QUE USAN LA LIBRERIA PHPMailer
@@ -11,7 +11,7 @@ include_once("Utiles/funciones.php");
 
 //MODIFICAR SEGÚN TENGAS EL PROYECTO
 
-$PROYECTO ='PWD/TP-Seguridad';
+$PROYECTO ='TP-Final-PWD';
 
 //variable que almacena el directorio del proyecto
 $ROOT =$_SERVER['DOCUMENT_ROOT']."/$PROYECTO/";

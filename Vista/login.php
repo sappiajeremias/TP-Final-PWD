@@ -1,7 +1,5 @@
 <?php $Titulo = "TP5 - Login";
-include_once("../estructura/cabecera.php");
-
-
+include_once("../configuracion.php");
 ?>
 
 <form name="login" id="login" method="post" action="./Accion/verificarLogin.php">

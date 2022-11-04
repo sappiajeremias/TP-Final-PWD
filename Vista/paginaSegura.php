@@ -1,18 +1,19 @@
-<?php $Titulo = "TP5 - Login";
-include_once("../estructura/cabecera.php");
+<?php $Titulo= "Pagina Segura";
+include_once("../configuracion.php");
 
+if ($sesion->activa())  {
+    $mensaje = "<div class='alert alert-success' role='alert'>
+        <h5><i class='fas fa-check-circle mx-2'></i>Bienvenido ".$_SESSION['usnombre'].".</h5>
+        </div>";
+} else {
+    $mensaje = "<div class='alert alert-danger' role='alert'>
+        <h5><i class='fas fa-times-circle mx-2'></i>No se ha iniciado sesión - <a href='login.php'> Ingrese aquí </a> </h5>
+        </div>";
+}
 
+echo $mensaje . "<br><br><br>"; 
+print_r($sesion);
+echo "<br><br><br>";
+print_r($_SESSION);
+echo "<br><br><br>";
 ?>
-
-<form name="login" id="login" method="post" action="./Accion/verificarLogin.php">
-<div class="mb-3">
-  <label for="usnombre" class="form-label">Nombre</label>
-  <input type="text"
-    class="form-control" name="usnombre" id="" aria-describedby="helpId" placeholder="">
-</div>
-<div class="mb-3">
-  <label for="contraseña" class="form-label">Contraseña</label>
-  <input type="password" class="form-control" name="contraseña" id="" placeholder="">
-</div>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form>

@@ -1,18 +1,13 @@
-<?php $Titulo = "TP5 - Login";
-include_once("../estructura/cabecera.php");
+<?php 
+include_once("../../Utiles/funciones.php");
 
-
-?>
-
-<form name="login" id="login" method="post" action="./Accion/verificarLogin.php">
-<div class="mb-3">
-  <label for="usnombre" class="form-label">Nombre</label>
-  <input type="text"
-    class="form-control" name="usnombre" id="" aria-describedby="helpId" placeholder="">
-</div>
-<div class="mb-3">
-  <label for="contraseña" class="form-label">Contraseña</label>
-  <input type="password" class="form-control" name="contraseña" id="" placeholder="">
-</div>
-<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+$datosIng = data_submitted();
+if ( !empty($datosIng) )  {
+        $sesion = new Session;
+        $sesion->iniciar($datosIng['usnombre']);
+        header('Location: ../paginaSegura.php');
+    
+} //else {
+    // Redirige automáticamente si no tiene datos recibidos:
+    //header('Location: ../TP5/login.php?no=1');
+ ?>
