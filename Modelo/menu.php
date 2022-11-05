@@ -12,7 +12,7 @@ public function __construct(){
     $this->idmenu="";
     $this->menombre="";
     $this->medescripcion="";
-    $this->idpadre="";
+    $this->idpadre=new menu();
     $this->medeshabilitado=null;
     $this->mensajeoperacion ="";
 }

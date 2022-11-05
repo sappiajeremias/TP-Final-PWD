@@ -1,5 +1,5 @@
 <?php   
-class Usuario extends BaseDatos{
+class usuario extends BaseDatos{
 
     private $idusuario;
     private $usnombre;

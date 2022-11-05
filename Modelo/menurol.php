@@ -7,8 +7,8 @@ private $mensajeoperacion;
 
 
 public function __construct(){
-    $this->idmenu="";
-    $this->idrol="";
+    $this->idmenu=new menu();
+    $this->idrol=new rol();
    
     $this->mensajeoperacion ="";
 }

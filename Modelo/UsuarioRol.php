@@ -1,6 +1,6 @@
 <?php   
 
-class UsuarioRol extends BaseDatos{
+class usuarioRol extends BaseDatos{
 
     private $objUsuario;
     private $objRol;
@@ -114,9 +114,9 @@ class UsuarioRol extends BaseDatos{
         if($res>-1){
             if($res>0){
                 while ($row = $base->Registro()){
-                    $objUsuarioRol= new UsuarioRol();
-                    $objUsuario= new Usuario();
-                    $objRol= new Rol();
+                    $objUsuarioRol= new usuarioRol();
+                    $objUsuario= new usuario();
+                    $objRol= new rol();
                     $objUsuario->setIdUsuario($row['idusuario']);
                     $objUsuario->cargar();
                     $objRol->setIdRol($row['idrol']);

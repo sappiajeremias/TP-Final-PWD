@@ -1,5 +1,5 @@
 <?php
-class CompraEstado extends BaseDatos{
+class compraEstado extends BaseDatos{
 
     //ver los diferentes estados de la compra y sus posibles contextos de cambio 
     //hacer la extensión con la BD
@@ -39,11 +39,12 @@ class CompraEstado extends BaseDatos{
             if($res>-1){
                 if($res>0){
                     $row = $base->Registro();
-                    $objcompra= new Compra();
-                    $objcompraestadotipo= new CompraEstadoTipo();
+                    $objcompra= new compra();
+                    $objcompraestadotipo= new compraEstadoTipo();
                     $objcompra->setId($row['idcompra']);
                     $objcompraestadotipo->setId($row['idcompraestadotipo']);
-                    $objcompra
+                    $objcompra->cargar();
+                    $objcompraestadotipo->cargar();
                     $this->setear($row['idcompraestado'], $objcompra, $objcompraestadotipo,$row['cefechaini'], $row['cefechafin']);
                 }
             }
@@ -59,23 +60,23 @@ class CompraEstado extends BaseDatos{
         $resp = false;
         $base=new BaseDatos();
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql="INSERT INTO usuario(usnombre, uspass, usmail, usdeshabilitado) 
+        $sql="INSERT INTO compraestado(idcompra, idcompraestadotipo, cefechaini, cefechafin) 
             VALUES('"
-            .$this->getUsNombre()."', '"
-            .$this->getUsPass()."', '"
-            .$this->getUsMail()."', '"
-            .$this->getUsDeshabilitado()."'
+            .$this->getObjCompra()->getID()."', '"
+            .$this->getObjCompraEstadoTipo()->getID()."', '"
+            .$this->getCeFechaIni()."', '"
+            .$this->getCeFechaFin()."'
         );";
         if ($base->Iniciar()) {
             if ($esteid = $base->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
-                $this->setidusuario($esteid);
+                $this->setId($esteid);
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("usuario->insertar: ".$base->getError());
+                $this->setMensajeOperacion("compraestado->insertar: ".$base->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->insertar: ".$base->getError());
+            $this->setMensajeOperacion("compraestado->insertar: ".$base->getError());
         }
         return $resp;
     }
@@ -83,20 +84,20 @@ class CompraEstado extends BaseDatos{
     public function modificar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="UPDATE usuario 
-        SET usnombre='".$this->getUsNombre()
-        ."', uspass='".$this->getUsPass()
-        ."', usmail='".$this->getUsMail()
-        ."', usdeshabilitado='".$this->getUsDeshabilitado()
-        ."' WHERE idusuario='".$this->getIdUsuario()."'";
+        $sql="UPDATE compraestado 
+        SET idcompra='".$this->getObjCompra()->getID()
+        ."', idcompraestadotipo='".$this->getObjCompraEstadoTipo()->getID()
+        ."', cefechaini='".$this->getCeFechaIni()
+        ."', cefechafin='".$this->getCeFechaFin()
+        ."' WHERE idcompraestado='".$this->getId()."'";
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("usuario->modificar: ".$base->getError());
+                $this->setMensajeOperacion("compraestado->modificar: ".$base->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->modificar: ".$base->getError());
+            $this->setMensajeOperacion("compraestado->modificar: ".$base->getError());
         }
         return $resp;
     }
@@ -104,15 +105,15 @@ class CompraEstado extends BaseDatos{
     public function eliminar(){
         $resp = false;
         $base=new BaseDatos();
-        $sql="DELETE FROM usuario WHERE idusuario=".$this->getIdUsuario();
+        $sql="DELETE FROM compraestado WHERE idcompraestado=".$this->getId();
         if ($base->Iniciar()) {
             if ($base->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setMensajeOperacion("usuario->eliminar: ".$base->getError());
+                $this->setMensajeOperacion("compraestado->eliminar: ".$base->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("compraestado->eliminar: ".$base->getError());
         }
         return $resp;
     }
@@ -120,7 +121,7 @@ class CompraEstado extends BaseDatos{
     public static function listar($parametro=""){
         $arreglo = array();
         $base=new BaseDatos();
-        $sql="SELECT * FROM usuario ";
+        $sql="SELECT * FROM compraestado ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }
@@ -128,14 +129,20 @@ class CompraEstado extends BaseDatos{
         if($res>-1){
             if($res>0){
                 while ($row = $base->Registro()){
-                    $obj= new usuario();
-                    $obj->setear($row['idusuario'], $row['usnombre'], 
-                    $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
+                    $obj= new compraEstado();
+                    $objCompra = new compra();
+                    $objCompraEstadoTipo= new compraEstadoTipo();
+                    $objCompra->setID($row['idcompra']);
+                    $objCompraEstadoTipo->setID($row['idcompraestadotipo']);
+                    $objCompra->cargar();
+                    $objCompraEstadoTipo->cargar();
+                    $obj->setear($row['idcompraestadotipo'], $objCompra, 
+                    $objCompraEstadoTipo, $row['cefechaini'], $row['cefechafin']);
                     array_push($arreglo, $obj);
                 }
             }
         } else {
-            $this->setMensajeOperacion("usuario->listar: ".$base->getError());
+            $this->setMensajeOperacion("compraestado->listar: ".$base->getError());
         }
     
         return $arreglo;

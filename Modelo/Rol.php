@@ -1,6 +1,6 @@
 <?php
 
-class Rol extends BaseDatos{
+class rol extends BaseDatos{
 
     private $idrol;
     private $rodescripcion;
