@@ -110,10 +110,9 @@ public function buscar($param){
         if  (isset($param['roldescripcion']))
             $where.=" and roldescripcion ='".$param['roldescripcion']."'";
     }
-    $arreglo = rol::listar($where);  
+    $Objrol = new rol();
+    $arreglo = $Objrol->listar($where);  
     return $arreglo;
 }
 
 }
-
-?>

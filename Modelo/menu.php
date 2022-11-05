@@ -9,6 +9,7 @@ private $mensajeoperacion;
 
 
 public function __construct(){
+    parent :: __construct();
     $this->idmenu="";
     $this->menombre="";
     $this->medescripcion="";
@@ -26,14 +27,13 @@ public function setear($idmenu, $menombre, $medescripcion, $idpadre, $medeshabil
 }
 
 public function cargar(){
-    $resp = false;
-    $base=new BaseDatos();
+    $resp = false;   
     $sql="SELECT * FROM menu WHERE idmenu = '".$this->getID()."'";
-    if ($base->Iniciar()) {
-        $res = $base->Ejecutar($sql);
+    if ($this->Iniciar()) {
+        $res = $this->Ejecutar($sql);
         if($res>-1){
             if($res>0){
-                $row = $base->Registro();
+                $row = $this->Registro();
                 $padre = new menu();
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
@@ -41,14 +41,14 @@ public function cargar(){
             }
         }
     } else {
-        $this->setMensajeoperacion("menu->listar: ".$base->getError());
+        $this->setMensajeoperacion("menu->listar: ".$this->getError());
     }
     return $resp;
 }
 
 public function insertar(){
     $resp = false;
-    $base=new BaseDatos();
+   
     // Si lleva ID Autoincrement, la consulta SQL no lleva Patente. Y viceversa:
     $sql="INSERT INTO menu(menombre, medescripcion, idpadre, medeshabilitado)
         VALUES('"
@@ -56,58 +56,58 @@ public function insertar(){
         .$this->getMedescripcion()."', '"
         .$this->getIdpadre()->getID()."', '"
         .$this->getMedeshabilitado()."');";
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
         } else {
-            $this->setMensajeoperacion("menu->insertar: ".$base->getError());
+            $this->setMensajeoperacion("menu->insertar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->insertar: ".$base->getError());
+        $this->setMensajeoperacion("menu->insertar: ".$this->getError());
     }
     return $resp;
 }
 
 public function modificar(){
     $resp = false;
-    $base=new BaseDatos();
+   
     $idpadre =$this->getIdpadre()->getID();
    
     $sql="UPDATE menu SET menombre='".$this->getMenombre()."', medescripcion='".$this->getMedescripcion()."', 
     idpadre='".$idpadre."', medeshabilitado='".$this->getMedeshabilitado() . "' WHERE idmenu=".$this->getId()."";
    
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
          
         } else {
-            $this->setMensajeoperacion("menu->modificar: ".$base->getError());
+            $this->setMensajeoperacion("menu->modificar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->modificar: ".$base->getError());
+        $this->setMensajeoperacion("menu->modificar: ".$this->getError());
     }
     return $resp;
 }
 
 public function eliminar(){
     $resp = false;
-    $base=new BaseDatos();
+   
     $sql="DELETE FROM menu WHERE idmenu=".$this->getID()."";
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
         } else {
-            $this->setMensajeoperacion("menu->eliminar: ".$base->getError());
+            $this->setMensajeoperacion("menu->eliminar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->eliminar: ".$base->getError());
+        $this->setMensajeoperacion("menu->eliminar: ".$this->getError());
     }
     return $resp;
 }
 
-public static function listar($parametro=""){
+public function listar($parametro=""){
     $arreglo = array();
-    $base=new BaseDatos();
+   
     $sql="SELECT * FROM menu ";
    
     
@@ -116,19 +116,19 @@ public static function listar($parametro=""){
     }
     
     
-    $res = $base->Ejecutar($sql);
+    $res = $this->Ejecutar($sql);
     if($res>-1){
         if($res>0){
-            while ($row = $base->Registro()){
+            while ($row = $this->Registro()){
                 $padre= new menu();
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
-                $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $idpadre, $row['medeshabilitado']);
-                array_push($arreglo, $obj);
+                $row->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre->getIdpadre(), $row['medeshabilitado']);
+                array_push($arreglo, $row);
             }
         }
     } else {
-        $this->setMensajeoperacion("menu->listar: ".$base->getError());
+        $this->setMensajeoperacion("menu->listar: ".$this->getError());
     }
     
 
@@ -258,7 +258,4 @@ $this->mensajeoperacion = $mensajeoperacion;
 
 return $this;
 }
-} 
-
-
-?>
+}

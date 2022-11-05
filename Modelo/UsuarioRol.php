@@ -21,14 +21,13 @@ class usuarioRol extends BaseDatos{
 
     public function cargar(){
         $resp = false;
-        $base=new BaseDatos();
         $idUsuario=$this->getObjUsuario()->getIdusuario();
         $sql="SELECT * FROM usuariorol WHERE idusuario = ".$idUsuario;
-        if ($base->Iniciar()) {
-            $res = $base->Ejecutar($sql);
+        if ($this->Iniciar()) {
+            $res = $this->Ejecutar($sql);
             if($res>-1){
                 if($res>0){
-                    $row = $base->Registro();
+                    $row = $this->Registro();
                     $objUsuario= new Usuario();
                     $objRol= new Rol();
                     $objUsuario->setIdUsuario($row['idusuario']);
@@ -39,81 +38,78 @@ class usuarioRol extends BaseDatos{
                 }
             }
         } else {
-            $this->setMensajeOperacion("usuariorol->listar: ".$base->getError());
+            $this->setMensajeOperacion("usuariorol->listar: ".$this->getError());
         }
         return $resp;
     }
     
     public function insertar(){
         $resp = false;
-        $base=new BaseDatos();
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO usuariorol(idusuario, idrol) 
             VALUES('"
             .$this->getObjUsuario()->getIdUsuario()."', '"
             .$this->getObjRol()->getIdRol()."'
         );";
-        if ($base->Iniciar()) {
-            if ($esteid = $base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($esteid = $this->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
                 //$this->setidusuario($esteid);
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("usuariorol->insertar: ".$base->getError());
+                $this->setMensajeOperacion("usuariorol->insertar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuariorol->insertar: ".$base->getError());
+            $this->setMensajeOperacion("usuariorol->insertar: ".$this->getError());
         }
         return $resp;
     }
     
     public function modificar(){
         $resp = false;
-        /*$base=new BaseDatos();
+    
         $idUsuario=$this->getObjUsuario()->getIdUsuario();
         $idRol=$this->getObjRol()->getIdRol();
         $sql="UPDATE usuariorol SET idrol='".$idRol."' WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("usuariorol->modificar: ".$base->getError());
+                $this->setMensajeOperacion("usuariorol->modificar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuariorol->modificar: ".$base->getError());
-        }*/
+            $this->setMensajeOperacion("usuariorol->modificar: ".$this->getError());
+        }
         return $resp;
     }
     
     public function eliminar(){
         $resp = false;
-        $base=new BaseDatos();
         $idUsuario=$this->getObjUsuario()->getIdUsuario();
         $idRol=$this->getObjRol()->getIdRol();
         $sql="DELETE FROM usuariorol WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setMensajeOperacion("usuariorol->eliminar: ".$base->getError());
+                $this->setMensajeOperacion("usuariorol->eliminar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuariorol->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("usuariorol->eliminar: ".$this->getError());
         }
         return $resp;
     }
     
-    public static function listar($parametro=""){
+    public function listar($parametro=""){
         $arreglo = array();
-        $base=new BaseDatos();
         $sql="SELECT * FROM usuariorol ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }
-        $res = $base->Ejecutar($sql);
+        $res = $this->Ejecutar($sql);
         if($res>-1){
             if($res>0){
-                while ($row = $base->Registro()){
+                while ($row = $this->Registro()){
                     $objUsuarioRol= new usuarioRol();
                     $objUsuario= new usuario();
                     $objRol= new rol();
@@ -126,7 +122,7 @@ class usuarioRol extends BaseDatos{
                 }
             }
         } else {
-            $this->setMensajeOperacion("usuariorol->listar: ".$base->getError());
+            $this->setMensajeOperacion("usuariorol->listar: ".$this->getError());
         }
     
         return $arreglo;

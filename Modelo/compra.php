@@ -12,6 +12,7 @@ class compra extends BaseDatos
 
     public function __construct()
     {
+        parent::__construct();
         $this->idcompra="";
         $this->cofecha=null;
         $this->idusuario=new usuario();
@@ -30,13 +31,12 @@ class compra extends BaseDatos
     public function cargar()
     {
         $resp = false;
-        $base=new BaseDatos();
         $sql="SELECT * FROM compra WHERE idcompra = ".$this->getID();
-        if ($base->Iniciar()) {
-            $res = $base->Ejecutar($sql);
+        if ($this->Iniciar()) {
+            $res = $this->Ejecutar($sql);
             if ($res>-1) {
                 if ($res>0) {
-                    $row = $base->Registro();
+                    $row = $this->Registro();
                     $objUsuario= new usuario();
                     $objUsuario->setIdusuario($row['idusuario']);
                     $objUsuario->cargar();
@@ -44,7 +44,7 @@ class compra extends BaseDatos
                 }
             }
         } else {
-            $this->setMensajeOperacion("compra->listar: ".$base->getError());
+            $this->setMensajeOperacion("compra->listar: ".$this->getError());
         }
         return $resp;
     }
@@ -54,23 +54,22 @@ class compra extends BaseDatos
         //Fecha ini poner fecha actual
         //Setear fecha fin cuando el admin apruebe la compra (fecha)
         $resp = false;
-        $base=new BaseDatos();
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO compra(cofecha, idusuario) 
             VALUES('"
             .$this->getCofecha()."', '"
             .$this->getIdusuario()->getIdusuario()."'
         );";
-        if ($base->Iniciar()) {
-            if ($esteid = $base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($esteid = $this->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
                 $this->setID($esteid);
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("compra->insertar: ".$base->getError());
+                $this->setMensajeOperacion("compra->insertar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("compra->insertar: ".$base->getError());
+            $this->setMensajeOperacion("compra->insertar: ".$this->getError());
         }
         return $resp;
     }
@@ -78,19 +77,18 @@ class compra extends BaseDatos
     public function modificar()
     {
         $resp = false;
-        $base=new BaseDatos();
         $sql="UPDATE compra 
         SET cofecha='".$this->getCofecha()
         ."', idusuario='".$this->getIdusuario()->getIdusuario()
         ."' WHERE idcompra='".$this->getID()."'";
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("compra->modificar: ".$base->getError());
+                $this->setMensajeOperacion("compra->modificar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("compra->modificar: ".$base->getError());
+            $this->setMensajeOperacion("compra->modificar: ".$this->getError());
         }
         return $resp;
     }
@@ -98,32 +96,30 @@ class compra extends BaseDatos
     public function eliminar()
     {
         $resp = false;
-        $base=new BaseDatos();
         $sql="DELETE FROM compra WHERE idcompra=".$this->getID();
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setMensajeOperacion("compra->eliminar: ".$base->getError());
+                $this->setMensajeOperacion("compra->eliminar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("compra->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("compra->eliminar: ".$this->getError());
         }
         return $resp;
     }
 
-    public static function listar($parametro="")
+    public function listar($parametro="")
     {
         $arreglo = array();
-        $base=new BaseDatos();
         $sql="SELECT * FROM compra ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }
-        $res = $base->Ejecutar($sql);
+        $res = $this->Ejecutar($sql);
         if ($res>-1) {
             if ($res>0) {
-                while ($row = $base->Registro()) {
+                while ($row = $this->Registro()) {
                     $obj= new compra();
                     $objUsuario = new usuario();
                     $objUsuario->setIdusuario($row['idusuario']);
@@ -133,7 +129,7 @@ class compra extends BaseDatos
                 }
             }
         } else {
-            $this->setMensajeOperacion("compra->listar: ".$base->getError());
+            $this->setMensajeOperacion("compra->listar: ".$this->getError());
         }
 
         return $arreglo;
