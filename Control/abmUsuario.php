@@ -103,7 +103,7 @@ class abmUsuario
             $param['uspass'] = $usuario[0]->getuspass();
             $param['usmail'] = $usuario[0]->getusmail();
             $param['usdeshabilitado'] = date("Y-m-d H:i:s");
-            echo "<br>Fecha y hora: " . $param['usdeshabilitado'];
+            //echo "<br>Fecha y hora: " . $param['usdeshabilitado'];
             $Objusuario = $this->cargarObjeto($param);
             if ($Objusuario != null and $Objusuario->modificar()) {
                 $resp = true;
@@ -119,7 +119,7 @@ class abmUsuario
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>"; var_dump($param);
+        echo "<i>**Realizando la modificación**</i>"; var_dump($param);
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $Objusuario = $this->cargarObjeto($param);
@@ -135,10 +135,10 @@ class abmUsuario
      * @param array $param
      * @return boolean
      */
-    public function buscar($param)
+    public function buscar($param = "")
     {
         $where = " true ";
-        if ($param <> null) {
+        if ($param != "") {
             if (isset($param['idusuario'])) {
                 $where .= " and idusuario ='" . $param['idusuario'] . "'";
             }
@@ -164,5 +164,22 @@ class abmUsuario
     {
         if ($datos['action'] == 'delete') {
         }
+    }
+
+    public function DarRol($param ="")
+    {
+        $where = " true ";
+        if($param!=""){
+            if(isset($param['idusuario'])){
+                $where .= " and idusuario = '". $param['idusuario']. "'";
+            }
+            if(isset($param['idrol'])){
+                $where .= " and idrol = '".$param['idrol']."'";
+            }
+        }
+        $objUR = new usuarioRol();
+        $arreglo = $objUR->listar($where);
+        return $arreglo;
+
     }
 }

@@ -57,11 +57,13 @@ class usuario extends BaseDatos{
             .$this->getUsmail()."', '"
             .$this->getUsdeshabilitado()."'
         );";
+        
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
                 $this->setidusuario($esteid);
                 $resp = true;
+              
             } else {
                 $this->setMensajeOperacion("usuario->insertar: ".$this->getError());
             }

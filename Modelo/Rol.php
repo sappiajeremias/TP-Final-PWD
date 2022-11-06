@@ -45,7 +45,7 @@ class rol extends BaseDatos
     {
         $resp = false;
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql = "INSERT INTO rol(rodescrpcion) 
+        $sql = "INSERT INTO rol(rodescripcion) 
             VALUES('"
             . $this->getRolDescripcion() . "'
         );";

@@ -7,6 +7,7 @@ class usuarioRol extends BaseDatos{
     private $mensajeOperacion;
 
     public function __construct(){
+        parent:: __construct();
         $this->objUsuario= new Usuario();
         $this->objRol= new Rol();
         $this->mensajeOperacion="";
@@ -99,32 +100,44 @@ class usuarioRol extends BaseDatos{
         }
         return $resp;
     }
-    
-    public function listar($parametro=""){
+
+    public function listar($parametro = "")
+    {
         $arreglo = array();
-        $sql="SELECT * FROM usuariorol ";
-        if ($parametro!="") {
-            $sql.='WHERE '.$parametro;
+        $sql = "SELECT * FROM usuariorol ";
+        if ($parametro != "") {
+            $sql .= " WHERE " . $parametro;
         }
-        $res = $this->Ejecutar($sql);
-        if($res>-1){
-            if($res>0){
-                while ($row = $this->Registro()){
-                    $objUsuarioRol= new usuarioRol();
-                    $objUsuario= new usuario();
-                    $objRol= new rol();
-                    $objUsuario->setIdUsuario($row['idusuario']);
-                    $objUsuario->cargar();
-                    $objRol->setIdRol($row['idrol']);
-                    $objRol->cargar();
-                    $objUsuarioRol->setear($objUsuario, $objRol);
-                    array_push($arreglo, $objUsuarioRol);
+        echo "<b>{$sql}</b>";
+        if ($this->Iniciar()) {
+            
+            $res = $this->Ejecutar($sql);
+
+            if ($res > -1) {
+                
+
+                if ($res > 0) {
+
+
+                    while ($row = $this->Registro()) {
+
+                        $objUsuarioRol = new usuarioRol();
+                        $objUsuario = new usuario();
+                        $objRol = new rol();
+                        $objUsuario->setIdUsuario($row['idusuario']);
+                        $objUsuario->cargar();
+
+                        $objRol->setIdRol($row['idrol']);
+                        $objRol->cargar();
+                        $objUsuarioRol->setear($objUsuario, $objRol);
+                        array_push($arreglo, $objUsuarioRol);
+                    }
                 }
+            } else {
+                $this->setMensajeOperacion("usuariorol->listar: " . $this->getError());
             }
-        } else {
-            $this->setMensajeOperacion("usuariorol->listar: ".$this->getError());
         }
-    
+
         return $arreglo;
     }
 
@@ -157,4 +170,3 @@ class usuarioRol extends BaseDatos{
 
 
 }
-?>
