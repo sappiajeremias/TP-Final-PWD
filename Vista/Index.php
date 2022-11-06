@@ -1,21 +1,27 @@
-<?php $Titulo = "TP5 - Login";
-include_once("./Estructura/cabecera.php");
+<?php
 
-$obj_Us_R = ObtenerDatos();
+include_once('./Estructura/cabecera.php');
 
-print_r($_SESSION);
+/* login($sesion); */
+
+
+$data = data_submitted();
+if (array_key_exists('usnombre', $data) && array_key_exists('uspass', $data)) {
+  if (isset($data['usnombre']) && isset($data['uspass'])) {
+    print_r($_SESSION);
+    echo $data['usnombre'];
+  }
+}
 
 
 ?>
-<?php $Titulo = "TP5 - Login";
-include_once("./Estructura/cabecera.php");
-?>
+
 
 <!doctype html>
 <html lang="en">
 
 <head>
-  <title>Pagina Admin</title>
+  <title>Title</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,20 +36,19 @@ include_once("./Estructura/cabecera.php");
     <!-- place navbar here -->
   </header>
   <main>
-
-    <div class="container-fluid text-center">
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-          <div class="col-md-12">
-            <div class="card-body">
-              <h5 class="card-title"><?php echo $obj_Us_R[0]->getObjUsuario()->getUsnombre() ?></h5>
-              <p class="card-text"><?php echo $obj_Us_R[0]->getObjRol()->getRoldescripcion() ?></p>
-              <p class="card-text"><small class="text-muted"></small></p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="card">
+  <div class="card-header">
+    Grupo 1
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Bienvenido</h5>
+    <p class="card-text">El sitio de las oportunidades</p>
+    <a href="./Index_login.php" class="btn btn-primary">Ingresar</a>
+  </div>
+  <div class="card-footer text-muted">
+    proximamente desarrolladores de verdad.
+  </div>
+</div>
   </main>
   <footer>
     <!-- place footer here -->
@@ -51,16 +56,11 @@ include_once("./Estructura/cabecera.php");
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
   </script>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-
   <script>
-    $(selector).click(function(e) {
-      e.preventDefault();
-
-    });
   </script>
+
 </body>
 
 </html>

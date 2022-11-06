@@ -18,6 +18,7 @@ class Session{
         //Le mando por parámetro la variable $_SESSION ya que ahi estan los datos guardados de la sesión iniciada
         $listaUsuario=$objAbmUsuario->buscar($_SESSION);
         if(!empty($listaUsuario)){
+            //$objRol = $objAbmUsuario->DarRol(['idusuario'=>$listaUsuario[0]->getIdusuario()]);
             $resp=true;
         }
         return $resp;

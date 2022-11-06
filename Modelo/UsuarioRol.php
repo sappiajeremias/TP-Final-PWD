@@ -108,7 +108,6 @@ class usuarioRol extends BaseDatos{
         if ($parametro != "") {
             $sql .= " WHERE " . $parametro;
         }
-        echo "<b>{$sql}</b>";
         if ($this->Iniciar()) {
             
             $res = $this->Ejecutar($sql);

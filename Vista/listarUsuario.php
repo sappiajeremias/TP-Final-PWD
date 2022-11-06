@@ -2,17 +2,7 @@
 
 include_once("./Estructura/cabecera.php");
 
-$abUR = new abmUsuarioRol();
-/* $abU = new abmUsuario;
-$abR = new abmRol(); */
-
-$obj = $abUR->buscar(null);
-
-$arreAdmin = array();
-$arreUser = array();
-
-print_r($obj);
-
+$obj_Us_R = ObtenerDatos();
 
 
 
