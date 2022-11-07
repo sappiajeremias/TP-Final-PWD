@@ -9,6 +9,7 @@ class usuario extends BaseDatos{
     private $mensajeOperacion;
 
     public function __construct(){
+        parent::__construct();
         $this->idusuario="";
         $this->usnombre="";
         $this->uspass="";
@@ -18,7 +19,7 @@ class usuario extends BaseDatos{
     }
 
     public function setear($idusuario,$usnombre,$uspass,$usmail,$usdeshabilitado){
-        $this->setIdusuario($idusuario);
+        $this->setID($idusuario);
         $this->setUsnombre($usnombre);
         $this->setUspass($uspass);
         $this->setUsmail($usmail);
@@ -29,96 +30,95 @@ class usuario extends BaseDatos{
 
     public function cargar(){
         $resp = false;
-        $base=new BaseDatos();
-        $sql="SELECT * FROM usuario WHERE idusuario = ".$this->getIdusuario();
-        if ($base->Iniciar()) {
-            $res = $base->Ejecutar($sql);
+        $sql="SELECT * FROM usuario WHERE idusuario = ".$this->getID();
+        if ($this->Iniciar()) {
+            $res = $this->Ejecutar($sql);
             if($res>-1){
                 if($res>0){
-                    $row = $base->Registro();
+                    $row = $this->Registro();
                     $this->setear($row['idusuario'], $row['usnombre'], $row['uspass'],
                         $row['usmail'], $row['usdeshabilitado']);
                 }
             }
         } else {
-            $this->setMensajeOperacion("usuario->listar: ".$base->getError());
+            $this->setMensajeOperacion("usuario->listar: ".$this->getError());
         }
         return $resp;
     }
     
     public function insertar(){
         $resp = false;
-        $base=new BaseDatos();
+        
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO usuario(usnombre, uspass, usmail, usdeshabilitado) 
             VALUES('"
-            .$this->getUsnombre()."', '"
-            .$this->getUspass()."', '"
-            .$this->getUsmail()."', '"
-            .$this->getUsdeshabilitado()."'
+            .$this->getUsNombre()."', '"
+            .$this->getUsPass()."', '"
+            .$this->getUsMail()."', '"
+            .$this->getUsDeshabilitado()."'
         );";
-        if ($base->Iniciar()) {
-            if ($esteid = $base->Ejecutar($sql)) {
+        
+        if ($this->Iniciar()) {
+            if ($esteid = $this->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
-                $this->setidusuario($esteid);
+                $this->setID($esteid);
                 $resp = true;
+              
             } else {
-                $this->setMensajeOperacion("usuario->insertar: ".$base->getError());
+                $this->setMensajeOperacion("usuario->insertar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->insertar: ".$base->getError());
+            $this->setMensajeOperacion("usuario->insertar: ".$this->getError());
         }
         return $resp;
     }
     
     public function modificar(){
-        $resp = false;
-        $base=new BaseDatos();
+        $resp = false;        
         $sql="UPDATE usuario 
-        SET usnombre='".$this->getUsnombre()
-        ."', uspass='".$this->getUspass()
-        ."', usmail='".$this->getUsmail()
-        ."', usdeshabilitado='".$this->getUsdeshabilitado()
-        ."' WHERE idusuario='".$this->getIdusuario()."'";
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        SET usnombre='".$this->getUsNombre()
+        ."', uspass='".$this->getUsPass()
+        ."', usmail='".$this->getUsMail()
+        ."', usdeshabilitado='".$this->getUsDeshabilitado()
+        ."' WHERE idusuario='".$this->getID()."'";
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("usuario->modificar: ".$base->getError());
+                $this->setMensajeOperacion("usuario->modificar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->modificar: ".$base->getError());
+            $this->setMensajeOperacion("usuario->modificar: ".$this->getError());
         }
         return $resp;
     }
     
     public function eliminar(){
-        $resp = false;
-        $base=new BaseDatos();
-        $sql="DELETE FROM usuario WHERE idusuario=".$this->getIdusuario();
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        $resp = false;        
+        $sql="DELETE FROM usuario WHERE idusuario=".$this->getID();
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setMensajeOperacion("usuario->eliminar: ".$base->getError());
+                $this->setMensajeOperacion("usuario->eliminar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("usuario->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("usuario->eliminar: ".$this->getError());
         }
         return $resp;
     }
     
-    public static function listar($parametro=""){
+    public function listar($parametro=""){
         $arreglo = array();
-        $base=new BaseDatos();
         $sql="SELECT * FROM usuario ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }
-        $res = $base->Ejecutar($sql);
+        $res = $this->Ejecutar($sql);
         if($res>-1){
             if($res>0){
-                while ($row = $base->Registro()){
+                while ($row = $this->Registro()){
+
                     $obj= new usuario();
                     $obj->setear($row['idusuario'], $row['usnombre'], 
                     $row['uspass'], $row['usmail'], $row['usdeshabilitado']);
@@ -126,20 +126,17 @@ class usuario extends BaseDatos{
                 }
             }
         } else {
-            $this->setMensajeOperacion("usuario->listar: ".$base->getError());
+            $this->setMensajeOperacion("usuario->listar: ".$this->getError());
         }
     
         return $arreglo;
     }
 
-    //MÉTODOS GET
-   
-
 
     /**
      * Get the value of idusuario
      */ 
-    public function getIdusuario()
+    public function getID()
     {
         return $this->idusuario;
     }
@@ -149,7 +146,7 @@ class usuario extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setIdusuario($idusuario)
+    public function setID($idusuario)
     {
         $this->idusuario = $idusuario;
 
@@ -159,7 +156,7 @@ class usuario extends BaseDatos{
     /**
      * Get the value of usnombre
      */ 
-    public function getUsnombre()
+    public function getUsNombre()
     {
         return $this->usnombre;
     }
@@ -169,7 +166,7 @@ class usuario extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setUsnombre($usnombre)
+    public function setUsNombre($usnombre)
     {
         $this->usnombre = $usnombre;
 
@@ -179,7 +176,7 @@ class usuario extends BaseDatos{
     /**
      * Get the value of uspass
      */ 
-    public function getUspass()
+    public function getUsPass()
     {
         return $this->uspass;
     }
@@ -189,7 +186,7 @@ class usuario extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setUspass($uspass)
+    public function setUsPass($uspass)
     {
         $this->uspass = $uspass;
 
@@ -199,7 +196,7 @@ class usuario extends BaseDatos{
     /**
      * Get the value of usdeshabilitado
      */ 
-    public function getUsdeshabilitado()
+    public function getUsDeshabilitado()
     {
         return $this->usdeshabilitado;
     }
@@ -209,7 +206,7 @@ class usuario extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setUsdeshabilitado($usdeshabilitado)
+    public function setUsDeshabilitado($usdeshabilitado)
     {
         $this->usdeshabilitado = $usdeshabilitado;
 
@@ -239,7 +236,7 @@ class usuario extends BaseDatos{
     /**
      * Get the value of usmail
      */ 
-    public function getUsmail()
+    public function getUsMail()
     {
         return $this->usmail;
     }
@@ -249,7 +246,7 @@ class usuario extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setUsmail($usmail)
+    public function setUsMail($usmail)
     {
         $this->usmail = $usmail;
 

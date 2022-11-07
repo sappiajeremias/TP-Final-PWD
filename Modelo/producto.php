@@ -1,6 +1,6 @@
 <?php
 
-class compra extends BaseDatos
+class producto extends BaseDatos
 {
     //ver los diferentes estados de la compra y sus posibles contextos de cambio
     //hacer la extensión con la BD
@@ -13,6 +13,7 @@ class compra extends BaseDatos
 
     public function __construct()
     {
+        parent:: __construct();
         $this->idproducto="";
         $this->pronombre="";
         $this->prodetalle="";
@@ -23,9 +24,9 @@ class compra extends BaseDatos
     public function setear($idproducto, $pronombre, $prodetalle, $procantstock)
     {
         $this->setID($idproducto);
-        $this->setPronombre($pronombre);
-        $this->setProdetalle($prodetalle);
-        $this->setProcantstock($procantstock);
+        $this->setProNombre($pronombre);
+        $this->setProDetalle($prodetalle);
+        $this->setProCantStock($procantstock);
     }
 
     //MÉTODOS PROPIOS DE LA CLASE
@@ -33,19 +34,19 @@ class compra extends BaseDatos
     public function cargar()
     {
         $resp = false;
-        $base=new BaseDatos();
+        
         $sql="SELECT * FROM producto WHERE idproducto = ".$this->getID();
-        if ($base->Iniciar()) {
-            $res = $base->Ejecutar($sql);
+        if ($this->Iniciar()) {
+            $res = $this->Ejecutar($sql);
             if ($res>-1) {
                 if ($res>0) {
-                    $row = $base->Registro();
+                    $row = $this->Registro();
                     
                     $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
                 }
             }
         } else {
-            $this->setMensajeOperacion("producto->listar: ".$base->getError());
+            $this->setMensajeOperacion("producto->listar: ".$this->getError());
         }
         return $resp;
     }
@@ -55,24 +56,24 @@ class compra extends BaseDatos
         //Fecha ini poner fecha actual
         //Setear fecha fin cuando el admin apruebe la compra (fecha)
         $resp = false;
-        $base=new BaseDatos();
+        
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
         $sql="INSERT INTO producto(pronombre, prodetalle, procantstock) 
             VALUES('"
             .$this->getPronombre()."', '"
             .$this->getProdetalle()."', '"
-            .$this->getProcantstock()."'
+            .$this->getProCantStock()."'
         );";
-        if ($base->Iniciar()) {
-            if ($esteid = $base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($esteid = $this->Ejecutar($sql)) {
                 // Si se usa ID autoincrement, descomentar lo siguiente:
                 $this->setID($esteid);
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("producto->insertar: ".$base->getError());
+                $this->setMensajeOperacion("producto->insertar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("producto->insertar: ".$base->getError());
+            $this->setMensajeOperacion("producto->insertar: ".$this->getError());
         }
         return $resp;
     }
@@ -80,20 +81,20 @@ class compra extends BaseDatos
     public function modificar()
     {
         $resp = false;
-        $base=new BaseDatos();
+        
         $sql="UPDATE producto 
-        SET pronombre='".$this->getPronombre()
-        ."', prodetalle='".$this->getProdetalle()
-        ."', procantstock='". $this->getProcantstock()
+        SET pronombre='".$this->getProNombre()
+        ."', prodetalle='".$this->getProDetalle()
+        ."', procantstock='". $this->getProCantStock()
         ."' WHERE idproducto='".$this->getID()."'";
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 $resp = true;
             } else {
-                $this->setMensajeOperacion("producto->modificar: ".$base->getError());
+                $this->setMensajeOperacion("producto->modificar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("producto->modificar: ".$base->getError());
+            $this->setMensajeOperacion("producto->modificar: ".$this->getError());
         }
         return $resp;
     }
@@ -101,39 +102,39 @@ class compra extends BaseDatos
     public function eliminar()
     {
         $resp = false;
-        $base=new BaseDatos();
+        
         $sql="DELETE FROM producto WHERE idproducto=".$this->getID();
-        if ($base->Iniciar()) {
-            if ($base->Ejecutar($sql)) {
+        if ($this->Iniciar()) {
+            if ($this->Ejecutar($sql)) {
                 return true;
             } else {
-                $this->setMensajeOperacion("producto->eliminar: ".$base->getError());
+                $this->setMensajeOperacion("producto->eliminar: ".$this->getError());
             }
         } else {
-            $this->setMensajeOperacion("producto->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("producto->eliminar: ".$this->getError());
         }
         return $resp;
     }
 
-    public static function listar($parametro="")
+    public function listar($parametro="")
     {
         $arreglo = array();
-        $base=new BaseDatos();
+        
         $sql="SELECT * FROM producto ";
         if ($parametro!="") {
             $sql.='WHERE '.$parametro;
         }
-        $res = $base->Ejecutar($sql);
+        $res = $this->Ejecutar($sql);
         if ($res>-1) {
             if ($res>0) {
-                while ($row = $base->Registro()) {
+                while ($row = $this->Registro()) {
                     
-                    $obj->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
-                    array_push($arreglo, $obj);
+                    $row->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    array_push($arreglo, $row);
                 }
             }
         } else {
-            $this->setMensajeOperacion("producto->listar: ".$base->getError());
+            $this->setMensajeOperacion("producto->listar: ".$this->getError());
         }
 
         return $arreglo;
@@ -147,7 +148,7 @@ class compra extends BaseDatos
     /**
      * Get the value of mensajeoperacion
      */
-    public function getMensajeoperacion()
+    public function getMensajeOperacion()
     {
         return $this->mensajeoperacion;
     }
@@ -157,7 +158,7 @@ class compra extends BaseDatos
      *
      * @return  self
      */
-    public function setMensajeoperacion($mensajeoperacion)
+    public function setMensajeOperacion($mensajeoperacion)
     {
         $this->mensajeoperacion = $mensajeoperacion;
 
@@ -187,7 +188,7 @@ class compra extends BaseDatos
     /**
      * Get the value of pronombre
      */ 
-    public function getPronombre()
+    public function getProNombre()
     {
         return $this->pronombre;
     }
@@ -197,7 +198,7 @@ class compra extends BaseDatos
      *
      * @return  self
      */ 
-    public function setPronombre($pronombre)
+    public function setProNombre($pronombre)
     {
         $this->pronombre = $pronombre;
 
@@ -207,7 +208,7 @@ class compra extends BaseDatos
     /**
      * Get the value of prodetalle
      */ 
-    public function getProdetalle()
+    public function getProDetalle()
     {
         return $this->prodetalle;
     }
@@ -217,7 +218,7 @@ class compra extends BaseDatos
      *
      * @return  self
      */ 
-    public function setProdetalle($prodetalle)
+    public function setProDetalle($prodetalle)
     {
         $this->prodetalle = $prodetalle;
 
@@ -227,7 +228,7 @@ class compra extends BaseDatos
     /**
      * Get the value of procantstock
      */ 
-    public function getProcantstock()
+    public function getProCantStock()
     {
         return $this->procantstock;
     }
@@ -237,7 +238,7 @@ class compra extends BaseDatos
      *
      * @return  self
      */ 
-    public function setProcantstock($procantstock)
+    public function setProCantStock($procantstock)
     {
         $this->procantstock = $procantstock;
 

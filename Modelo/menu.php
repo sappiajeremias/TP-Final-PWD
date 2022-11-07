@@ -1,134 +1,133 @@
 <?php 
+
 class menu extends BaseDatos{
+
 private $idmenu;
 private $menombre;
 private $medescripcion;
-private $idpadre;
+private $objmenupadre;
 private $medeshabilitado;
 private $mensajeoperacion;
 
 
 public function __construct(){
+    parent :: __construct();
     $this->idmenu="";
     $this->menombre="";
     $this->medescripcion="";
-    $this->idpadre=new menu();
+    $this->objmenupadre="";
     $this->medeshabilitado=null;
     $this->mensajeoperacion ="";
 }
 
-public function setear($idmenu, $menombre, $medescripcion, $idpadre, $medeshabilitado) {
+public function setear($idmenu, $menombre, $medescripcion, $newobjpadre, $medeshabilitado) {
     $this->setID($idmenu);
-    $this->setMenombre($menombre);
-    $this->setMedescripcion($medescripcion);
-    $this->setIdpadre($idpadre);
-    $this->setMedeshabilitado($medeshabilitado);
+    $this->setMeNombre($menombre);
+    $this->setMeDescripcion($medescripcion);
+    $this->setObjMenuPadre($newobjpadre);
+    $this->setMeDeshabilitado($medeshabilitado);
 }
 
 public function cargar(){
-    $resp = false;
-    $base=new BaseDatos();
+    $resp = false;   
     $sql="SELECT * FROM menu WHERE idmenu = '".$this->getID()."'";
-    if ($base->Iniciar()) {
-        $res = $base->Ejecutar($sql);
+    if ($this->Iniciar()) {
+        $res = $this->Ejecutar($sql);
         if($res>-1){
             if($res>0){
-                $row = $base->Registro();
+                $row = $this->Registro();
+
                 $padre = new menu();
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
+
                 $this->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
             }
         }
     } else {
-        $this->setMensajeoperacion("menu->listar: ".$base->getError());
+        $this->setMensajeOperacion("menu->listar: ".$this->getError());
     }
     return $resp;
 }
 
 public function insertar(){
     $resp = false;
-    $base=new BaseDatos();
-    // Si lleva ID Autoincrement, la consulta SQL no lleva Patente. Y viceversa:
+   
+    // Si lleva ID Autoincrement, la consulta SQL no lleva id. Y viceversa:
     $sql="INSERT INTO menu(menombre, medescripcion, idpadre, medeshabilitado)
         VALUES('"
-        .$this->getMenombre()."', '"
-        .$this->getMedescripcion()."', '"
-        .$this->getIdpadre()->getID()."', '"
-        .$this->getMedeshabilitado()."');";
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+        .$this->getMeNombre()."', '"
+        .$this->getMeDescripcion()."', '"
+        .$this->getObjMenuPadre()->getID()."', '"
+        .$this->getMeDeshabilitado()."');";
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
         } else {
-            $this->setMensajeoperacion("menu->insertar: ".$base->getError());
+            $this->setMensajeOperacion("menu->insertar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->insertar: ".$base->getError());
+        $this->setMensajeOperacion("menu->insertar: ".$this->getError());
     }
     return $resp;
 }
 
 public function modificar(){
     $resp = false;
-    $base=new BaseDatos();
-    $idpadre =$this->getIdpadre()->getID();
    
-    $sql="UPDATE menu SET menombre='".$this->getMenombre()."', medescripcion='".$this->getMedescripcion()."', 
-    idpadre='".$idpadre."', medeshabilitado='".$this->getMedeshabilitado() . "' WHERE idmenu=".$this->getId()."";
+    $sql="UPDATE menu SET menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', 
+    idpadre='".$this->getObjMenuPadre()->getID()."', medeshabilitado='".$this->getMeDeshabilitado() . "' WHERE idmenu=".$this->getId()."";
    
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
          
         } else {
-            $this->setMensajeoperacion("menu->modificar: ".$base->getError());
+            $this->setMensajeOperacion("menu->modificar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->modificar: ".$base->getError());
+        $this->setMensajeOperacion("menu->modificar: ".$this->getError());
     }
     return $resp;
 }
 
 public function eliminar(){
     $resp = false;
-    $base=new BaseDatos();
+   
     $sql="DELETE FROM menu WHERE idmenu=".$this->getID()."";
-    if ($base->Iniciar()) {
-        if ($base->Ejecutar($sql)) {
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
             $resp = true;
         } else {
-            $this->setMensajeoperacion("menu->eliminar: ".$base->getError());
+            $this->setMensajeOperacion("menu->eliminar: ".$this->getError());
         }
     } else {
-        $this->setMensajeoperacion("menu->eliminar: ".$base->getError());
+        $this->setMensajeOperacion("menu->eliminar: ".$this->getError());
     }
     return $resp;
 }
 
-public static function listar($parametro=""){
+public function listar($parametro=""){
     $arreglo = array();
-    $base=new BaseDatos();
     $sql="SELECT * FROM menu ";
-   
-    
     if ($parametro!="") {
         $sql.= "WHERE ".$parametro;
     }
-    
-    
-    $res = $base->Ejecutar($sql);
+    $res = $this->Ejecutar($sql);
     if($res>-1){
         if($res>0){
-            while ($row = $base->Registro()){
+            while ($row = $this->Registro()){
+
                 $padre= new menu();
-                $padre->setID($row['idpadre']);
+                $padre->setID($row['idmenu']);
                 $padre->cargar();
-                $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $idpadre, $row['medeshabilitado']);
-                array_push($arreglo, $obj);
+
+                $row->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
+                array_push($arreglo, $row);
             }
         }
     } else {
-        $this->setMensajeoperacion("menu->listar: ".$base->getError());
+        $this->setMensajeOperacion("menu->listar: ".$this->getError());
     }
     
 
@@ -162,7 +161,7 @@ return $this;
 /**
  * Get the value of menombre
  */ 
-public function getMenombre()
+public function getMeNombre()
 {
 return $this->menombre;
 }
@@ -172,7 +171,7 @@ return $this->menombre;
  *
  * @return  self
  */ 
-public function setMenombre($menombre)
+public function setMeNombre($menombre)
 {
 $this->menombre = $menombre;
 
@@ -182,7 +181,7 @@ return $this;
 /**
  * Get the value of medescripcion
  */ 
-public function getMedescripcion()
+public function getMeDescripcion()
 {
 return $this->medescripcion;
 }
@@ -192,7 +191,7 @@ return $this->medescripcion;
  *
  * @return  self
  */ 
-public function setMedescripcion($medescripcion)
+public function setMeDescripcion($medescripcion)
 {
 $this->medescripcion = $medescripcion;
 
@@ -202,9 +201,9 @@ return $this;
 /**
  * Get the value of idpadre
  */ 
-public function getIdpadre()
+public function getObjMenuPadre()
 {
-return $this->idpadre;
+return $this->objmenupadre;
 }
 
 /**
@@ -212,9 +211,9 @@ return $this->idpadre;
  *
  * @return  self
  */ 
-public function setIdpadre($idpadre)
+public function setObjMenuPadre($newObjMenuPadre)
 {
-$this->idpadre = $idpadre;
+$this->objmenupadre = $newObjMenuPadre;
 
 return $this;
 }
@@ -222,7 +221,7 @@ return $this;
 /**
  * Get the value of medeshabilitado
  */ 
-public function getMedeshabilitado()
+public function getMeDeshabilitado()
 {
 return $this->medeshabilitado;
 }
@@ -232,7 +231,7 @@ return $this->medeshabilitado;
  *
  * @return  self
  */ 
-public function setMedeshabilitado($medeshabilitado)
+public function setMeDeshabilitado($medeshabilitado)
 {
 $this->medeshabilitado = $medeshabilitado;
 
@@ -242,7 +241,7 @@ return $this;
 /**
  * Get the value of mensajeoperacion
  */ 
-public function getMensajeoperacion()
+public function getMensajeOperacion()
 {
 return $this->mensajeoperacion;
 }
@@ -252,13 +251,10 @@ return $this->mensajeoperacion;
  *
  * @return  self
  */ 
-public function setMensajeoperacion($mensajeoperacion)
+public function setMensajeOperacion($mensajeoperacion)
 {
 $this->mensajeoperacion = $mensajeoperacion;
 
 return $this;
 }
-} 
-
-
-?>
+}
