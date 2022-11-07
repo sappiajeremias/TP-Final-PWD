@@ -3,41 +3,67 @@
 class Session{
 
     public function __construct(){
-        session_start();
+        if(!session_start()){
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public function iniciar($nombreUsuario,$password){
-        $_SESSION['usnombre']=$nombreUsuario;
-        $_SESSION['uspass']=$password;
-    }
-
-    public function validar(){
-        //Verifica si existe el usuario y password guardados en $_SESSION
+    public function iniciar($nombreUsuario,$pswUsuario,$usDeshabilitado){
         $resp=false;
-        $objAbmUsuario= new AbmUsuario();
-        //Le mando por parámetro la variable $_SESSION ya que ahi estan los datos guardados de la sesión iniciada
-        $listaUsuario=$objAbmUsuario->buscar($_SESSION);
+        $objAbmUsuario= new abmUsuario();
+        $param= array('usnombre'=> $nombreUsuario, 'uspass'=> $pswUsuario, 'usdeshabilitado'=> $usDeshabilitado);
+        $listaUsuario=$objAbmUsuario->buscar($param);
         if(!empty($listaUsuario)){
+            $_SESSION['usnombre']=$nombreUsuario;
+            $_SESSION['uspass']=$pswUsuario;
+            $_SESSION['usdeshabilitado']=$usDeshabilitado;
             $resp=true;
         }
         return $resp;
     }
 
     public function activa(){
-        //Verifica si la sesión está activa
+
+        if ( php_sapi_name() !== 'cli' ) {
+
+            if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+                //compara la version de php para ver si se puede usar el metodo session_status()
+                return session_status() === PHP_SESSION_ACTIVE ? true : false;
+    
+            } else {
+                //si la version es menor se fija comparando el id de la session actual, para ver si esta seteada.
+    
+                return session_id() === '' ? false : true;
+            }
+        }
+    
+        return false;
+    }
+
+    public function validar(){
         $resp=false;
-        if(session_status() === PHP_SESSION_ACTIVE){
-            $resp=true;
+        if($this->activa() && isset($_SESSION['idusuario'])){
+            $objAbmUsuario= new abmUsuario();
+            $listaUsuario=$objAbmUsuario->buscar($_SESSION);
+            if(!empty($listaUsuario)){
+                $resp=true;
+            }
         }
         return $resp;
     }
+
+
 
     public function getUsuario(){
         $user=null;
         //Verifico que la sesión este activa y también que sea válida
         if($this->activa() && $this->validar()){
             $objAbmUsuario= new AbmUsuario();
-            $listaUsuario= $objAbmUsuario->buscar($_SESSION);
+            //ver lo de mandar $_SESSION
+            $param= array('usnombre'=> $_SESSION['usnombre'], 'uspass'=> $_SESSION['uspass'], 'usdeshabilitado'=> $_SESSION['usdeshabilitado']);
+            $listaUsuario= $objAbmUsuario->buscar($param);
             $user=$listaUsuario[0];
         }
         return $user;
@@ -68,6 +94,7 @@ class Session{
             //elimino sus datos
             unset($_SESSION['usnombre']);
             unset($_SESSION['uspass']);
+            unset($_SESSION['usdeshabilitado']);
             //destruyo la session
             session_destroy();
         }
@@ -75,4 +102,3 @@ class Session{
 
 
 }
-?>
