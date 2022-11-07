@@ -14,7 +14,7 @@ class compra extends BaseDatos
     {
         parent::__construct();
         $this->idcompra="";
-        $this->cofecha=null;
+        $this->cofecha=date('Y-m-d H:i:s');
         $this->objusuario="";
         $this->mensajeoperacion="";
     }

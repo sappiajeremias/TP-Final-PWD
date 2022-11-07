@@ -16,7 +16,7 @@ class compraEstado extends BaseDatos{
         $this->idcompraestado="";
         $this->objcompra="";
         $this->objcompraestadotipo="";
-        $this->cefechaini=null;
+        $this->cefechaini=date('Y-m-d H:i:s');
         $this->cefechafin=null;
         $this->mensajeOperacion="";
     }
