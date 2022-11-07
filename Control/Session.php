@@ -10,15 +10,14 @@ class Session{
         }
     }
 
-    public function iniciar($nombreUsuario,$pswUsuario,$usDeshabilitado){
+    public function iniciar($nombreUsuario,$pswUsuario){
         $resp=false;
-        $objAbmUsuario= new abmUsuario();
-        $param= array('usnombre'=> $nombreUsuario, 'uspass'=> $pswUsuario, 'usdeshabilitado'=> $usDeshabilitado);
-        $listaUsuario=$objAbmUsuario->buscar($param);
-        if(!empty($listaUsuario)){
+        if($this->activa() && $this->validar($nombreUsuario,$pswUsuario)){
             $_SESSION['usnombre']=$nombreUsuario;
-            $_SESSION['uspass']=$pswUsuario;
-            $_SESSION['usdeshabilitado']=$usDeshabilitado;
+            $user=$this->getUsuario();
+            $_SESSION['idusuario']=$user->getID();
+            $_SESSION['usmail']=$user->getUsMail();
+            $_SESSION['usdeshabilitado']=$user->getUsDeshabilitado();
             $resp=true;
         }
         return $resp;
@@ -42,11 +41,12 @@ class Session{
         return false;
     }
 
-    public function validar(){
+    public function validar($usNombre, $usPsw){
+        //Viene por parametro el nombre de usuario y la contraseña encriptada
         $resp=false;
-        if($this->activa() && isset($_SESSION['idusuario'])){
+        if($this->activa()){
             $objAbmUsuario= new abmUsuario();
-            $listaUsuario=$objAbmUsuario->buscar($_SESSION);
+            $param=array("usnombre"=>$usNombre, 'uspass'=>$usPsw);            $listaUsuario=$objAbmUsuario->buscar($param);
             if(!empty($listaUsuario)){
                 $resp=true;
             }
@@ -56,13 +56,12 @@ class Session{
 
 
 
-    public function getUsuario(){
+    private function getUsuario(){
         $user=null;
-        //Verifico que la sesión este activa y también que sea válida
-        if($this->activa() && $this->validar()){
+        if($this->activa() && isset($_SESSION['usnombre'])){
             $objAbmUsuario= new AbmUsuario();
             //ver lo de mandar $_SESSION
-            $param= array('usnombre'=> $_SESSION['usnombre'], 'uspass'=> $_SESSION['uspass'], 'usdeshabilitado'=> $_SESSION['usdeshabilitado']);
+            $param['usnombre']= $_SESSION['usnombre'];
             $listaUsuario= $objAbmUsuario->buscar($param);
             $user=$listaUsuario[0];
         }
@@ -92,8 +91,9 @@ class Session{
         //Primero me fijo si esta activa la session
         if($this->activa()){
             //elimino sus datos
+            unset($_SESSION['idusuario']);
             unset($_SESSION['usnombre']);
-            unset($_SESSION['uspass']);
+            unset($_SESSION['usmail']);
             unset($_SESSION['usdeshabilitado']);
             //destruyo la session
             session_destroy();
