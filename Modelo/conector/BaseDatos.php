@@ -13,7 +13,7 @@ private $resultado;
 public function __construct() {
     $this->engine = 'mysql';
     $this->host = 'localhost';
-    $this->database = 'bdcarritocompra'; // MODIFICAR POR CADA TP
+    $this->database = 'bdcarritocompras'; // MODIFICAR POR CADA TP
     $this->user = 'root';
     $this->pass = '';
     $this->debug = true;

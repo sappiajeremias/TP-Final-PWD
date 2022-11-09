@@ -1,5 +1,4 @@
 <?php
-include_once('../Vista/Estructura/cabecera.php');
 
 function login($sesion, $data)
 {
