@@ -12,7 +12,7 @@
                     <a class="nav-link active" aria-current="page" href="../Home/index.php">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../Cliente/listadoProductos.php">Productos</a>
+                    <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
             </ul>
             <ul class="navbar-nav d-flex">
