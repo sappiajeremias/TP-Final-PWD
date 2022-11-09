@@ -4,11 +4,11 @@ include_once '../Estructura/cabecera.php';
 $data = data_submitted();
 $sesion = new Session();
 $respuesta = $sesion->iniciar($data['usnombre'], $data['uspass']);
-
-
 if ($respuesta){
-    header("Location:../Home/index.php");
+    $mensaje = "Se inició sesión exitosamente!";
+    header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
 } else {
-    header("Location:../Home/index.php?mensaje=true");
+    $mensaje = "Algo salió mal en el inicio de sesión :(";
+    header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
 }
 ?>

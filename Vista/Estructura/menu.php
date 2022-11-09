@@ -1,5 +1,14 @@
-<!-- NAVBAR INICIO -->
+<?php
+if(!(isset($_SESSION['usnombre']))){
+    $sesion = new Session();
+    $nombreUsuario = $sesion->getNombreUsuarioLogueado();
+    $idUsuario = $sesion->getIDUsuarioLogueado();
+    $roles = $sesion->getRoles();
+}
+?>
 
+
+<!-- NAVBAR INICIO -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary border rounded">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Nombre Sitio</a>
@@ -17,7 +26,7 @@
             </ul>
             <ul class="navbar-nav d-flex">
                 <?php
-                        if(!(empty($_SESSION))){
+                        if(!(isset($_SESSION['usnombre']))){
                             ?>
                             <!-- MENÚ NO LOGIN -->
                             <li class="nav-item dropdown">
@@ -32,21 +41,16 @@
                             </li>
                             <?php
                         } else {
-                            $sesion = new Session();
-                            $nombreUsuario = $sesion->getNombreUsuarioLogueado();
                         ?>
                             <!-- INICIO MENÚ USUARIO LOGEADO -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <?php echo $nombreUsuario ?>
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario ?>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <?php
-                                        $roles = $sesion->getRoles();
                                         foreach($roles as $rolActual){
-                                            ?>
-                                                <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion() ?> </a>
-                                            <?php
+                                            ?><a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion() ?></a><?php
                                         }
                                     ?>
                                     <hr class="dropdown-divider">
