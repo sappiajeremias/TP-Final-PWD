@@ -6,7 +6,7 @@ include_once '../Estructura/cabecera.php';
     <h5 class="text-center"><i class="fa-solid fa-user-plus mx-2"></i>Registro</h5>
     <hr>
     <!-- INICIO FORMULARIO DE REGISTRO -->
-    <form action="#" name="registro" id="registro" method="post" accept-charset="utf-8">
+    <form action="../Accion/registro.php" name="registro" id="registro" method="post" accept-charset="utf-8">
         <div class="form-group mb-3">
             <label for="usmail" class="form-label">Correo: </label>
             <input type="email" class="form-control" id="usmail" name="usmail" autocomplete="off">

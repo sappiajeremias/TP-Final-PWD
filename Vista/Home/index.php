@@ -4,7 +4,7 @@ include_once '../Estructura/cabecera.php';
 $datos = data_submitted();
 if(!empty($datos['mensaje'])){
 ?>
-    <div class='container p-2 text-center'> 
+    <div class='container pt-3 text-center'> 
         <div class='alert alert-warning alert-dismissible fade show' role='alert'>
             <i class='fa-solid fa-check mx-2'></i> <?php echo $datos['mensaje'] ?>
             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
