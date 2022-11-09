@@ -16,10 +16,10 @@
                 </li>
             </ul>
             <ul class="navbar-nav d-flex">
-                <!-- SI LA SESIÓN NO ESTA ACTIVA -->
                 <?php
                         if(empty($_SESSION['usnombre']) || empty($_SESSION['idusuario']) || empty($_SESSION['usmail']) || empty($_SESSION['usdeshabilitado'])){
                             ?>
+                            <!-- MENÚ NO LOGIN -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-right-to-bracket"></i>
@@ -31,38 +31,35 @@
                                 </div>
                             </li>
                             <?php
-                            // SI LA SESIÓN ESTA ACTIVA
                         } else {
                             $user = $sesion->getUsuario();
                             $rol = $sesion->getRol();
                             $nombreUsuario =  $user->getUsNombre();
                         ?>
-                            <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <?php
-                                    echo $nombreUsuario;
-                                ?>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <?php
-                                    switch ($rol->getIdRol()){
-                                        case '1':
-                                            ?> <li><a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-user mx-2"></i> Rol: Admin</a></li> <?php
+                            <!-- INICIO MENÚ USUARIO LOGEADO -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php echo $nombreUsuario ?>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <?php
+                                        switch ($rol->getIdRol()){
+                                            case '1':
+                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Admin</a> <?php
+                                                break;
+                                            case '2':
+                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Cliente</a> <?php
                                             break;
-                                        case '2':
-                                            ?> <li><a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-user mx-2"></i> Rol: Cliente</a></li> <?php
-                                        break;
-                                        case '3':
-                                            ?> <li><a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-user mx-2"></i> Rol: Depósito</a></li> <?php
-                                        break;
-                                    } 
-                                ?>
-                                <li>
+                                            case '3':
+                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Depósito</a> <?php
+                                            break;
+                                        } 
+                                    ?>
                                     <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a></li>
-                            </ul>
+                                    <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
+                                </div>
                             </li>
+                            <!-- FIN MENÚ USUARIO LOGEADO -->
                     <?php } ?>
                 </ul>
         </div>
