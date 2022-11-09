@@ -12,9 +12,8 @@ private $resultado;
 
 public function __construct() {
     $this->engine = 'mysql';
-    $this->host = '127.0.0.1:3307';
-    //$this->host = '127.0.0.1:3306';
-    $this->database = 'depijoint'; // MODIFICAR POR CADA TP
+    $this->host = 'localhost';
+    $this->database = 'bdcarritocompra'; // MODIFICAR POR CADA TP
     $this->user = 'root';
     $this->pass = '';
     $this->debug = true;
