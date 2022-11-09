@@ -17,7 +17,7 @@
             </ul>
             <ul class="navbar-nav d-flex">
                 <?php
-                        if(empty($_SESSION['usnombre']) || empty($_SESSION['idusuario']) || empty($_SESSION['usmail']) || empty($_SESSION['usdeshabilitado'])){
+                        if(!(empty($_SESSION))){
                             ?>
                             <!-- MENÚ NO LOGIN -->
                             <li class="nav-item dropdown">
@@ -32,9 +32,8 @@
                             </li>
                             <?php
                         } else {
-                            $user = $sesion->getUsuario();
-                            $rol = $sesion->getRol();
-                            $nombreUsuario =  $user->getUsNombre();
+                            $sesion = new Session();
+                            $nombreUsuario = $sesion->getNombreUsuarioLogueado();
                         ?>
                             <!-- INICIO MENÚ USUARIO LOGEADO -->
                             <li class="nav-item dropdown">
@@ -43,17 +42,12 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <?php
-                                        switch ($rol->getIdRol()){
-                                            case '1':
-                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Admin</a> <?php
-                                                break;
-                                            case '2':
-                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Cliente</a> <?php
-                                            break;
-                                            case '3':
-                                                ?> <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: Depósito</a> <?php
-                                            break;
-                                        } 
+                                        $roles = $sesion->getRoles();
+                                        foreach($roles as $rolActual){
+                                            ?>
+                                                <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion() ?> </a>
+                                            <?php
+                                        }
                                     ?>
                                     <hr class="dropdown-divider">
                                     <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>

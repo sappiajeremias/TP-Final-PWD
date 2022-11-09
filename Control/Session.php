@@ -55,7 +55,6 @@ class Session{
     }
 
 
-
     private function getUsuario(){
         //Método privado para no devolver el usuario fuera de la clase Session
         $user=null;
@@ -70,19 +69,17 @@ class Session{
 
     public function getRoles(){
         //Devuelve un arreglo con los objetos rol del user
-        $roles=null;
+        $roles=[];
         $user= $this->getUsuario();
         if($user!=null){
             //Primero busco la instancia de UsuarioRol
             $objAbmUsuarioRol= new AbmUsuarioRol();
             //Creo el parametro con el id del usuario
-            $parametroUser=array('idusuario'=>$user->getIdUsuario());
-            $listaUsuarioRol= $objAbmUsuarioRol->buscar($parametroUser);
-            //Ahora busco el rol
-            $objAbmRol= new AbmRol();
-            //Creo el parametro con el id del rol
-            $parametroRol= array ('idrol' => $listaUsuarioRol[0]->getObjRol()->getIdRol());
-            $roles= $objAbmRol->buscar($parametroRol);
+            $parametroUser=array('idusuario'=>$user->getID());
+            $listaUsuarioRol = $objAbmUsuarioRol->buscar($parametroUser);
+            foreach($listaUsuarioRol as $tupla){
+                array_push($roles, $tupla->getObjRol());
+            }
         }
         return $roles;
     }

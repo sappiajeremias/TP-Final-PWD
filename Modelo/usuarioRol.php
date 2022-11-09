@@ -33,7 +33,7 @@ class usuarioRol extends BaseDatos{
                     $objRol= new Rol();
 
                     $objUsuario->setID($row['idusuario']);
-                    $objRol->setID($row['idrol']);
+                    $objRol->setIdRol($row['idrol']);
 
                     $objUsuario->cargar();
                     $objRol->cargar();
@@ -70,9 +70,6 @@ class usuarioRol extends BaseDatos{
     }
     
     public function modificar(){
-<<<<<<< HEAD
-        return false;
-=======
         $resp = false;
     
         $idUsuario=$this->getObjUsuario()->getID();
@@ -88,7 +85,6 @@ class usuarioRol extends BaseDatos{
             $this->setMensajeOperacion("usuariorol->modificar: ".$this->getError());
         }
         return $resp;
->>>>>>> a2b387a8d1337771897210d28e929f59d9f4716c
     }
     
     public function eliminar(){
@@ -134,7 +130,7 @@ class usuarioRol extends BaseDatos{
                         $objUsuario->setID($row['idusuario']);
                         $objUsuario->cargar();
 
-                        $objRol->setID($row['idrol']);
+                        $objRol->setIdRol($row['idrol']);
                         $objRol->cargar();
 
                         $objUsuarioRol->setear($objUsuario, $objRol);

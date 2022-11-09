@@ -22,6 +22,7 @@ function data_submitted()
 spl_autoload_register(function ($clase) {
     $directorys = array(
         $GLOBALS['ROOT'].'Modelo/',
+        $GLOBALS['ROOT'].'Modelo/conector/',
         $GLOBALS['ROOT'].'Control/',
     );
     foreach ($directorys as $directory) {
@@ -31,5 +32,6 @@ spl_autoload_register(function ($clase) {
         }
     }
 });
+
 
 
