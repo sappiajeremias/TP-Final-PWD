@@ -21,7 +21,7 @@ function login($sesion, $data)
                     header("Location:../Vista/paginaSegura.php");
                     break;
                 case 'user':
-                    header("Location:./listarUsuario.php?idusuario={$objU_R[0]->getObjUsuario()->getIdusuario()}&roldescripcion={$objU_R[0]->getObjRol()->getRoldescripcion()}");
+                    header("Location:./listarUsuario.php");
                     break;
 
                 default:
@@ -52,3 +52,4 @@ function ObtenerDatos()
 
     return $array_UserRol;
 }
+?>

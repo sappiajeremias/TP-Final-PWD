@@ -131,7 +131,27 @@ class abmMenu
                 $where.=" and medeshabilitado ='".$param['medeshabilitado']."'";
             }
         }
-        $arreglo = menu::listar($where);
+
+        $objMenu = new menu();
+        $arreglo = $objMenu->listar($where);
         return $arreglo;
+    }
+
+
+    public function ObtenerMenu($param = ""){
+        $where = " true ";
+        if($param!=""){
+
+            if(isset($param['idrol'])){
+                $where .= " and idrol = '". $param['idrol']. "'";
+            }
+            if(isset($param['idmenu'])){
+                $where .= " and idmenu = '".$param['idmenu']."'";
+            }
+        }
+        $objMenu = new menu();
+        $arreglo = $objMenu->listar($where);
+        return $arreglo;
+
     }
 }
