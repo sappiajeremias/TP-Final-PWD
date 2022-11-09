@@ -24,11 +24,11 @@
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-right-to-bracket"></i>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="../Login/login.php">Iniciar Sesión</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="../Login/registro.php">Registrarse</a></li>
-                                </ul>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="../Login/login.php">Iniciar Sesión</a>
+                                    <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="../Login/registro.php">Registrarse</a>
+                                </div>
                             </li>
                             <?php
                             // SI LA SESIÓN ESTA ACTIVA
