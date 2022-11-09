@@ -9,6 +9,9 @@
 <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
 <script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
 <script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
-</body>
 
+<!--VALIDADOR -->
+<script src="..\..\Utiles\validaciones.js"></script>
+
+</body>
 </html>
