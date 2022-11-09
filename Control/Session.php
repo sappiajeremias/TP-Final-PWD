@@ -56,7 +56,7 @@ class Session{
 
 
 
-    private function getUsuario(){
+    public function getUsuario(){
         $user=null;
         if($this->activa() && isset($_SESSION['usnombre'])){
             $objAbmUsuario= new AbmUsuario();

@@ -18,8 +18,6 @@
     
     <?php 
     include_once '../../configuracion.php';
-    
-    $sesion = new Session();
     ?>
 </head>
 <?php  include_once("../../Vista/Estructura/menu.php"); ?>

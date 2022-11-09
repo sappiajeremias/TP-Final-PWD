@@ -18,7 +18,7 @@
             <ul class="navbar-nav d-flex">
                 <!-- SI LA SESIÓN NO ESTA ACTIVA -->
                 <?php
-                        if(!$sesion->activa()){
+                        if(empty($_SESSION['usnombre']) || empty($_SESSION['idusuario']) || empty($_SESSION['usmail']) || empty($_SESSION['usdeshabilitado'])){
                             ?>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -36,7 +36,7 @@
                             $user = $sesion->getUsuario();
                             $rol = $sesion->getRol();
                             $nombreUsuario =  $user->getUsNombre();
-                    ?>
+                        ?>
                             <li class="nav-item">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <?php
