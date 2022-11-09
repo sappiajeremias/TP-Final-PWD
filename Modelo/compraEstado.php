@@ -22,7 +22,7 @@ class compraEstado extends BaseDatos{
     }
 
     public function setear($idcompraestado,$objcompra,$objcompraestadotipo,$cefechaini,$cefechafin){
-        $this->setId($idcompraestado);
+        $this->setID($idcompraestado);
         $this->setObjCompra($objcompra);
         $this->setObjCompraEstadoTipo($objcompraestadotipo);
         $this->setCeFechaIni($cefechaini);
@@ -39,7 +39,6 @@ class compraEstado extends BaseDatos{
             if($res>-1){
                 if($res>0){
                     $row = $this->Registro();
-
                     $objcompra= new compra();
                     $objcompraestadotipo= new compraEstadoTipo();
                     
@@ -129,7 +128,6 @@ class compraEstado extends BaseDatos{
         if($res>-1){
             if($res>0){
                 while ($row = $this->Registro()){
-
                     $obj= new compraEstado();
                     $objCompra = new compra();
                     $objCompraEstadoTipo= new compraEstadoTipo();

@@ -8,8 +8,8 @@ class usuarioRol extends BaseDatos{
 
     public function __construct(){
         parent:: __construct();
-        $this->objusuario= "";
-        $this->objrol= "";
+        $this->objUsuario= new Usuario();
+        $this->objRol= new Rol();
         $this->mensajeOperacion="";
     }
 
@@ -22,14 +22,13 @@ class usuarioRol extends BaseDatos{
 
     public function cargar(){
         $resp = false;
-        $idUsuario=$this->getObjUsuario()->getIdusuario();
+        $idUsuario=$this->getObjUsuario()->getID();
         $sql="SELECT * FROM usuariorol WHERE idusuario = ".$idUsuario;
         if ($this->Iniciar()) {
             $res = $this->Ejecutar($sql);
             if($res>-1){
                 if($res>0){
                     $row = $this->Registro();
-
                     $objUsuario= new Usuario();
                     $objRol= new Rol();
 
@@ -73,7 +72,7 @@ class usuarioRol extends BaseDatos{
     public function modificar(){
         $resp = false;
     
-        $idUsuario=$this->getObjUsuario()->getIdUsuario();
+        $idUsuario=$this->getObjUsuario()->getID();
         $idRol=$this->getObjRol()->getIdRol();
         $sql="UPDATE usuariorol SET idrol='".$idRol."' WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
         if ($this->Iniciar()) {
@@ -90,7 +89,7 @@ class usuarioRol extends BaseDatos{
     
     public function eliminar(){
         $resp = false;
-        $idUsuario=$this->getObjUsuario()->getIdUsuario();
+        $idUsuario=$this->getObjUsuario()->getID();
         $idRol=$this->getObjRol()->getIdRol();
         $sql="DELETE FROM usuariorol WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
         if ($this->Iniciar()) {
@@ -112,7 +111,6 @@ class usuarioRol extends BaseDatos{
         if ($parametro != "") {
             $sql .= " WHERE " . $parametro;
         }
-        echo "<b>{$sql}</b>";
         if ($this->Iniciar()) {
             
             $res = $this->Ejecutar($sql);

@@ -26,11 +26,11 @@ class abmUsuario
 
     
     /**
- * Espera como parametro un arreglo asociativo donde las claves coinciden
- * con los nombres de las variables instancias del objeto
- * @param array $param
- * @return usuario
- */
+     * Espera como parametro un arreglo asociativo donde las claves coinciden
+     * con los nombres de las variables instancias del objeto
+     * @param array $param
+     * @return usuario
+     */
     private function cargarObjeto($param)
     {
         $obj = null;
@@ -103,7 +103,7 @@ class abmUsuario
         // $param['idusuario'] =null;
         $Objusuario = $this->cargarObjeto($param);
         // verEstructura($Objusuario);
-        if ($Objusuario!=null and $Objusuario->insertar()) {
+        if ($Objusuario != null and $Objusuario->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -126,9 +126,9 @@ class abmUsuario
             $param['uspass'] = $usuario[0]->getuspass();
             $param['usmail'] = $usuario[0]->getusmail();
             $param['usdeshabilitado'] = date("Y-m-d H:i:s");
-            echo "<br>Fecha y hora: ".$param['usdeshabilitado'];
+            //echo "<br>Fecha y hora: " . $param['usdeshabilitado'];
             $Objusuario = $this->cargarObjeto($param);
-            if ($Objusuario!=null and $Objusuario->modificar()) {
+            if ($Objusuario != null and $Objusuario->modificar()) {
                 $resp = true;
             }
         }
@@ -142,11 +142,11 @@ class abmUsuario
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>"; var_dump($param);
+        echo "<i>**Realizando la modificación**</i>"; var_dump($param);
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $Objusuario = $this->cargarObjeto($param);
-            if ($Objusuario!=null and $Objusuario->modificar()) {
+            if ($Objusuario != null and $Objusuario->modificar()) {
                 $resp = true;
             }
         }
@@ -156,33 +156,49 @@ class abmUsuario
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return boolean
+     * @return array
      */
-    public function buscar($param)
+    public function buscar($param = "")
     {
         $where = " true ";
-        if ($param<>null) {
+        if ($param != "") {
             if (isset($param['idusuario'])) {
-                $where.=" and idusuario ='".$param['idusuario']."'";
+                $where .= " and idusuario ='" . $param['idusuario'] . "'";
             }
             if (isset($param['usnombre'])) {
-                $where.=" and usnombre ='".$param['usnombre']."'";
+                $where .= " and usnombre ='" . $param['usnombre'] . "'";
             }
             if (isset($param['uspass'])) {
-                $where.=" and uspass ='".$param['uspass']."'";
+                $where .= " and uspass ='" . $param['uspass'] . "'";
             }
             if (isset($param['usmail'])) {
-                $where.=" and usmail ='".$param['usmail']."'";
+                $where .= " and usmail ='" . $param['usmail'] . "'";
             }
             if (isset($param['usdeshabilitado'])) {
-                $where.=" and usdeshabilitado ='".$param['usdeshabilitado']."'";
+                $where .= " and usdeshabilitado ='" . $param['usdeshabilitado'] . "'";
             }
         }
-        $arreglo = usuario::listar($where);
+        $objU = new usuario();
+        $arreglo = $objU->listar($where);
         return $arreglo;
     }
 
     
 
-    
+    public function DarRol($param ="")
+    {
+        $where = " true ";
+        if($param!=""){
+            if(isset($param['idusuario'])){
+                $where .= " and idusuario = '". $param['idusuario']. "'";
+            }
+            if(isset($param['idrol'])){
+                $where .= " and idrol = '".$param['idrol']."'";
+            }
+        }
+        $objUR = new usuarioRol();
+        $arreglo = $objUR->listar($where);
+        return $arreglo;
+
+    }
 }

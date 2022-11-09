@@ -37,7 +37,6 @@ class compraItem extends BaseDatos{
             if($res>-1){
                 if($res>0){
                     $row = $this->Registro();
-
                     $objproducto= new producto();
                     $objcompra= new compra();
 
@@ -129,7 +128,6 @@ class compraItem extends BaseDatos{
         if($res>-1){
             if($res>0){
                 while ($row = $this->Registro()){
-
                     $obj= new compraItem();
                     $objCompra = new compra();
                     $objProducto= new producto();

@@ -76,11 +76,11 @@ class usuario extends BaseDatos{
     public function modificar(){
         $resp = false;        
         $sql="UPDATE usuario 
-        SET usnombre='".$this->getUsNombre()
-        ."', uspass='".$this->getUsPass()
-        ."', usmail='".$this->getUsMail()
-        ."', usdeshabilitado='".$this->getUsDeshabilitado()
-        ."' WHERE idusuario='".$this->getID()."'";
+        SET usnombre='".$this->getUsnombre()
+        ."', uspass='".$this->getUspass()
+        ."', usmail='".$this->getUsmail()
+        ."', usdeshabilitado='".$this->getUsdeshabilitado()
+        ."' WHERE idusuario='".$this->getIdusuario()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 $resp = true;
@@ -118,7 +118,6 @@ class usuario extends BaseDatos{
         if($res>-1){
             if($res>0){
                 while ($row = $this->Registro()){
-
                     $obj= new usuario();
                     $obj->setear($row['idusuario'], $row['usnombre'], 
                     $row['uspass'], $row['usmail'], $row['usdeshabilitado']);

@@ -7,10 +7,10 @@ private $mensajeoperacion;
 
 
 public function __construct(){
-
     parent:: __construct();
-    $this->objmenu="";
-    $this->objrol="";
+    $this->idmenu=new menu();
+    $this->idrol=new rol();
+   
     $this->mensajeoperacion ="";
 }
 
@@ -29,7 +29,6 @@ public function cargar(){
         if($res>-1){
             if($res>0){
                 $row = $this->Registro();
-
                 $rol = new rol();
                 $rol->setID($row['idrol']);
                 $rol->cargar();
@@ -71,7 +70,7 @@ public function modificar(){
     $resp = false;
     
    
-    $sql="UPDATE menurol SET idrol='".$this->getIdrol()->getIdRol(). "' WHERE idmenu=".$this->getIdmenu()->getID()."";
+    $sql="UPDATE menurol SET idrol='".$this->getObjRol()->getIdRol(). "' WHERE idmenu=".$this->getObjMenu()->getID()."";
    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
@@ -117,7 +116,6 @@ public function listar($parametro=""){
     if($res>-1){
         if($res>0){
             while ($row = $this->Registro()){
-
                 $menu= new menu();
                 $menu->setID($row['idmenu']);
                 $menu->cargar();
@@ -125,7 +123,6 @@ public function listar($parametro=""){
                 $rol = new Rol();
                 $rol->setID($row['idrol']);
                 $rol->cargar();
-
                 $row->setear($menu, $rol);
                 array_push($arreglo, $row);
             }

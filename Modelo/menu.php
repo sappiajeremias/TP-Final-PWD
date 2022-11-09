@@ -36,7 +36,6 @@ public function cargar(){
         if($res>-1){
             if($res>0){
                 $row = $this->Registro();
-
                 $padre = new menu();
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
@@ -76,7 +75,7 @@ public function modificar(){
     $resp = false;
    
     $sql="UPDATE menu SET menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', 
-    idpadre='".$this->getObjMenuPadre()->getID()."', medeshabilitado='".$this->getMeDeshabilitado() . "' WHERE idmenu=".$this->getId()."";
+    idpadre='".$this->getObjMenuPadre()->getID()."', medeshabilitado='".$this->getMeDeshabilitado() . "' WHERE idmenu=".$this->getID()."";
    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
@@ -117,7 +116,6 @@ public function listar($parametro=""){
     if($res>-1){
         if($res>0){
             while ($row = $this->Registro()){
-
                 $padre= new menu();
                 $padre->setID($row['idmenu']);
                 $padre->cargar();

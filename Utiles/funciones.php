@@ -1,4 +1,10 @@
 <?php
+// SI O SI REQUIERE EL AUTOLOAD DE PHPAUTH
+//require __DIR__.'/../utiles\PHPAuth\vendor\autoload.php';
+include_once('../Modelo/conector/BaseDatos.php');
+$BASEDATOS = new BaseDatos();
+// CREAMOS UNA INSTANCIA DE LA CLASE PHPAUTH PARA UTILIZAR SUS MÉTODOS EN EL ABM POSTERIORMENTE
+
 
 function data_submitted()
 {
@@ -21,8 +27,8 @@ function data_submitted()
 
 spl_autoload_register(function ($clase) {
     $directorys = array(
-        $GLOBALS['ROOT'].'modelo/',
-        $GLOBALS['ROOT'].'control/',
+        $GLOBALS['ROOT'].'Modelo/',
+        $GLOBALS['ROOT'].'Control/',
     );
     foreach ($directorys as $directory) {
         if (file_exists($directory.$clase.'.php')) {

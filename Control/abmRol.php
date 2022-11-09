@@ -31,11 +31,13 @@ class abmRol{
  */
 private function cargarObjeto($param){
     $obj = null;
+    echo var_dump($param);
     if( array_key_exists('idrol',$param) &&
         array_key_exists('roldescripcion',$param)
     ){
         $obj = new rol();
         $obj->setear($param['idrol'], $param['roldescripcion']);
+
     }
     return $obj;
 }
@@ -75,6 +77,7 @@ public function alta($param){
     $resp = false;
     // $param['idrol'] =null;
     $Objrol = $this->cargarObjeto($param);
+
     // verEstructura($Objrol);
     if ($Objrol!=null and $Objrol->insertar()){
         $resp = true;
@@ -106,7 +109,7 @@ public function baja($param){
  */
 public function modificacion($param){
     // echo "<i>**Realizando la modificación**</i>";
-    var_dump($param);
+    /* var_dump($param); */
     $resp = false;
     if ($this->seteadosCamposClaves($param)){
         $Objrol = $this->cargarObjeto($param);
@@ -122,18 +125,20 @@ public function modificacion($param){
  * @param array $param
  * @return boolean
  */
-public function buscar($param){
+public function buscar($param = ""){
     $where = " true ";
-    if ($param<>NULL){
+    if ($param != ""){
         if  (isset($param['idrol']))
             $where.=" and idrol ='".$param['idrol']."'";
         if  (isset($param['roldescripcion']))
-            $where.=" and roldescripcion ='".$param['roldescripcion']."'";
+            $where.=" and rodescripcion ='".$param['roldescripcion']."'";
     }
-    $arreglo = rol::listar($where);  
+
+    $Objrol = new rol();
+
+    $arreglo = $Objrol->listar($where); 
+   
     return $arreglo;
 }
 
 }
-
-?>

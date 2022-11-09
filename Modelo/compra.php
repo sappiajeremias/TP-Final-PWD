@@ -60,7 +60,7 @@ class compra extends BaseDatos
         $sql = "INSERT INTO compra(cofecha, idusuario) 
             VALUES('"
             . $this->getCofecha() . "', '"
-            . $this->getIdusuario()->getID() . "'
+            . $this->getObjUsuario()->getID() . "'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -81,7 +81,7 @@ class compra extends BaseDatos
         $resp = false;
         $sql = "UPDATE compra 
         SET cofecha='" . $this->getCofecha()
-            . "', idusuario='" . $this->getIdusuario()->getID()
+            . "', idusuario='" . $this->getObjUsuario()->getID()
             . "' WHERE idcompra='" . $this->getID() . "'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
