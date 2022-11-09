@@ -1,5 +1,5 @@
 <?php 
-class menu extends BaseDatos {
+class menuRol extends BaseDatos {
 
 private $objmenu;
 private $objrol;

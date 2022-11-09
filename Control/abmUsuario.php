@@ -2,6 +2,29 @@
 
 class abmUsuario
 {
+
+
+    public function abm($datos){
+        $resp=false;
+        if($datos['action']== 'eliminar'){
+            if($this->baja($datos)){
+                $resp=true;
+            }
+        }
+        if($datos['action']== 'modificar'){
+            if($this->modificacion($datos)){
+                $resp=true;
+            }
+        }
+        if($datos['action']== 'alta'){
+            if($this->alta($datos)){
+                $resp=true;
+            }
+        }
+        return $resp;
+    }
+
+    
     /**
  * Espera como parametro un arreglo asociativo donde las claves coinciden
  * con los nombres de las variables instancias del objeto
@@ -159,11 +182,7 @@ class abmUsuario
         return $arreglo;
     }
 
-    public function abm($datos){
-        if($datos['action']== 'delete'){
-
-        }
-    }
+    
 
     
 }

@@ -20,11 +20,11 @@ public function __construct(){
     $this->mensajeoperacion ="";
 }
 
-public function setear($idmenu, $menombre, $medescripcion, $newobjpadre, $medeshabilitado) {
+public function setear($idmenu, $menombre, $medescripcion, $newObjpadre, $medeshabilitado) {
     $this->setID($idmenu);
     $this->setMeNombre($menombre);
     $this->setMeDescripcion($medescripcion);
-    $this->setObjMenuPadre($newobjpadre);
+    $this->setObjMenuPadre($newObjpadre);
     $this->setMeDeshabilitado($medeshabilitado);
 }
 

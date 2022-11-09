@@ -1,6 +1,26 @@
 <?php
 
 class abmRol{
+
+    public function abm($datos){
+        $resp=false;
+        if($datos['action']== 'eliminar'){
+            if($this->baja($datos)){
+                $resp=true;
+            }
+        }
+        if($datos['action']== 'modificar'){
+            if($this->modificacion($datos)){
+                $resp=true;
+            }
+        }
+        if($datos['action']== 'alta'){
+            if($this->alta($datos)){
+                $resp=true;
+            }
+        }
+        return $resp;
+    }
     
     
 /**
