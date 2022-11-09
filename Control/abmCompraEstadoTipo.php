@@ -1,6 +1,6 @@
 <?php
 
-class abmCompra
+class abmCompraEstadoTipo
 {
 
     public function abm($datos){
@@ -27,17 +27,17 @@ class abmCompra
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
      * @param array $param
-     * @return compra
+     * @return compraEstadoTipo
      */
     private function cargarObjeto($param)
     {
         $obj = null;
-        if (array_key_exists('idcompra', $param) &&
-            array_key_exists('cofecha', $param)&&
-            array_key_exists('objusuario', $param)
+        if (array_key_exists('idcompraestadotipo', $param) &&
+            array_key_exists('cetdescripcion', $param)&&
+            array_key_exists('cetdetalle', $param)
         ) {
-            $obj = new compra();
-            $obj->setear($param['idcompra'], $param['cofecha'], $param['objusuario']);
+            $obj = new compraEstadoTipo();
+            $obj->setear($param['idcompraestadotipo'], $param['cetdescripcion'], $param['cetdetalle']);
         }
         return $obj;
     }
@@ -46,14 +46,14 @@ class abmCompra
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
      * @param array $param
-     * @return compra
+     * @return compraEstadoTipo
      */
     private function cargarObjetoConClave($param)
     {
         $obj = null;
-        if (isset($param['idcompra'])) {
+        if (isset($param['idcompraestadotipo'])) {
             $obj = new compra();
-            $obj->setear($param['idcompra'], null, null);
+            $obj->setear($param['idcompraestadotipo'], null, null);
         }
         return $obj;
     }
@@ -66,10 +66,11 @@ class abmCompra
     private function seteadosCamposClaves($param)
     {
         $resp = false;
-        if (isset($param['idcompra'])) {
+        if (isset($param['idcompraestadotipo'])) {
             $resp = true;
         }
         return $resp;
+        
     }
 
     /**
@@ -134,17 +135,18 @@ class abmCompra
     {
         $where = " true ";
         if ($param<>null) {
-            if (isset($param['idcompra'])) {
-                $where.=" and idcompra ='".$param['idcompra']."'";
+            if (isset($param['idcompraestadotipo'])) {
+                $where.=" and idcompraestadotipo ='".$param['idcompraestadotipo']."'";
             }
-            if (isset($param['cofecha'])) {
-                $where.=" and cofecha ='".$param['cofecha']."'";
+            if (isset($param['cetdescripcion'])) {
+                $where.=" and cetdescripcion ='".$param['cetdescripcion']."'";
             }
-            if (isset($param['objusuario'])) {
-                $where.=" and objusuario ='".$param['objusuario']."'";
+            if (isset($param['cetdetalle'])) {
+                $where.=" and cetdetalle ='".$param['cetdetalle']."'";
             }
         }
-        $arreglo = compra::listar($where);
+        $arreglo = compraEstadoTipo::listar($where);
         return $arreglo;
     }
+    
 }

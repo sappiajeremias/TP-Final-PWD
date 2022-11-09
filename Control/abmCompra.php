@@ -1,6 +1,6 @@
 <?php
 
-class abmMenu
+class abmCompra
 {
 
     public function abm($datos){
@@ -27,40 +27,38 @@ class abmMenu
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
      * @param array $param
-     * @return menu
+     * @return compra
      */
     private function cargarObjeto($param)
     {
+        $objUsuario = new usuario();
+        $objUsuario->setID($param['objusuario']);
+        $objUsuario->cargar();
         $obj = null;
-        if (array_key_exists('idmenu', $param) &&
-            array_key_exists('menombre', $param) &&
-            array_key_exists('medescripcion', $param) &&
-            array_key_exists('idpadre', $param) &&
-            array_key_exists('medeshabilitado', $param)
+        if (array_key_exists('idcompra', $param) &&
+            array_key_exists('cofecha', $param)&&
+            array_key_exists('objusuario', $param)
         ) {
-            $menu = new menu();
-            $menuPadre=new menu();
-            $menuPadre->setID($param['idpadre']);
-            $menuPadre->cargar();
-            $menu->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $menuPadre, $param['medeshabilitado']);
+            $obj = new compra();
+            $obj->setear($param['idcompra'], $param['cofecha'], $param['objusuario']);
         }
-        return $menu;
+        return $obj;
     }
 
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
      * @param array $param
-     * @return menu
+     * @return compra
      */
     private function cargarObjetoConClave($param)
     {
-        $menu = null;
-        if (isset($param['idmenu'])) {
-            $menu = new menu();
-            $menu->setear($param['idmenu'], null, null, null, null);
+        $obj = null;
+        if (isset($param['idcompra'])) {
+            $obj = new compra();
+            $obj->setear($param['idcompra'], null, null);
         }
-        return $menu;
+        return $obj;
     }
 
     /**
@@ -71,7 +69,7 @@ class abmMenu
     private function seteadosCamposClaves($param)
     {
         $resp = false;
-        if (isset($param['idmenu'])) {
+        if (isset($param['idcompra'])) {
             $resp = true;
         }
         return $resp;
@@ -85,9 +83,9 @@ class abmMenu
     {
         $resp = false;
         // $param['idrol'] =null;
-        $objMenu = $this->cargarObjeto($param);
+        $objcompra = $this->cargarObjeto($param);
         // verEstructura($Objrol);
-        if ($objMenu!=null and $objMenu->insertar()) {
+        if ($objcompra!=null and $objcompra->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -102,8 +100,8 @@ class abmMenu
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objMenu = $this->cargarObjetoConClave($param);
-            if ($objMenu!=null and $objMenu->eliminar()) {
+            $objcompra = $this->cargarObjetoConClave($param);
+            if ($objcompra!=null and $objcompra->eliminar()) {
                 $resp = true;
             }
         }
@@ -122,8 +120,8 @@ class abmMenu
 
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objMenu = $this->cargarObjeto($param);
-            if ($objMenu!=null and $objMenu->modificar()) {
+            $objcompra = $this->cargarObjeto($param);
+            if ($objcompra!=null and $objcompra->modificar()) {
                 $resp = true;
             }
         }
@@ -139,43 +137,17 @@ class abmMenu
     {
         $where = " true ";
         if ($param<>null) {
-            if (isset($param['idmenu'])) {
-                $where.=" and idmenu ='".$param['idmenu']."'";
+            if (isset($param['idcompra'])) {
+                $where.=" and idcompra ='".$param['idcompra']."'";
             }
-            if (isset($param['menombre'])) {
-                $where.=" and menombre ='".$param['menombre']."'";
+            if (isset($param['cofecha'])) {
+                $where.=" and cofecha ='".$param['cofecha']."'";
             }
-            if (isset($param['medescripcion'])) {
-                $where.=" and medescripcion ='".$param['medescripcion']."'";
-            }
-            if (isset($param['idpadre'])) {
-                $where.=" and idpadre ='".$param['idpadre']."'";
-            }
-            if (isset($param['medeshabilitado'])) {
-                $where.=" and medeshabilitado ='".$param['medeshabilitado']."'";
+            if (isset($param['objusuario'])) {
+                $where.=" and objusuario ='".$param['objusuario']."'";
             }
         }
-
-        $objMenu = new menu();
-        $arreglo = $objMenu->listar($where);
+        $arreglo = compra::listar($where);
         return $arreglo;
-    }
-
-
-    public function ObtenerMenu($param = ""){
-        $where = " true ";
-        if($param!=""){
-
-            if(isset($param['idrol'])){
-                $where .= " and idrol = '". $param['idrol']. "'";
-            }
-            if(isset($param['idmenu'])){
-                $where .= " and idmenu = '".$param['idmenu']."'";
-            }
-        }
-        $objMenu = new menu();
-        $arreglo = $objMenu->listar($where);
-        return $arreglo;
-
     }
 }

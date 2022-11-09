@@ -56,11 +56,11 @@ class Session{
 
 
 
-    public function getUsuario(){
+    private function getUsuario(){
+        //Método privado para no devolver el usuario fuera de la clase Session
         $user=null;
         if($this->activa() && isset($_SESSION['usnombre'])){
             $objAbmUsuario= new AbmUsuario();
-            //ver lo de mandar $_SESSION
             $param['usnombre']= $_SESSION['usnombre'];
             $listaUsuario= $objAbmUsuario->buscar($param);
             $user=$listaUsuario[0];
@@ -68,8 +68,9 @@ class Session{
         return $user;
     }
 
-    public function getRol(){
-        $rol=null;
+    public function getRoles(){
+        //Devuelve un arreglo con los objetos rol del user
+        $roles=null;
         $user= $this->getUsuario();
         if($user!=null){
             //Primero busco la instancia de UsuarioRol
@@ -81,11 +82,81 @@ class Session{
             $objAbmRol= new AbmRol();
             //Creo el parametro con el id del rol
             $parametroRol= array ('idrol' => $listaUsuarioRol[0]->getObjRol()->getIdRol());
-            $listaRol= $objAbmRol->buscar($parametroRol);
-            $rol=$listaRol[0];
+            $roles= $objAbmRol->buscar($parametroRol);
         }
-        return $rol;
+        return $roles;
     }
+
+    public function getNombreUsuarioLogueado(){
+        //retorna el nombre del usuario logueado
+        $nombreUsuario=null;
+        if(isset($_SESSION['usnombre'])){
+            $nombreUsuario=$_SESSION['usnombre'];
+        }
+        return $nombreUsuario;
+    }
+
+    public function getIDUsuarioLogueado(){
+        //retorna el id del usuario logueado
+        $nombreUsuario=null;
+        if(isset($_SESSION['idusuario'])){
+            $nombreUsuario=$_SESSION['idusuario'];
+        }
+        return $nombreUsuario;
+    }
+
+    public function getMailUsuarioLogueado(){
+        //retorna el mail del usuario logueado
+        $nombreUsuario=null;
+        if(isset($_SESSION['usmail'])){
+            $nombreUsuario=$_SESSION['usmail'];
+        }
+        return $nombreUsuario;
+    }
+
+    public function esAdmin() {
+        // Retorna true si el usuario activo tiene permiso de administrador
+        $resp = false;
+        $listaUsRoles = $this->getRoles();
+        foreach ($listaUsRoles as $usuarioRol) {
+            // idrol = 1, es Administrador
+            if ($usuarioRol->getObjRol()->getID() == 1) {
+                $resp = true;
+                break;
+            }
+        }
+        return $resp;
+    }
+
+    public function esDeposito() {
+        // Retorna true si el usuario activo tiene permiso de depósito
+        $resp = false;
+        $listaUsRoles = $this->getRoles();
+        foreach ($listaUsRoles as $usuarioRol) {
+            // idrol = 1, es Administrador
+            if ($usuarioRol->getObjRol()->getID() == 2) {
+                $resp = true;
+                break;
+            }
+        }
+        return $resp;
+    }
+
+
+    public function esCliente() {
+        // Retorna true si el usuario activo tiene permiso de cliente
+        $resp = false;
+        $listaUsRoles = $this->getRoles();
+        foreach ($listaUsRoles as $usuarioRol) {
+            // idrol = 1, es Administrador
+            if ($usuarioRol->getObjRol()->getID() == 3) {
+                $resp = true;
+                break;
+            }
+        }
+        return $resp;
+    }
+
 
     public function cerrar(){
         //Primero me fijo si esta activa la session

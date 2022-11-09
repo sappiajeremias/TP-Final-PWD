@@ -27,7 +27,7 @@ class abmMenuRol
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
      * @param array $param
-     * @return menu
+     * @return menuRol
      */
     private function cargarObjeto($param)
     {
@@ -38,9 +38,13 @@ class abmMenuRol
             $objMenuRol = new menuRol();
             $menu= new menu();
             $rol= new rol();
+
             $menu->setId($param['idmenu']);
             $menu->cargar();
-            $menu->setear($param['idmenu'], $param['idrol'], $param['medescripcion'], $param['idpadre'], $param['medeshabilitado']);
+            $rol->setId($param['idrol']);
+            $rol->cargar();
+
+            $objMenuRol->setear($menu, $rol);
         }
         return $menu;
     }
@@ -49,10 +53,24 @@ class abmMenuRol
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
      * @param array $param
-     * @return menu
+     * @return menuRol
      */
     private function cargarObjetoConClave($param)
     {
+        $menu = null;
+        if (isset($param['idmenu']) && isset($param['idrol']) ) {
+            $objMenuRol = new menuRol();
+            $menu= new menu();
+            $rol= new rol();
+
+            $menu->setId($param['idmenu']);
+            $menu->cargar();
+            $rol->setId($param['idrol']);
+            $rol->cargar();
+
+            $objMenuRol->setear($menu, $rol);
+        }
+        return $menu;
         
     }
 
@@ -63,7 +81,11 @@ class abmMenuRol
      */
     private function seteadosCamposClaves($param)
     {
-        
+        $resp = false;
+        if (isset($param['idmenu'])) {
+            $resp = true;
+        }
+        return $resp;
     }
 
     /**
@@ -72,7 +94,14 @@ class abmMenuRol
      */
     public function alta($param)
     {
-        
+        $resp = false;
+        // $param['idrol'] =null;
+        $objMenu = $this->cargarObjeto($param);
+        // verEstructura($Objrol);
+        if ($objMenu!=null and $objMenu->insertar()) {
+            $resp = true;
+        }
+        return $resp;
     }
 
     /**
@@ -82,7 +111,15 @@ class abmMenuRol
      */
     public function baja($param)
     {
-        
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objMenu = $this->cargarObjetoConClave($param);
+            if ($objMenu!=null and $objMenu->eliminar()) {
+                $resp = true;
+            }
+        }
+
+        return $resp;
     }
 
     /**
@@ -92,8 +129,14 @@ class abmMenuRol
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>";
-
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objMenu = $this->cargarObjeto($param);
+            if ($objMenu!=null and $objMenu->modificar()) {
+                $resp = true;
+            }
+        }
+        return $resp;
     }
 
     /**
@@ -103,6 +146,16 @@ class abmMenuRol
      */
     public function buscar($param)
     {
-        
+        $where = " true ";
+        if ($param<>null) {
+            if (isset($param['idmenu'])) {
+                $where.=" and idmenu ='".$param['idmenu']."'";
+            }
+            if (isset($param['idrol'])) {
+                $where.=" and idrol ='".$param['idrol']."'";
+            }
+        }
+        $arreglo = menuRol::listar($where);
+        return $arreglo;
     }
 }
