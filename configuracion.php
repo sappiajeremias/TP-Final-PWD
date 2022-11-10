@@ -5,7 +5,7 @@ $GLOBALS['ROOT'] =$_SERVER['DOCUMENT_ROOT'];
 // FUNCIONES data_submitted Y spl_autoload_register
 include_once 'Utiles/funciones.php';
 include_once 'Utiles/funcion_log.php';
-
+include_once 'Utiles/funciones_md5.php';
 //MODIFICAR SEGÚN TENGAS EL PROYECTO
 
 $PROYECTO = 'TP-Final-PWD';

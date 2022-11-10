@@ -12,6 +12,8 @@
 
 <!--VALIDADOR -->
 <script src="..\..\Utiles\validaciones.js"></script>
+<!--ENCRIPTACION -->
+<script src="..\..\utiles\md5.js"></script>
 
 </body>
 </html>
