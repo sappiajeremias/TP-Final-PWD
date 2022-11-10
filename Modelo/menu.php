@@ -15,7 +15,7 @@ public function __construct(){
     $this->idmenu="";
     $this->menombre="";
     $this->medescripcion="";
-    $this->objmenupadre= new menu();
+    $this->objmenupadre= null;
     $this->medeshabilitado=null;
     $this->mensajeoperacion ="";
 }
@@ -117,7 +117,7 @@ public function listar($parametro=""){
         if($res>0){
             while ($row = $this->Registro()){
                 $padre= new menu();
-                $padre->setID($row['idmenu']);
+                $padre->setID($row['idpadre']);
                 $padre->cargar();
 
                 $row->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
@@ -131,10 +131,17 @@ public function listar($parametro=""){
 
     return $arreglo;
 }
+
+public function tieneHijos($idPadre){
+    $arreglo = $this->listar("idpadre=".$idPadre);
+    $retorno = false;
+    if(count($arreglo)<>0){
+        $retorno = true;
+    }
+    return $retorno;
+}
     
 // -- Métodos get y set --
-
-
 
 /**
  * Get the value of idmenu

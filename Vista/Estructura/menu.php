@@ -46,8 +46,39 @@ if(!(isset($_SESSION['usnombre']))){
                                     <a class="dropdown-item" href="../Login/registro.php">Registrarse</a>
                                 </div>
                             </li>
+                            <li class="nav-item dropdown">
                             <?php
                         } else {
+                            foreach($menus as $menuActual){
+                                if(($menuActual->getObjMenuPadre())===null){ //VERIFICA SI ES RAIZ
+                                    $idMenuPadre = $menuActual->getID(); //TOMA EL ID DE LA RAIZ
+                                    if ($menuActual->tieneHijos($idMenuPadre)){ //VERFICA SI TIENE HIJOS
+                                    ?>
+                                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?php echo $menuActual->getMeNombre() ?>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                        <?php
+                                            foreach($menus as $menuHijo){ // BUSCAMOS A SUS HIJOS
+                                                if(($menuHijo->getObjMenuPadre()->getID())===$idMenuPadre){
+                                                    ?>
+                                                        <a class="dropdown-item" disabled="disabled" href=<?php echo $menuHijo->getMeDescripcion() ?> > <?php echo $menuHijo->getMeNombre() ?></a>
+                                                        <hr class="dropdown-divider">
+                                                    <?php
+                                            }
+                                        }
+                                    } else {
+                                        ?>
+                                            <a class="nav-link dropdown-toggle text-white" href=<?php echo $menuActual->getMeDescripcion() ?> role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <?php echo $menuActual->getMeNombre() ?>
+                                            </a>
+                                        <?php
+                                    }
+                                        ?>
+                                    </div>
+                                    <?php
+                                }
+                            }
                         ?>
                             <!-- INICIO MENÚ USUARIO LOGEADO -->
                             <li class="nav-item dropdown">
@@ -64,8 +95,8 @@ if(!(isset($_SESSION['usnombre']))){
                                             <?php
                                         }
                                     ?>
-                                </div>
-                            </li>
+                                    </div>
+                                </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario ?>
