@@ -54,6 +54,8 @@ if(!(isset($_SESSION['usnombre']))){
                                         }
                                     ?>
                                     <hr class="dropdown-divider">
+                                    <a class="dropdown-item" href="../Accion/verPerfilUsuario.php">Ver Perfil</a>
+                                    <hr class="dropdown-divider">
                                     <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
                                 </div>
                             </li>
