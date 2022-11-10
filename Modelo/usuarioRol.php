@@ -70,21 +70,7 @@ class usuarioRol extends BaseDatos{
     }
     
     public function modificar(){
-        $resp = false;
-    
-        $idUsuario=$this->getObjUsuario()->getID();
-        $idRol=$this->getObjRol()->getIdRol();
-        $sql="UPDATE usuariorol SET idrol='".$idRol."' WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
-        if ($this->Iniciar()) {
-            if ($this->Ejecutar($sql)) {
-                $resp = true;
-            } else {
-                $this->setMensajeOperacion("usuariorol->modificar: ".$this->getError());
-            }
-        } else {
-            $this->setMensajeOperacion("usuariorol->modificar: ".$this->getError());
-        }
-        return $resp;
+        return false;
     }
     
     public function eliminar(){

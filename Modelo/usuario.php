@@ -80,7 +80,7 @@ class usuario extends BaseDatos{
         ."', uspass='".$this->getUspass()
         ."', usmail='".$this->getUsmail()
         ."', usdeshabilitado='".$this->getUsdeshabilitado()
-        ."' WHERE idusuario='".$this->getIdusuario()."'";
+        ."' WHERE idusuario='".$this->getID()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 $resp = true;

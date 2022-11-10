@@ -14,11 +14,17 @@ class abmUsuarioRol
     {
         $obj = null;
         if (
-            array_key_exists('idusuariorol', $param) &&
-            array_key_exists('usuarioroldescripcion', $param)
+            array_key_exists('idusuario', $param) &&
+            array_key_exists('idrol', $param)
         ) {
-            $obj = new usuariorol();
-            $obj->setear($param['idusuariorol'], $param['usuarioroldescripcion']);
+            $obj = new usuarioRol();
+            $objUs = new usuario();
+            $objRol = new rol();
+            $objUs->setID($param['idusuario']);
+            $objUs->cargar();
+            $objRol->setIdRol($param['idrol']);
+            $objRol->cargar();
+            $obj->setear($objUs, $objRol);
         }
         return $obj;
     }
@@ -33,8 +39,14 @@ class abmUsuarioRol
     {
         $obj = null;
         if (isset($param['idusuariorol'])) {
-            $obj = new usuariorol();
-            $obj->setear($param['idusuariorol'], null);
+            $obj = new usuarioRol();
+            $objUs = new usuario();
+            $objRol = new rol();
+            $objUs->setID($param['idusuario']);
+            $objUs->cargar();
+            $objRol->setIdRol($param['idrol']);
+            $objRol->cargar();
+            $obj->setear($objUs, $objRol);
         }
         return $obj;
     }
@@ -59,9 +71,7 @@ class abmUsuarioRol
     public function alta($param)
     {
         $resp = false;
-        // $param['idusuariorol'] =null;
         $Objusuariorol = $this->cargarObjeto($param);
-        // verEstructura($Objusuariorol);
         if ($Objusuariorol != null and $Objusuariorol->insertar()) {
             $resp = true;
         }
