@@ -39,9 +39,9 @@ class abmMenuRol
             $menu= new menu();
             $rol= new rol();
 
-            $menu->setId($param['idmenu']);
+            $menu->setID($param['idmenu']);
             $menu->cargar();
-            $rol->setId($param['idrol']);
+            $rol->setIdRol($param['idrol']);
             $rol->cargar();
 
             $objMenuRol->setear($menu, $rol);
@@ -63,9 +63,9 @@ class abmMenuRol
             $menu= new menu();
             $rol= new rol();
 
-            $menu->setId($param['idmenu']);
+            $menu->setID($param['idmenu']);
             $menu->cargar();
-            $rol->setId($param['idrol']);
+            $rol->setIdRol($param['idrol']);
             $rol->cargar();
 
             $objMenuRol->setear($menu, $rol);

@@ -3,13 +3,19 @@ if(!(isset($_SESSION['usnombre']))){
     $sesion = new Session();
     $nombreUsuario = $sesion->getNombreUsuarioLogueado();
     $idUsuario = $sesion->getIDUsuarioLogueado();
-    $roles = $sesion->getRoles();
+    $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
+    $rolActivoID =  $_SESSION['rolactivoid']; //ID DEL ROL
+    $rolActivoDesc =  $_SESSION['rolactivo']; //DESCRIPCION DEL ROL
+
+    $abmMenuRol = new abmMenuRol();
+    $menus = $abmMenuRol->buscar($rolActivoID);
 }
 ?>
 
 
 <!-- NAVBAR INICIO -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary border rounded">
+    <!-- INCIO MENÚ PÚBLICO -->
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Nombre Sitio</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,6 +30,7 @@ if(!(isset($_SESSION['usnombre']))){
                     <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
             </ul>
+            <!-- FIN MENÚ PÚBLICO -->
             <ul class="navbar-nav d-flex">
                 <?php
                         if(!(isset($_SESSION['usnombre']))){
@@ -45,6 +52,22 @@ if(!(isset($_SESSION['usnombre']))){
                             <!-- INICIO MENÚ USUARIO LOGEADO -->
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-user mx-2"></i><?php echo "ROL ACTIVO: ".$rolActivo ?>
+                                </a>
+                                <!-- hacemos la relacion con menu y rolActivo para traer los botones correspondientes -->
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <?php
+                                    //recorremos los menues varios
+                                        foreach($menus as $menuActual){
+                                            ?><a class="dropdown-item" disabled="disabled" href=<?php echo $menuActual->getMeDescripcion() ?> > <?php echo $menuActual->getMeNombre() ?></a>
+                                            <hr class="dropdown-divider">
+                                            <?php
+                                        }
+                                    ?>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario ?>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -59,6 +82,8 @@ if(!(isset($_SESSION['usnombre']))){
                                     <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
                                 </div>
                             </li>
+
+
                             <!-- FIN MENÚ USUARIO LOGEADO -->
                     <?php } ?>
                 </ul>

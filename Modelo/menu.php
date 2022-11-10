@@ -15,7 +15,7 @@ public function __construct(){
     $this->idmenu="";
     $this->menombre="";
     $this->medescripcion="";
-    $this->objmenupadre="";
+    $this->objmenupadre= new menu();
     $this->medeshabilitado=null;
     $this->mensajeoperacion ="";
 }

@@ -30,7 +30,7 @@ public function cargar(){
             if($res>0){
                 $row = $this->Registro();
                 $rol = new rol();
-                $rol->setID($row['idrol']);
+                $rol->setIdRol($row['idrol']);
                 $rol->cargar();
 
                 $menu = new menu();
@@ -70,7 +70,7 @@ public function modificar(){
     $resp = false;
     
    
-    $sql="UPDATE menurol SET idrol='".$this->getIdrol()->getIdRol(). "' WHERE idmenu=".$this->getIdmenu()->getID()."";
+    $sql="UPDATE menurol SET idrol='".$this->getObjRol()->getIdRol(). "' WHERE idmenu=".$this->getObjMenu()->getID()."";
    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
@@ -121,7 +121,7 @@ public function listar($parametro=""){
                 $menu->cargar();
 
                 $rol = new Rol();
-                $rol->setID($row['idrol']);
+                $rol->setIdRol($row['idrol']);
                 $rol->cargar();
                 $row->setear($menu, $rol);
                 array_push($arreglo, $row);
