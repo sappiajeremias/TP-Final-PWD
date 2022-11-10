@@ -5,7 +5,7 @@ if(!(isset($_SESSION['usnombre']))){
     $idUsuario = $sesion->getIDUsuarioLogueado();
     $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
     $rolActivoID =  $_SESSION['rolactivoid']; //ID DEL ROL
-    $rolActivoDesc =  $_SESSION['rolactivo']; //DESCRIPCION DEL ROL
+    $rolActivoDesc =  $_SESSION['rolactivodes']; //DESCRIPCION DEL ROL
 
     $abmMenuRol = new abmMenuRol();
     $menus = $abmMenuRol->buscar($rolActivoID);
