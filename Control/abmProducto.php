@@ -150,4 +150,11 @@ class abmProducto
         $arreglo = $objProducto->listar($where);
         return $arreglo;
     }
+
+    public function buscarConStock(){
+        $arreglo = [];
+        $objProducto = new producto();
+        $arreglo = $objProducto->listar('procantstock > 0');
+        return $arreglo;
+    }
 }
