@@ -178,4 +178,15 @@ class abmMenu
         return $arreglo;
 
     }
+
+    public function tieneHijos($idPadre){
+        $idArreglo = ['idpadre'=>$idPadre];
+        $arreglo = $this->buscar($idArreglo);
+        $retorno = false;
+        if(count($arreglo)<>0){
+            $retorno = true;
+        }
+        return $retorno;
+    }
+        
 }

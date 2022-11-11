@@ -116,15 +116,18 @@ public function listar($parametro=""){
     if($res>-1){
         if($res>0){
             while ($row = $this->Registro()){
+                $objMenuRol = new menuRol();
                 $menu= new menu();
+                $rol = new Rol();
+
                 $menu->setID($row['idmenu']);
                 $menu->cargar();
 
-                $rol = new Rol();
                 $rol->setIdRol($row['idrol']);
                 $rol->cargar();
-                $row->setear($menu, $rol);
-                array_push($arreglo, $row);
+                
+                $objMenuRol->setear($menu, $rol);
+                array_push($arreglo, $objMenuRol);
             }
         }
     } else {

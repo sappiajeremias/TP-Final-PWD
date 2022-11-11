@@ -155,7 +155,8 @@ class abmMenuRol
                 $where.=" and idrol ='".$param['idrol']."'";
             }
         }
-        $arreglo = menuRol::listar($where);
+        $objMenuRol = new menuRol();
+        $arreglo = $objMenuRol->listar($where);
         return $arreglo;
     }
 }

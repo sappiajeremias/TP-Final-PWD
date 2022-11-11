@@ -1,4 +1,6 @@
 <?php
+$Titulo = "Tabla Compras";
+include_once '../Estructura/cabecera.php';
 
 // Ver las compras generadas por los clientes
 // Cambiar el estado de las compras
@@ -7,4 +9,5 @@
 // CANCELADA (RECHAZA EL CARRITO DEL CLIENTE, NO OCURRE NADA MAS ALLA DEL CAMBIO DE ESTADO DE LA COMPRA)
 // ENVIADA (CAMBIO DE ESTADO)
 
+echo "Tabla Tabla Compras";
 ?>

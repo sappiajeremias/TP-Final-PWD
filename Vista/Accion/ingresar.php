@@ -12,6 +12,7 @@ if (!(isset($_SESSION['usnombre'])) && (compararPsw($data['usnombre'], $psw))) {
 }
 
 if ($respuesta) {
+    $sesion->setearRolActivo();
     $mensaje = "Se inició sesión exitosamente!";
     header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
 } else {

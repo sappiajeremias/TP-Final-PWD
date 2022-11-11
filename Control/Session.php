@@ -23,6 +23,34 @@ class Session{
         return $resp;
     }
 
+    public function setearRolActivo(){
+        if ($this->esAdmin()){
+            $_SESSION['rolactivodescripcion'] = 'admin';
+            $idRol = $this->buscarIdRol('admin');
+            $_SESSION['rolactivoid'] = $idRol;
+        } else if ($this->esDeposito()){
+            $_SESSION['rolactivodescripcion'] = 'deposito';
+            $idRol = $this->buscarIdRol('deposito');
+            $_SESSION['rolactivoid'] = $idRol;
+        } else if ($this->esCliente()){
+            $_SESSION['rolactivodescripcion'] = 'cliente';
+            $idRol = $this->buscarIdRol('cliente');
+            $_SESSION['rolactivoid'] = $idRol;
+        }
+    }
+
+    public function buscarIdRol($param){
+        $retorno = null;
+        $roles = $this->getRoles();
+        foreach($roles as $rol){
+            if($rol->getRolDescripcion()===$param){
+                $retorno = $rol->getIdRol();
+            }
+        }
+
+        return $retorno;
+    }
+
     public function activa(){
 
         if ( php_sapi_name() !== 'cli' ) {
@@ -117,7 +145,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getObjRol()->getID() == 1) {
+            if ($usuarioRol->getIdRol() == 1) {
                 $resp = true;
                 break;
             }
@@ -131,7 +159,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getObjRol()->getID() == 2) {
+            if ($usuarioRol->getIdRol() == 2) {
                 $resp = true;
                 break;
             }
@@ -146,7 +174,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getObjRol()->getID() == 3) {
+            if ($usuarioRol->getIdRol() == 3) {
                 $resp = true;
                 break;
             }

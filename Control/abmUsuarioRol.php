@@ -121,6 +121,7 @@ class abmUsuarioRol
      */
     public function buscar($param)
     {
+        $arreglo=[];
         $where = " true ";
         if ($param <> NULL) {
             if (isset($param['idusuario']))

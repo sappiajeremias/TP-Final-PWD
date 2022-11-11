@@ -1,14 +1,17 @@
 <?php
-if(!(isset($_SESSION['usnombre']))){
+if (!(isset($_SESSION['usnombre']))) {
     $sesion = new Session();
     $nombreUsuario = $sesion->getNombreUsuarioLogueado();
     $idUsuario = $sesion->getIDUsuarioLogueado();
     $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
-    $rolActivoID =  $_SESSION['rolactivoid']; //ID DEL ROL
-    $rolActivoDesc =  $_SESSION['rolactivodes']; //DESCRIPCION DEL ROL
+
+    $rolActivoID =  1; //ID DEL ROL
+    $rolActivoDesc =  'admin'; //DESCRIPCION DEL ROL
 
     $abmMenuRol = new abmMenuRol();
-    $menus = $abmMenuRol->buscar($rolActivoID);
+    $menuRoles = $abmMenuRol->buscar($rolActivoID);
+    
+    $abmMenu = new abmMenu();
 }
 ?>
 
@@ -33,91 +36,82 @@ if(!(isset($_SESSION['usnombre']))){
             <!-- FIN MENÚ PÚBLICO -->
             <ul class="navbar-nav d-flex">
                 <?php
-                        if(!(isset($_SESSION['usnombre']))){
+                if (!(isset($_SESSION['usnombre']))) {
+                ?>
+                    <!-- MENÚ NO LOGIN -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a class="dropdown-item" href="../Login/login.php">Iniciar Sesión</a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="../Login/registro.php">Registrarse</a>
+                        </div>
+                    </li>
+                        <?php
+                    } else {
+                        foreach ($menuRoles as $menuRolActual) {
+                            $objMenuActual = $menuRolActual->getObjMenu();
+                            if (!empty($objMenuActual->getObjMenuPadre())) { //VERIFICA SI ES RAIZ
+                                $idMenuPadre = $objMenuActual->getID(); //TOMA EL ID DE LA RAIZ
+                                if ($abmMenu->tieneHijos($idMenuPadre)) { //VERFICA SI TIENE HIJOS
                             ?>
-                            <!-- MENÚ NO LOGIN -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-right-to-bracket"></i>
+                            <li class="nav-item dropdown"> <!-- PERMISOS DROPDOWN INICIO -->
+                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <?php echo $objMenuActual->getMeNombre() ?>
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a class="dropdown-item" href="../Login/login.php">Iniciar Sesión</a>
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="../Login/registro.php">Registrarse</a>
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
+                            <div class="dropdown-menu dropdown-menu-end">
                             <?php
-                        } else {
-                            foreach($menus as $menuActual){
-                                if(($menuActual->getObjMenuPadre())===null){ //VERIFICA SI ES RAIZ
-                                    $idMenuPadre = $menuActual->getID(); //TOMA EL ID DE LA RAIZ
-                                    if ($menuActual->tieneHijos($idMenuPadre)){ //VERFICA SI TIENE HIJOS
-                                    ?>
-                                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <?php echo $menuActual->getMeNombre() ?>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                        <?php
-                                            foreach($menus as $menuHijo){ // BUSCAMOS A SUS HIJOS
-                                                if(($menuHijo->getObjMenuPadre()->getID())===$idMenuPadre){
-                                                    ?>
-                                                        <a class="dropdown-item" disabled="disabled" href=<?php echo $menuHijo->getMeDescripcion() ?> > <?php echo $menuHijo->getMeNombre() ?></a>
-                                                        <hr class="dropdown-divider">
-                                                    <?php
-                                            }
-                                        }
-                                    } else {
-                                        ?>
-                                            <a class="nav-link dropdown-toggle text-white" href=<?php echo $menuActual->getMeDescripcion() ?> role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <?php echo $menuActual->getMeNombre() ?>
-                                            </a>
-                                        <?php
+                                foreach ($menuRoles as $menuRolHijo) { // BUSCAMOS A SUS HIJOS
+                                    $menuHijo = $menuRolHijo->getObjMenu();
+                                    $objPadre = $menuHijo->getObjMenuPadre();
+                                    $idObjPadre = $objPadre->getID();
+                                    echo $idObjPadre."  AAAAAAAAAAAAA ".$idMenuPadre;
+                                    if ($idObjPadre === $idMenuPadre) {
+                            ?>
+                                <a class="dropdown-item" href=<?php echo $menuRolHijo->getMeDescripcion(); ?> > <?php echo $menuRolHijo->getMeNombre(); ?></a>
+                                <hr class="dropdown-divider">
+                            <?php
                                     }
-                                        ?>
-                                    </div>
-                                    <?php
-                                }
+                                }?>
+                            </div>
+                            </li><!-- PERMISOS DROPDOWN FIN -->
+                                <?php
+                                } else {?>
+                                    <a class="dropdown-item" href=<?php echo $objMenuActual->getMeDescripcion(); ?> >
+                                        <?php echo $objMenuActual->getMeNombre(); ?>
+                                    </a>
+                            <?php
+                                }?>
+                            </div><!-- INICIO MENÚ PERMISOS SEGÚN EL ROL ACTIVO --><?php
                             }
-                        ?>
-                            <!-- INICIO MENÚ USUARIO LOGEADO -->
+                        }?>
+                        <!-- INICIO USUARIO ACTIVO DATOS -->
+                        <div>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-user mx-2"></i><?php echo "ROL ACTIVO: ".$rolActivo ?>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fa-solid fa-user mx-2"></i><?php echo "ROL ACTIVO: " . $rolActivoDesc; ?>
                                 </a>
-                                <!-- hacemos la relacion con menu y rolActivo para traer los botones correspondientes -->
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <?php
-                                    //recorremos los menues varios
-                                        foreach($menus as $menuActual){
-                                            ?><a class="dropdown-item" disabled="disabled" href=<?php echo $menuActual->getMeDescripcion() ?> > <?php echo $menuActual->getMeNombre() ?></a>
-                                            <hr class="dropdown-divider">
-                                            <?php
-                                        }
-                                    ?>
-                                    </div>
-                                </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario ?>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <?php
-                                        foreach($roles as $rolActual){
-                                            ?><a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion() ?></a><?php
-                                        }
-                                    ?>
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="../Accion/verPerfilUsuario.php">Ver Perfil</a>
-                                    <hr class="dropdown-divider">
-                                    <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
-                                </div>
                             </li>
-
-
-                            <!-- FIN MENÚ USUARIO LOGEADO -->
-                    <?php } ?>
-                </ul>
+                        </div>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <?php foreach($roles as $rolActual){?>
+                                <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion(); ?></a>
+                            <?php } ?>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="../Accion/verPerfilUsuario.php">Ver Perfil</a>
+                            <hr class="dropdown-divider">
+                            <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
+                        </div>
+                    </li>
+                    <!-- FIN MENÚ USUARIO LOGEADO -->
+                <?php } ?>
+            </ul>
         </div>
     </div>
 </nav>

@@ -120,8 +120,8 @@ public function listar($parametro=""){
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
 
-                $row->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
-                array_push($arreglo, $row);
+                $padre->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
+                array_push($arreglo, $padre);
             }
         }
     } else {
@@ -132,15 +132,6 @@ public function listar($parametro=""){
     return $arreglo;
 }
 
-public function tieneHijos($idPadre){
-    $arreglo = $this->listar("idpadre=".$idPadre);
-    $retorno = false;
-    if(count($arreglo)<>0){
-        $retorno = true;
-    }
-    return $retorno;
-}
-    
 // -- Métodos get y set --
 
 /**
