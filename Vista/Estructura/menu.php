@@ -77,22 +77,25 @@ if (!(isset($_SESSION['usnombre']))) {
                     } ?>
     <!-- INICIO MENÚ PERMISOS SEGÚN EL ROL ACTIVO --><?php
                                                     } ?>
-<!-- INICIO USUARIO ACTIVO DATOS -->
-
 <ul class="navbar-nav d-flex">
-    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?>
-    </a>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user-gear"></i> Cambiar Roles</a>
+        <div class="dropdown-menu dropdown-menu-end">
+            <?php foreach ($roles as $rolActual) { ?>
+                <a class="dropdown-item" disabled="disabled">  <?php echo strtoupper($rolActual->getRolDescripcion()); ?></a>
+            <?php } ?>
+        </div>
+    </li>
+</ul>
+<!-- INICIO USUARIO ACTIVO DATOS -->
+<ul class="navbar-nav d-flex">
+    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?></a>
     <div class="dropdown-menu dropdown-menu-end">
-        <?php foreach ($roles as $rolActual) { ?>
-            <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-scroll mx-"></i> Rol: <?php echo $rolActual->getRolDescripcion(); ?></a>
-        <?php } ?>
+        <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-id-badge mx-2"></i>Rol ACTIVO: <?php echo $_SESSION['rolactivodescripcion'] ?></a>
         <hr class="dropdown-divider">
-        <a class="dropdown-item" disabled="disabled">Rol ACTIVO: <?php echo $_SESSION['rolactivodescripcion'] ?></a>
+        <a class="dropdown-item" href="../Accion/verPerfilUsuario.php"><i class="fa-solid fa-user-pen mx-2"></i>Ver Perfil</a>
         <hr class="dropdown-divider">
-        <a class="dropdown-item" href="../Accion/verPerfilUsuario.php">Ver Perfil</a>
-        <hr class="dropdown-divider">
-        <a class="dropdown-item" href="../Accion/cerrarSesion.php">Cerrar Sesión</a>
+        <a class="dropdown-item" href="../Accion/cerrarSesion.php"><i class="fa-solid fa-power-off mx-2"></i>Cerrar Sesión</a>
     </div>
 </ul>
 <!-- FIN MENÚ USUARIO LOGEADO -->
