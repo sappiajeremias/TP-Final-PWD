@@ -76,7 +76,8 @@ if (!(isset($_SESSION['usnombre']))) {
     <?php
                     } ?>
     <!-- INICIO MENÚ PERMISOS SEGÚN EL ROL ACTIVO --><?php
-                                                    } ?>
+                                                    } 
+if (count($roles)>1){?>
 <ul class="navbar-nav d-flex">
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user-gear"></i> Cambiar Roles</a>
@@ -87,6 +88,7 @@ if (!(isset($_SESSION['usnombre']))) {
         </div>
     </li>
 </ul>
+<?php } ?>
 <!-- INICIO USUARIO ACTIVO DATOS -->
 <ul class="navbar-nav d-flex">
     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?></a>
