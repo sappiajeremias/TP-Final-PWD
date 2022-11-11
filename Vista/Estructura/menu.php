@@ -82,7 +82,7 @@ if (!(isset($_SESSION['usnombre']))) {
         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user-gear"></i> Cambiar Roles</a>
         <div class="dropdown-menu dropdown-menu-end">
             <?php foreach ($roles as $rolActual) { ?>
-                <a class="dropdown-item" disabled="disabled">  <?php echo strtoupper($rolActual->getRolDescripcion()); ?></a>
+                <a class="dropdown-item" href="../Accion/cambiarRol.php?idnuevorol=<?php echo $rolActual->getIdRol() ?>">  <?php echo strtoupper($rolActual->getRolDescripcion()); ?></a>
             <?php } ?>
         </div>
     </li>

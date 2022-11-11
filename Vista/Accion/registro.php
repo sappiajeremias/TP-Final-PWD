@@ -21,12 +21,11 @@ if ($resultado) {
 
     if ($respuesta){
         $mensaje = "El usuarioRol fue creado con exito";
-        header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
     } else {
         $mensaje = "Hubo un error al crear el usuarioRol";
-        header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
     }
 } else {
     $mensaje = "Algo salió mal en el registro";
-    header('Location:../Home/index.php?mensaje='.urlencode($mensaje));
 }
+
+echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";

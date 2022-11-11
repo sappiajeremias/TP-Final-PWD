@@ -182,6 +182,26 @@ class Session{
         return $resp;
     }
 
+    public function cambiarRol($idRol){
+        $_SESSION['rolactivoid'] = $idRol;
+        $retorno = false;
+        if($_SESSION['rolactivoid']===$idRol){
+           switch($_SESSION['rolactivoid']){
+            case '1':
+                $_SESSION['rolactivodescripcion'] = 'admin';
+                break;
+            case '2':
+                $_SESSION['rolactivodescripcion'] = 'deposito';
+                break;
+            case '3':
+                $_SESSION['rolactivodescripcion'] = 'cliente';
+                break;
+           }
+            $retorno = true;
+        }
+        return $retorno;
+    }
+
 
     public function cerrar(){
         //Primero me fijo si esta activa la session
