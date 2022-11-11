@@ -9,5 +9,7 @@ include_once '../Estructura/cabecera.php';
 // CANCELADA (RECHAZA EL CARRITO DEL CLIENTE, NO OCURRE NADA MAS ALLA DEL CAMBIO DE ESTADO DE LA COMPRA)
 // ENVIADA (CAMBIO DE ESTADO)
 
-echo "Tabla Tabla Compras";
+echo "Tabla Compras";
 ?>
+
+<?php include_once '../Estructura/pie.php'; ?>

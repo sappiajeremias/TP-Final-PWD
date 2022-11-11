@@ -6,3 +6,5 @@ include_once '../Estructura/cabecera.php';
 
 echo "Tabla Menu Roles";
 ?>
+
+<?php include_once '../Estructura/pie.php'; ?>

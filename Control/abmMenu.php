@@ -182,9 +182,9 @@ class abmMenu
     public function tieneHijos($idPadre){
         $idArreglo = ['idpadre'=>$idPadre];
         $arreglo = $this->buscar($idArreglo);
-        $retorno = false;
+        $retorno = null;
         if(count($arreglo)<>0){
-            $retorno = true;
+            $retorno = $arreglo;
         }
         return $retorno;
     }

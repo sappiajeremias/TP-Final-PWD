@@ -6,3 +6,5 @@ include_once '../Estructura/cabecera.php';
 
 echo "Listado compras";
 ?>
+
+<?php include_once '../Estructura/pie.php'; ?>

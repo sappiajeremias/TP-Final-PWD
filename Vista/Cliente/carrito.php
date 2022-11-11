@@ -7,3 +7,5 @@ include_once '../Estructura/cabecera.php';
 
 echo "Carrito";
 ?>
+
+<?php include_once '../Estructura/pie.php'; ?>

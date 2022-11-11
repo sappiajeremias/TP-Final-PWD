@@ -191,6 +191,8 @@ class Session{
             unset($_SESSION['usnombre']);
             unset($_SESSION['usmail']);
             unset($_SESSION['usdeshabilitado']);
+            unset($_SESSION['rolactivodescripcion']);
+            unset($_SESSION['rolactivoid']);
             //destruyo la session
             session_destroy();
         }

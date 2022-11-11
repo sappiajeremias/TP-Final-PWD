@@ -159,4 +159,5 @@ class abmMenuRol
         $arreglo = $objMenuRol->listar($where);
         return $arreglo;
     }
+
 }
