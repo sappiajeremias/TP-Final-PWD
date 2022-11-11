@@ -118,8 +118,6 @@ class abmMenu
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>";
-
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objMenu = $this->cargarObjeto($param);

@@ -41,7 +41,6 @@ class producto extends BaseDatos
             if ($res>-1) {
                 if ($res>0) {
                     $row = $this->Registro();
-                    
                     $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
                 }
             }
@@ -128,9 +127,9 @@ class producto extends BaseDatos
         if ($res>-1) {
             if ($res>0) {
                 while ($row = $this->Registro()) {
-                    
-                    $row->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
-                    array_push($arreglo, $row);
+                    $producto = new producto();
+                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    array_push($arreglo, $producto);
                 }
             }
         } else {

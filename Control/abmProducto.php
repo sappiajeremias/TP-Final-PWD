@@ -31,6 +31,16 @@ class abmProducto
      */
     private function cargarObjeto($param)
     {
+        $obj = null;
+        if (array_key_exists('idproducto', $param) &&
+            array_key_exists('pronombre', $param) &&
+            array_key_exists('prodetalle', $param) &&
+            array_key_exists('procantstock', $param)
+        ) {
+            $obj = new producto();
+            $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock']);
+        }
+        return $obj;
         
     }
 
@@ -42,7 +52,12 @@ class abmProducto
      */
     private function cargarObjetoConClave($param)
     {
-       
+        $producto = null;
+        if (isset($param['idproducto'])) {
+            $producto = new producto();
+            $producto->setear($param['idproducto'], null, null, null, null);
+        }
+        return $producto;
     }
 
     /**
@@ -52,7 +67,11 @@ class abmProducto
      */
     private function seteadosCamposClaves($param)
     {
-        
+        $resp = false;
+        if (isset($param['idproducto'])) {
+            $resp = true;
+        }
+        return $resp;
     }
 
     /**
@@ -61,7 +80,12 @@ class abmProducto
      */
     public function alta($param)
     {
-       
+        $resp = false;
+        $objProducto = $this->cargarObjeto($param);
+        if ($objProducto!=null and $objProducto->insertar()) {
+            $resp = true;
+        }
+        return $resp;
     }
 
     /**
@@ -71,7 +95,15 @@ class abmProducto
      */
     public function baja($param)
     {
-        
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objProducto = $this->cargarObjetoConClave($param);
+            if ($objProducto!=null and $objProducto->eliminar()) {
+                $resp = true;
+            }
+        }
+
+        return $resp;
     }
 
     /**
@@ -81,9 +113,14 @@ class abmProducto
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>";
-
-        
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objProducto = $this->cargarObjeto($param);
+            if ($objProducto!=null and $objProducto->modificar()) {
+                $resp = true;
+            }
+        }
+        return $resp;        
     }
 
     /**
@@ -93,6 +130,24 @@ class abmProducto
      */
     public function buscar($param)
     {
-       
+        $where = " true ";
+        if ($param<>null) {
+            if (isset($param['idproducto'])) {
+                $where.=" and idproducto ='".$param['idproducto']."'";
+            }
+            if (isset($param['pronombre'])) {
+                $where.=" and pronombre ='".$param['pronombre']."'";
+            }
+            if (isset($param['prodetalle'])) {
+                $where.=" and prodetalle ='".$param['prodetalle']."'";
+            }
+            if (isset($param['procantstock'])) {
+                $where.=" and procantstock ='".$param['procantstock']."'";
+            }
+        }
+
+        $objProducto = new producto();
+        $arreglo = $objProducto->listar($where);
+        return $arreglo;
     }
 }
