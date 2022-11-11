@@ -1,9 +1,5 @@
 <!-- COMIENZO PIE -->
 
-<!--jQuery -->
-<script src="..\js\jquery\jquery-3.6.1.slim.min.js"></script>
-<script src="..\js\popper\popper.min.js"></script>
-
 <!--BOOTSTRAP -->
 <script src="..\..\Utiles\bootstrap\js\bootstrap.min.js"></script>
 <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
@@ -14,6 +10,8 @@
 <script src="..\..\Utiles\validaciones.js"></script>
 <!--ENCRIPTACION -->
 <script src="..\..\utiles\md5.js"></script>
+
+<script src="..\..\Utiles\Carrito.js"></script>
 
 </body>
 </html>

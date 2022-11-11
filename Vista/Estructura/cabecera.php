@@ -13,6 +13,8 @@
     
     <!-- Iconos Libreria -->
     <script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
+    <script src="../../Utiles/jquery/jquery.min.js"></script>
+    
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="./img/icon.ico">
     

@@ -93,7 +93,8 @@ if (count($roles)>1){?>
 <ul class="navbar-nav d-flex">
     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?></a>
     <div class="dropdown-menu dropdown-menu-end">
-        <a class="dropdown-item" disabled="disabled"><i class="fa-solid fa-id-badge mx-2"></i>Rol ACTIVO: <?php echo $_SESSION['rolactivodescripcion'] ?></a>
+        <span>Rol ACTIVO:</span>
+        <a class="dropdown-item" id="rolactivo" disabled="disabled"><?php echo $_SESSION['rolactivodescripcion'] ?></a>
         <hr class="dropdown-divider">
         <a class="dropdown-item" href="../Accion/verPerfilUsuario.php"><i class="fa-solid fa-user-pen mx-2"></i>Ver Perfil</a>
         <hr class="dropdown-divider">
