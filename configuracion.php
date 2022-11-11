@@ -1,16 +1,20 @@
 <?php
 
-$GLOBALS['ROOT'] =$_SERVER['DOCUMENT_ROOT'];
+/////////////////////////////////////
+///////// CONFIGURACIÓN APP /////////
+/////////////////////////////////////
 
-// FUNCIONES data_submitted Y spl_autoload_register
+$GLOBALS['ROOT'] = $_SERVER['DOCUMENT_ROOT'];
+
+// INCLUSIÓN FUNCIONES
 include_once 'Utiles/funciones.php';
 include_once 'Utiles/funcion_log.php';
 include_once 'Utiles/funciones_md5.php';
-//MODIFICAR SEGÚN TENGAS EL PROYECTO
 
+// MODIFICAR SEGÚN TENGAS EL PROYECTO GUARDADO LOCALMENTE
 $PROYECTO = 'TP-Final-PWD';
 
-//variable que almacena el directorio del proyecto
-$ROOT =$_SERVER['DOCUMENT_ROOT']."/$PROYECTO/";
+// ALMACENA EL DIRECTORIO DEL PROYECTO
+$ROOT = $_SERVER['DOCUMENT_ROOT']."/$PROYECTO/";
 
 ?>
