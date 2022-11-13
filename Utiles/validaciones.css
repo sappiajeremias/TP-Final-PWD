@@ -1,0 +1,8 @@
+/* COLORES VALIDACIONES */
+.has-error, .has-error .help-block {
+    color: rgb(218, 0, 0);
+}
+
+.has-success, .has-success .help-block {
+    color: rgb(57, 135, 57);
+}

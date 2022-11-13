@@ -1,5 +1,8 @@
 <!-- COMIENZO PIE -->
 
+<!-- JQUERY (LO NECESITA LA VALIDACIÓN) -->
+<script src="../../Utiles/jquery/jquery.min.js"></script>
+
 <!--BOOTSTRAP -->
 <script src="..\..\Utiles\bootstrap\js\bootstrap.min.js"></script>
 <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
