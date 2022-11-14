@@ -96,7 +96,7 @@ if (count($roles)>1){?>
         <span>Rol ACTIVO:</span>
         <a class="dropdown-item" id="rolactivo" disabled="disabled"><?php echo $_SESSION['rolactivodescripcion'] ?></a>
         <hr class="dropdown-divider">
-        <a class="dropdown-item" href="../Accion/verPerfilUsuario.php"><i class="fa-solid fa-user-pen mx-2"></i>Ver Perfil</a>
+        <a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen mx-2"></i>Ver Perfil</a>
         <hr class="dropdown-divider">
         <a class="dropdown-item" href="../Accion/cerrarSesion.php"><i class="fa-solid fa-power-off mx-2"></i>Cerrar Sesión</a>
     </div>
