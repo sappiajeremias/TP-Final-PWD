@@ -211,7 +211,7 @@ class abmUsuario
     public function alta_rol($param){
         $resp = false;
         if(isset($param['idusuario']) && isset($param['idrol'])){
-            $elObjtTabla = new UsuarioRol();
+            $elObjtTabla = new usuarioRol();
             $elObjtTabla->setearConClave($param);
             $resp = $elObjtTabla->insertar();
         }
