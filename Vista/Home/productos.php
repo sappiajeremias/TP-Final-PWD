@@ -23,11 +23,12 @@ $listaProductos = $abmProductos->buscarConStock();
                                     <p class="card-text"><?php echo $productoActual->getProDetalle(); ?></p>
                                     <p class="card-text"><b>Stock Actual:</b> <?php echo $productoActual->getProCantStock(); ?></p>
                                 </div>
-                                
+                                <?php if($_SESSION['rolactivodescripcion']==='cliente'){ ?>
                                 <div class="d-grid gap-2 d-md-block m-auto mb-2">
                                     <button type="button" onclick="agregarCarrito(<?php echo $productoActual->getID(); ?>)" class="btn btn-primary btn-sm">Añadir al carrito</button>
                                     <button type="button" onclick="agregarYVerCarrito(<?php echo $productoActual->getID(); ?>)" class="btn btn-success btn-sm">Comprar Ahora</button>
                                 </div>
+                                <?php } ?>
                             </div>
                         </div>
                     <?php } ?>
