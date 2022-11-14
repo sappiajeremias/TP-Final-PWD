@@ -18,6 +18,11 @@ class usuarioRol extends BaseDatos{
         $this->setObjRol($objRol);
     }
 
+    public function setearConClave($idusuario, $idrol){
+        $this->getObjUsuario()->setID($idusuario);
+        $this->getObjRol()->setID($idrol);
+    }
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar(){
@@ -132,6 +137,9 @@ class usuarioRol extends BaseDatos{
     }
 
     //MÉTODOS GET
+
+
+    
     public function getObjUsuario(){
         return $this->objUsuario;
     }
@@ -145,6 +153,9 @@ class usuarioRol extends BaseDatos{
     }
 
     //MÉTODOS SET
+
+    
+
     public function setObjUsuario($newObjUsuario){
         $this->objUsuario=$newObjUsuario;
         return $this;
