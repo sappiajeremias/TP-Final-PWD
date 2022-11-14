@@ -53,7 +53,7 @@ class usuarioRol extends BaseDatos{
         $sql="INSERT INTO usuariorol(idusuario, idrol) 
             VALUES('"
             .$this->getObjUsuario()->getID()."', '"
-            .$this->getObjRol()->getIdRol()."'
+            .$this->getObjRol()->getID()."'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -76,7 +76,7 @@ class usuarioRol extends BaseDatos{
     public function eliminar(){
         $resp = false;
         $idUsuario=$this->getObjUsuario()->getID();
-        $idRol=$this->getObjRol()->getIdRol();
+        $idRol=$this->getObjRol()->getID();
         $sql="DELETE FROM usuariorol WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {

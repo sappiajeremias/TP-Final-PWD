@@ -29,7 +29,7 @@ echo "<hr><br>";
 echo "<hr><br>";
 $j= $obj->buscar(['roldescripcion'=> 'admin']);
 
-$objJ = ['idrol'=>$j[0]->getIdrol(),'roldescripcion'=>$j[0]->getRolDescripcion()];
+$objJ = ['idrol'=>$j[0]->getID(),'roldescripcion'=>$j[0]->getRolDescripcion()];
 if($obj->alta($objJ)){
     echo  "se dio de alta";
 }else{

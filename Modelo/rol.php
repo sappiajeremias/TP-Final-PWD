@@ -124,7 +124,7 @@ class rol extends BaseDatos
 
 
     //MÉTODOS GET
-    public function getIdRol()
+    public function getID()
     {
         return $this->idrol;
     }

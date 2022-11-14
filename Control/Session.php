@@ -44,7 +44,7 @@ class Session{
         $roles = $this->getRoles();
         foreach($roles as $rol){
             if($rol->getRolDescripcion()===$param){
-                $retorno = $rol->getIdRol();
+                $retorno = $rol->getID();
             }
         }
 
@@ -146,7 +146,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getIdRol() == 1) {
+            if ($usuarioRol->getID() == 1) {
                 $resp = true;
                 break;
             }
@@ -160,7 +160,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getIdRol() == 2) {
+            if ($usuarioRol->getID() == 2) {
                 $resp = true;
                 break;
             }
@@ -175,7 +175,7 @@ class Session{
         $listaUsRoles = $this->getRoles();
         foreach ($listaUsRoles as $usuarioRol) {
             // idrol = 1, es Administrador
-            if ($usuarioRol->getIdRol() == 3) {
+            if ($usuarioRol->getID() == 3) {
                 $resp = true;
                 break;
             }

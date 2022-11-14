@@ -33,7 +33,7 @@ echo "<hr><br>";
 $ur = $obj->DarRol(['idusuario'=>'2']);
  
 echo "<h1>{$ur[0]->getObjUsuario()->getIdusuario()}</h1>";
-echo "<h1>{$ur[0]->getObjRol()->getIdrol()}</h1>";
+echo "<h1>{$ur[0]->getObjRol()->getID()}</h1>";
 
 
 
