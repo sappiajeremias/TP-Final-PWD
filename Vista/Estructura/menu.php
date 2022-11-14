@@ -1,6 +1,5 @@
 <?php
-if (!(isset($_SESSION['usnombre']))) {
-    $sesion = new Session();
+if ($sesion->getNombreUsuarioLogueado() <> null) {
     $nombreUsuario = $sesion->getNombreUsuarioLogueado();
     $idUsuario = $sesion->getIDUsuarioLogueado();
     $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
@@ -32,7 +31,7 @@ if (!(isset($_SESSION['usnombre']))) {
         <!-- FIN MENÚ PÚBLICO -->
         <ul class="navbar-nav d-flex">
             <?php
-            if (!(isset($_SESSION['usnombre']))) {
+            if ($sesion->getNombreUsuarioLogueado() === null) {
             ?>
                 <!-- MENÚ NO LOGIN -->
                 <li class="nav-item dropdown">
@@ -88,9 +87,10 @@ if (count($roles)>1){?>
         </div>
     </li>
 </ul>
+<!-- FIN MENÚ PERMISOS SEGÚN EL ROL ACTIVO -->
 <?php } ?>
 <!-- INICIO USUARIO ACTIVO DATOS -->
-<ul class="navbar-nav d-flex">
+<ul class="navbar-nav d-flex text-center">
     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?></a>
     <div class="dropdown-menu dropdown-menu-end">
         <span>Rol ACTIVO:</span>

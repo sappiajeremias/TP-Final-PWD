@@ -1,14 +1,14 @@
 <?php
+include_once '../../configuracion.php';
 
-include_once '../Estructura/cabecera.php';
 $respuesta = false;
 $data = data_submitted();
-
 
 if (!empty($data)) {
 //Se fija si hay datos ingresados
     $psw =  md5($data['uspass']);
     if (!(isset($_SESSION['usnombre'])) && (compararPsw($data['usnombre'], $psw))) {
+        $sesion = new Session();
         $respuesta = $sesion->iniciar($data['usnombre'], $psw);
     }
 
