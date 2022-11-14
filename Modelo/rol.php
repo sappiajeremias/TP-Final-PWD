@@ -26,7 +26,7 @@ class rol extends BaseDatos
     public function cargar()
     {
         $resp = false;
-        $sql = "SELECT * FROM rol WHERE idrol = " . $this->getIdRol();
+        $sql = "SELECT * FROM rol WHERE idrol = " . $this->getID();
         if ($this->Iniciar()) {
             $res = $this->Ejecutar($sql);
             if ($res > -1) {
@@ -68,7 +68,7 @@ class rol extends BaseDatos
         $resp = false;
         $sql = "UPDATE rol 
         SET rodescripcion='" . $this->getRolDescripcion() .
-            "' WHERE idrol='" . $this->getIdRol() . "'";
+            "' WHERE idrol='" . $this->getID() . "'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 $resp = true;
@@ -84,7 +84,7 @@ class rol extends BaseDatos
     public function eliminar()
     {
         $resp = false;
-        $sql = "DELETE FROM rol WHERE idrol=" . $this->getIdRol();
+        $sql = "DELETE FROM rol WHERE idrol=" . $this->getID();
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 return true;
