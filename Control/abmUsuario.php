@@ -104,6 +104,7 @@ class abmUsuario
         $Objusuario = $this->cargarObjeto($param);
         // verEstructura($Objusuario);
         if ($Objusuario != null and $Objusuario->insertar()) {
+            
             $resp = true;
         }
         return $resp;
