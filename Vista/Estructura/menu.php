@@ -4,6 +4,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
     $idUsuario = $sesion->getIDUsuarioLogueado();
     $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
     $abmMenuRol = new abmMenuRol();
+    // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
     $menuRoles = $abmMenuRol->buscar(['idrol'=>$_SESSION['rolactivoid']]);
     $abmMenu = new abmMenu();
 }
@@ -54,7 +55,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
                         if ($retorno <> null) { // VERIFICAMOS
                 ?>
                             <li class="nav-item dropdown">
-                                <!-- PERMISOS DROPDOWN INICIO -->
+                                <!-- INICIO PERMISOS DROPDOWN -->
                                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?php echo $objMenuActual->getMeNombre() ?>
                                 </a>
@@ -66,7 +67,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
                                 <?php
                                     }
                                 } ?>
-                                </div></li></ul><!-- PERMISOS DROPDOWN FIN -->
+                                </div></li></ul><!-- FIN PERMISOS DROPDOWN -->
     <?php
                     } else { ?>
         <a class="dropdown-item" href=<?php echo $objMenuActual->getMeDescripcion(); ?>>
@@ -74,7 +75,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
         </a>
     <?php
                     } ?>
-    <!-- INICIO MENÚ PERMISOS SEGÚN EL ROL ACTIVO --><?php
+    <!-- INICIO CAMBIAR ROLES --><?php
                                                     } 
 if (count($roles)>1){?>
 <ul class="navbar-nav d-flex">
@@ -87,14 +88,13 @@ if (count($roles)>1){?>
         </div>
     </li>
 </ul>
-<!-- FIN MENÚ PERMISOS SEGÚN EL ROL ACTIVO -->
+<!-- FIN CAMBIAR ROLES -->
 <?php } ?>
 <!-- INICIO USUARIO ACTIVO DATOS -->
 <ul class="navbar-nav d-flex text-center">
     <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user mx-2"></i><?php echo $nombreUsuario; ?></a>
     <div class="dropdown-menu dropdown-menu-end">
-        <span>Rol ACTIVO:</span>
-        <a class="dropdown-item" id="rolactivo" disabled="disabled"><?php echo $_SESSION['rolactivodescripcion'] ?></a>
+        <a class="dropdown-item" id="rolactivo" disabled="disabled"><i class="fa-solid fa-address-book mx-2"></i>ROL: <?php echo strtoupper($_SESSION['rolactivodescripcion']) ?></a>
         <hr class="dropdown-divider">
         <a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen mx-2"></i>Ver Perfil</a>
         <hr class="dropdown-divider">
