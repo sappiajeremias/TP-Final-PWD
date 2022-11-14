@@ -50,9 +50,17 @@ class abmUsuario
                     $param['usmail'],
                     $param['usdeshabilitado']
                 );
-            } else {
+            } else if(array_key_exists('idusuario', $param)) {
                 $obj->setear(
                     $param['idusuario'],
+                    $param['usnombre'],
+                    $param['uspass'],
+                    $param['usmail'],
+                    null
+                );
+            } else {
+                $obj->setear(
+                    null,
                     $param['usnombre'],
                     $param['uspass'],
                     $param['usmail'],
@@ -100,9 +108,7 @@ class abmUsuario
     public function alta($param)
     {
         $resp = false;
-        // $param['idusuario'] =null;
         $Objusuario = $this->cargarObjeto($param);
-        // verEstructura($Objusuario);
         if ($Objusuario != null and $Objusuario->insertar()) {
             
             $resp = true;
@@ -200,6 +206,16 @@ class abmUsuario
         $objUR = new usuarioRol();
         $arreglo = $objUR->listar($where);
         return $arreglo;
+    }
 
+    public function alta_rol($param){
+        $resp = false;
+        if(isset($param['idusuario']) && isset($param['idrol'])){
+            $elObjtTabla = new UsuarioRol();
+            $elObjtTabla->setearConClave($param);
+            $resp = $elObjtTabla->insertar();
+        }
+
+        return $resp;
     }
 }

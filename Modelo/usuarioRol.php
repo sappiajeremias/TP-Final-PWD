@@ -58,7 +58,7 @@ class usuarioRol extends BaseDatos{
         $sql="INSERT INTO usuariorol(idusuario, idrol) 
             VALUES('"
             .$this->getObjUsuario()->getID()."', '"
-            .$this->getObjRol()->getIDl()."'
+            .$this->getObjRol()->getIdRol()."'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -134,6 +134,11 @@ class usuarioRol extends BaseDatos{
         }
 
         return $arreglo;
+    }
+
+    public function setearConClave($param){
+        $this->getObjRol()->setIdRol($param['idrol']);
+        $this->getObjUsuario()->setID($param['idusuario']);
     }
 
     //MÉTODOS GET

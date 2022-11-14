@@ -20,8 +20,12 @@
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="./img/icon.ico">
     
-    <?php include_once '../../configuracion.php' ?>
+    <?php 
+        include_once '../../configuracion.php';
+        $sesion = new Session();
+    ?>
 </head>
 <?php  include_once("../../Vista/Estructura/menu.php") ?>
-<body class="container my-3">
 <!-- FIN CABECERA -->
+
+<body class="container my-3">

@@ -74,7 +74,8 @@ class Session{
         $resp=false;
         if($this->activa()){
             $objAbmUsuario= new abmUsuario();
-            $param=array("usnombre"=>$usNombre, 'uspass'=>$usPsw);            $listaUsuario=$objAbmUsuario->buscar($param);
+            $param=array("usnombre"=>$usNombre, 'uspass'=>$usPsw);
+            $listaUsuario=$objAbmUsuario->buscar($param);
             if(!empty($listaUsuario)){
                 $resp=true;
             }
