@@ -1,4 +1,5 @@
 <?php
+// Gestionar los usuarios, añadir usuarios, modificar usuarios (roles) y eliminarlos
 $Titulo = "Tabla Usuarios";
 include_once '../Estructura/cabecera.php';
 if($_SESSION['rolactivodescripcion']<> 'admin'){
@@ -7,22 +8,22 @@ if($_SESSION['rolactivodescripcion']<> 'admin'){
 }else{
     $objControl = new abmUsuario();
     $listaUsuarios = $objControl->buscar(null);
-    $combo = '<select class="easyui-combobox"  id="idpadre"  name="idpadre" label="Submenu de?:" labelPosition="top" style="width:90%;">
+    $combo = '<select class="easyui-combobox"  id="idusuario"  name="idusuario" label="User:" labelPosition="top" style="width:90%;">
     <option></option>';
     foreach ($listaUsuarios as $objUser){
-        $combo .='<option value="'.$objUser->getID().'">'.$objUser->getUsNombre().'>'.$objUser->getUsMail().'</option>';
+        $combo .='<option value="'.$objUser->getID().'">'.$objUser->getUsNombre().'>'.$objUser->getUsMail().'>'.$objUser->getUsDeshabilitado().'</option>';
         }
 
     $combo .='</select>';
     ?>
-    <table id="dg" title="Administrador de usuarios" class="" style="width:700px;height:250px"
-    url="accion/listar_usuario.php" toolbar="#toolbar" pagination="true"rownumbers="true" fitColumns="true" singleSelect="true">
+    <table id="dg" title="Administrador de usuarios" class="easyui-datagrid" style="width:700px;height:250px"
+    url="accion/listarUsuarios.php" toolbar="#toolbar" pagination="true"rownumbers="true" fitColumns="true" singleSelect="true">
             <thead>
             <tr>
             <th field="idrol" width="50">ID</th>
             <th field="usnombre" width="50">Nombre</th>
             <th field="usmail" width="50">Descripci&oacute;n</th>
-             <th field="usdeshabilitado" width="50">Deshabilitado</th>
+            <th field="usdeshabilitado" width="50">Deshabilitado</th>
             </tr>
             </thead>
             </table>
@@ -37,8 +38,7 @@ if($_SESSION['rolactivodescripcion']<> 'admin'){
             <h3>Usuario Informacion</h3>
             <div style="margin-bottom:10px">
             <input  name="idusuario" id="idusuario"  class="easyui-textbox" required="true" label="ID-Usuario:" style="width:100%">
-            </div>
-                      
+            </div>        
             <input name="usnombre" id="usnombre"  class="easyui-textbox" required="true" label="Nombre:" style="width:100%">
             </div>
             <div style="margin-bottom:10px">
@@ -60,9 +60,5 @@ if($_SESSION['rolactivodescripcion']<> 'admin'){
             </div>
 <?php
 }
-// Gestionar los usuarios, añadir usuarios, modificar usuarios (roles) y eliminarlos
-
-echo "Tabla Usuarios";
 ?>
-
 <?php include_once '../Estructura/pie.php'; ?>
