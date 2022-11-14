@@ -2,19 +2,12 @@
 $Titulo = "Editar Perfil";
 include_once '../Estructura/cabecera.php';
 
-if (isset($_SESSION['usnombre'])) {
-    $ambUs = new abmUsuario();
-    $arreglo = ['usnombre' => $nombreUsuario, 'idusuario' => $idUsuario];
-    $obj = $ambUs->buscar($arreglo);
-    $correo = $obj[0]->getUsMail();
-    $pass = $obj[0]->getUsPass();
-
+if ($sesion->getNombreUsuarioLogueado() <> null) {
     $datosUser = [
-        'idusuario' => $idUsuario,
-        'usnombre' => $nombreUsuario,
-        'usmail' => $correo,
+        'idusuario' => $sesion->getIDUsuarioLogueado(),
+        'usnombre' => $sesion->getNombreUsuarioLogueado(),
+        'usmail' => $sesion->getMailUsuarioLogueado()
     ];
-}
 ?>
 <div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <!-- INICIO FORMULARIO DE EDITAR PERFIL -->
@@ -41,4 +34,8 @@ if (isset($_SESSION['usnombre'])) {
     <!-- FIN FORMULARIO EDITAR PERFIL -->
 </div>
 
-<?php include_once '../Estructura/pie.php'; ?>
+<?php include_once '../Estructura/pie.php'; } 
+    else {
+        $mensaje = "No estas logeado";
+        echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";    
+    }
