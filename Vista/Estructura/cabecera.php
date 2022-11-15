@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- VALIDACIONES ESTILOS -->
+    <link rel="stylesheet" href="../../utiles/estilosDeposito.css">
     <link rel="stylesheet" href="../../Utiles/validaciones.css">
 
     <!-- BOOTSTRAP -->
@@ -20,9 +21,17 @@
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="./img/icon.ico">
     
-    <?php 
+    <!--JQUERY EASYUI-->
+    <link rel="stylesheet" type="text/css" href="../../utiles/jquery/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../../utiles/jquery/themes/default/linkbutton.css">
+    <link rel="stylesheet" type="text/css" href="../../utiles/jquery/themes/default/dialog.css">
+    <link rel="stylesheet" type="text/css" href="../../utiles/jquery/themes/default/textbox.css">
+    <link rel="stylesheet" type="text/css" href="../../utiles/jquery/themes/default/datagrid.css">
+    
+
+    <?php
         include_once '../../configuracion.php';
-        $sesion = new Session();
+    $sesion = new Session();
     ?>
 </head>
 <?php  include_once("../../Vista/Estructura/menu.php") ?>

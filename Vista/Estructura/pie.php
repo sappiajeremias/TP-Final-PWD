@@ -1,8 +1,12 @@
 <!-- COMIENZO PIE -->
 
 <!-- JQUERY (LO NECESITA LA VALIDACIÓN) -->
-<script src="../../Utiles/jquery/jquery.min.js"></script>
 
+<script type="text/javascript" src="../../utiles/jquery/jquery.min.js"></script>
+ <script type="text/javascript" src="../../utiles/jquery/jquery.easyui.min.js"></script>
+
+<script type="text/javascript" src="../../utiles/funcionesABMAdmin.js"></script>
+<script type="text/javascript" src="../../utiles/funcionesABMProducto.js"></script>
 <!--BOOTSTRAP -->
 <script src="..\..\Utiles\bootstrap\js\bootstrap.min.js"></script>
 <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
