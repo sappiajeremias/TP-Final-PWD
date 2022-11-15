@@ -3,7 +3,7 @@ $Titulo = "Registrarse";
 include_once '../Estructura/cabecera.php';
 ?>
 <div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
-    <h5 class="text-center"><i class="fa-solid fa-user-plus mx-2"></i>Registro</h5>
+    <h5 class="text-center"><i class="fa-solid fa-user-plus me-2"></i>Registro</h5>
     <hr>
     <!-- INICIO FORMULARIO DE REGISTRO -->
     <form action="../Accion/registro.php" name="registro" id="registro" method="post" accept-charset="utf-8">
