@@ -69,6 +69,14 @@ class Session{
         return false;
     }
 
+    public function sesionActiva(){
+        $resp = false;
+        if ($this->getNombreUsuarioLogueado() <> null){
+            $resp = true;
+        }
+        return $resp;
+    }
+
     public function validar($usNombre, $usPsw){
         //Viene por parametro el nombre de usuario y la contraseña encriptada
         $resp=false;
@@ -201,6 +209,17 @@ class Session{
             $retorno = true;
         }
         return $retorno;
+    }
+
+    public function getRolActivo(){
+        $resp = [];
+        if(isset($_SESSION['rolactivodescripcion']) && isset($_SESSION['rolactivoid'])){
+            $resp = [
+                'rol'=>$_SESSION['rolactivodescripcion'],
+                'id'=>$_SESSION['rolactivoid']
+            ];
+        }
+        return $resp;
     }
 
 
