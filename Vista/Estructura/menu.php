@@ -27,6 +27,17 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
+                <?php if($_SESSION['rolactivodescripcion'] === 'cliente'){
+                        ?>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="../Cliente/carrito.php">
+                                    <i class="fa-solid fa-cart-shopping">
+                                        <span class="top-0 start-100 translate-middle badge rounded-pill bg-warning">2</span>
+                                    </i>
+                                </a>
+                            </li>
+                        <?php
+                }?>
             </ul>
         </div>
         <!-- FIN MENÚ PÚBLICO -->
@@ -47,17 +58,6 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
                 </li>
                 <?php
             } else {
-                if($_SESSION['rolactivodescripcion'] === 'cliente'){
-                    ?>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="../Cliente/carrito.php">
-                                <i class="fa-solid fa-cart-shopping">
-                                    <span class="top-0 start-100 translate-middle badge rounded-pill bg-warning">2</span>
-                                </i>
-                            </a>
-                        </li>
-                    <?php
-                }
                 foreach ($menuRoles as $menuRolActual) {
                     $objMenuActual = $menuRolActual->getObjMenu(); // TRAEMOS EL MENU ACTUAL
                     if (!empty($objMenuActual->getObjMenuPadre())) { //VERIFICA SI ES RAIZ OSEA IDPADRE=NULL
