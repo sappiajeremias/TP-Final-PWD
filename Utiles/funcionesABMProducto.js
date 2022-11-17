@@ -1,29 +1,31 @@
-
 //FUNCIONES DEL ACCION-DEPOSITO
 
 
 var url;
+
 function nuevoProducto() {
-    $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
-    $('#fm').form('clear');
+    $('#dlgProductos').dialog('open').dialog('center').dialog('setTitle', 'Nuevo Producto');
+    $('#fmProductos').form('clear');
     url = '../Deposito/Accion/altaProd.php';
 }
+
 function editarProducto() {
-    var row = $('#dg').datagrid('getSelected');
+    var row = $('#dgProductos').datagrid('getSelected');
     if (row) {
-        $('#dlg').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
-        $('#fm').form('load', row);
+        $('#dlgProductos').dialog('open').dialog('center').dialog('setTitle', 'Editar Producto');
+        $('#fmProductos').form('load', row);
         url = '../Deposito/Accion/editarProd.php?idproducto=' + row.idproducto;
     }
 }
-function saveProd() {
+
+function save() {
     //alert(" Accion");
-    $('#fm').form('submit', {
+    $('#fmProductos').form('submit', {
         url: url,
-        onSubmit: function () {
+        onSubmit: function() {
             return $(this).form('validate');
         },
-        success: function (result) {
+        success: function(result) {
 
             var result = eval('(' + result + ')');
 
@@ -35,25 +37,26 @@ function saveProd() {
                 });
             } else {
 
-                $('#dlg').dialog('close');        // close the dialog
-                $('#dg').datagrid('reload');    // reload 
+                $('#dlgProductos').dialog('close'); // close the dialog
+                $('#dgProductos').datagrid('reload', true); // reload 
             }
         }
     });
 }
+
 function eliminarProducto() {
-    var row = $('#dg').datagrid('getSelected');
+    var row = $('#dgProductos').datagrid('getSelected');
     if (row) {
-        $.messager.confirm('Confirm', 'Seguro que desea eliminar el menu?', function (r) {
+        $.messager.confirm('Confirm', 'Seguro que desea eliminar el menu?', function(r) {
             if (r) {
                 $.post('../Deposito/Accion/eliminarProducto.php?idproducto=' + row.idproducto, { idproducto: row.id },
-                    function (result) {
+                    function(result) {
 
                         if (result.respuesta) {
 
-                            $('#dg').datagrid('reload');    // reload the  data
+                            $('#dgProductos').datagrid('reload'); // reload the  data
                         } else {
-                            $.messager.show({    // show error message
+                            $.messager.show({ // show error message
                                 title: 'Error',
                                 msg: result.errorMsg
                             });

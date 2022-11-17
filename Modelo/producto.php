@@ -29,6 +29,14 @@ class producto extends BaseDatos
         $this->setProCantStock($procantstock);
     }
 
+    public function setearSinID($pronombre, $prodetalle, $procantstock)
+    {
+        $this->setProNombre($pronombre);
+        $this->setProDetalle($prodetalle);
+        $this->setProCantStock($procantstock);
+    }
+
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar()

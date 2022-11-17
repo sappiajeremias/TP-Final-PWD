@@ -1,10 +1,12 @@
 <?php 
 include_once "../../../configuracion.php";
 $data = data_submitted();
+
 $respuesta = false;
 if (isset($data['pronombre'])){
         $obj = new abmProducto();
-        $respuesta = $obj->alta($data);
+        $respuesta = $obj->altaSinID($data);
+      
         if (!$respuesta){
             $sms_error = " La accion de crear no pudo concretarse";
             

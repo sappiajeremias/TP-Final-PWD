@@ -46,6 +46,27 @@ class abmProducto
 
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
+     * con los nombres de las variables instancias del objeto
+     * @param array $param
+     * @return menu
+     */
+    private function cargarObjetoSinID($param)
+    {
+        $obj = null;
+        if (
+            array_key_exists('pronombre', $param) &&
+            array_key_exists('prodetalle', $param) &&
+            array_key_exists('procantstock', $param)
+        ) {
+            $obj = new producto();
+            $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock']);
+        }
+        return $obj;
+        
+    }
+
+    /**
+     * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
      * @param array $param
      * @return menu
@@ -81,7 +102,23 @@ class abmProducto
     public function alta($param)
     {
         $resp = false;
+       
         $objProducto = $this->cargarObjeto($param);
+        if ($objProducto!=null and $objProducto->insertar()) {
+            $resp = true;
+        }
+        return $resp;
+    }
+
+    /**
+     *
+     * @param array $param
+     */
+    public function altaSinID($param)
+    {
+        $resp = false;
+       
+        $objProducto = $this->cargarObjetoSinID($param);
         if ($objProducto!=null and $objProducto->insertar()) {
             $resp = true;
         }
