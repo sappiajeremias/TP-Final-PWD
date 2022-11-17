@@ -1,11 +1,12 @@
 <?php
-if ($sesion->getNombreUsuarioLogueado() <> null) {
+if ($sesion->sesionActiva()) {
     $nombreUsuario = $sesion->getNombreUsuarioLogueado();
     $idUsuario = $sesion->getIDUsuarioLogueado();
-    $roles = $sesion->getRoles(); // TODOS LOS ROLES DEL USUARIO ACTIVO
+    $rolActivo = $sesion->getRolActivo();
+    $roles = $sesion->getRoles(); // TODOS LOS OBJ ROLES DEL USUARIO ACTIVO
     $abmMenuRol = new abmMenuRol();
     // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
-    $menuRoles = $abmMenuRol->buscar(['idrol'=>$_SESSION['rolactivoid']]);
+    $menuRoles = $abmMenuRol->buscar(['idrol' => $rolActivo['id']]);
     $abmMenu = new abmMenu();
 }
 ?>
@@ -27,7 +28,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
-                <?php if($_SESSION['rolactivodescripcion'] === 'cliente'){
+                <?php if ($sesion->sesionActiva()) {
                         ?>
                             <li class="nav-item">
                                 <a class="nav-link text-white" href="../Cliente/carrito.php">
@@ -43,7 +44,7 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
         <!-- FIN MENÚ PÚBLICO -->
         <ul class="navbar-nav d-flex">
             <?php
-            if ($sesion->getNombreUsuarioLogueado() === null) {
+            if (!$sesion->sesionActiva()) {
             ?>
                 <!-- MENÚ NO LOGIN -->
                 <li class="nav-item dropdown">

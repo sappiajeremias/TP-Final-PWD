@@ -6,9 +6,9 @@ $data = data_submitted();
 
 if (!empty($data)) {
 //Se fija si hay datos ingresados
+    $sesion = new Session();
     $psw =  md5($data['uspass']);
-    if (!(isset($_SESSION['usnombre'])) && (compararPsw($data['usnombre'], $psw))) {
-        $sesion = new Session();
+    if (!$sesion->sesionActiva() && (compararPsw($data['usnombre'], $psw))) {
         $respuesta = $sesion->iniciar($data['usnombre'], $psw);
     }
 

@@ -31,7 +31,7 @@
 
     <?php
         include_once '../../configuracion.php';
-    $sesion = new Session();
+        $sesion = new Session();
     ?>
 </head>
 <?php  include_once("../../Vista/Estructura/menu.php") ?>
