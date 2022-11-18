@@ -74,9 +74,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
             </div>
         </div>
         <script src="../../Utiles/js/producto/listarProducto.js"></script>
-        <script src="../../Utiles/js/producto/agregarProducto.js"></script>
-        <script src="../../Utiles/js/producto/editarProducto.js"></script>
-        <script src="../../Utiles/js/producto/eliminarProducto.js"></script>
+        <script src="../../Utiles/funcionesABMProducto.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">
