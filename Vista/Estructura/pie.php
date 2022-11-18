@@ -1,10 +1,4 @@
 <!-- COMIENZO PIE -->
-
-<!-- JQUERY (LO NECESITA LA VALIDACIÓN) -->
-
-<script type="text/javascript" src="../../utiles/jquery/jquery.min.js"></script>
- <script type="text/javascript" src="../../utiles/jquery/jquery.easyui.min.js"></script>
-
 <script type="text/javascript" src="../../utiles/funcionesABMAdmin.js"></script>
 <script type="text/javascript" src="../../utiles/funcionesABMProducto.js"></script>
 <!--BOOTSTRAP -->
@@ -21,4 +15,5 @@
 <script src="..\..\Utiles\Carrito.js"></script>
 
 </body>
+<!-- FIN PIE -->
 </html>

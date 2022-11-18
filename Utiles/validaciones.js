@@ -1,4 +1,4 @@
-
+// FORMULARIO DE INICIO DE SESIÓN
 $(document).ready(function() {
     $('#login').bootstrapValidator({
         message: 'Este valor no es valido',
@@ -34,6 +34,7 @@ $(document).ready(function() {
     });
 });
 
+// FORMULARIO DE REGISTRO
 $(document).ready(function() {
     $('#registro').bootstrapValidator({
         message: 'Este valor no es valido',
@@ -79,6 +80,43 @@ $(document).ready(function() {
         },
     });
 });
+
+// FORMULARIO MODIFICAR PRODUCTO
+
+$(document).ready(function() {
+    $('#editarP').bootstrapValidator({
+        message: 'Este valor no es valido',
+        feedbackIcons: {
+            valid: 'fas fa-check',
+            invalid: 'fas fa-times',
+            validating: 'fas fa-refresh'
+        },
+        fields: {
+            producto_name: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe ingresar un nombre para el producto'
+                    }
+                }
+            },
+            producto_desc: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe ingresar una descripción detallada. '
+                    }
+                }
+            },
+            producto_stock: {
+                validators: {
+                    notEmpty: {
+                        message: 'Debe ingresar el stock. '
+                    }
+                }
+            }
+        }
+    });
+});
+
 
 
 //
