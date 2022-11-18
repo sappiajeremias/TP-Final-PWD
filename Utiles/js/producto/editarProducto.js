@@ -30,8 +30,6 @@ $(document).on('click', '#cancelar', function () {
 $(document).ready(function () {
     $('form').submit(function (e) {
         e.preventDefault();
-        console.log($(this).serialize());
-        datosForm = $(this).serialize();
 
         /*$.post("./accion/editarProd.php",{ data: $(this).serialize() },
             function(response) {

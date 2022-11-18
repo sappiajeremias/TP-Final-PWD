@@ -92,21 +92,21 @@ $(document).ready(function() {
             validating: 'fas fa-refresh'
         },
         fields: {
-            producto_name: {
+            pronombre: {
                 validators: {
                     notEmpty: {
                         message: 'Debe ingresar un nombre para el producto'
                     }
                 }
             },
-            producto_desc: {
+            prodetalle: {
                 validators: {
                     notEmpty: {
                         message: 'Debe ingresar una descripción detallada. '
                     }
                 }
             },
-            producto_stock: {
+            procantstock: {
                 validators: {
                     notEmpty: {
                         message: 'Debe ingresar el stock. '

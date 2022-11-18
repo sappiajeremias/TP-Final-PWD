@@ -14,15 +14,22 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                 <caption>Productos</caption>
                 <thead class="table-dark">
                     <tr>
-                        <th field="idproducto">ID</th>
-                        <th field="pronombre">Nombre</th>
-                        <th field="prodetalle">Detalle</th>
-                        <th field="procantstock">Stock</th>
+                        <th width="70">ID</th>
+                        <th>Nombre</th>
+                        <th>Detalle</th>
+                        <th>Stock</th>
                         <th width="50">Editar</th>
                         <th width="50">Eliminar</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
+                    <tr  class="table-success">
+                        <td><input class="form-control" type="number" placeholder="#" readonly></td>
+                        <td><input class="form-control" type="text" placeholder="Nombre"></td>
+                        <td><input class="form-control" type="text" placeholder="Detalle"></td>
+                        <td><input class="form-control" type="number" placeholder="Stock"></td>
+                        <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
+                    </tr>
                     <?php
                     foreach ($listaProds as $objProd) {
                     ?>
@@ -59,13 +66,14 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     </div>
                     <div class="form-group mb-3">
                         <label for="procantstock" class="form-label">Stock: </label>
-                        <input type="text" class="form-control" id="procantstock" name="procantstock" autocomplete="off">
+                        <input type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off">
                     </div>
                     <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>
                     <button class="btn btn-outline-danger mx-2" name="cancelar" type="button" id="cancelar">Cancelar</button>
                 </form>
             </div>
         </div>
+        <script src="../../Utiles/js/producto/agregarProducto.js"></script>
         <script src="../../Utiles/js/producto/editarProducto.js"></script>
         <script src="../../Utiles/js/producto/eliminarProducto.js"></script>
     <?php } else {
