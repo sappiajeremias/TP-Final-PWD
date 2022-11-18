@@ -1,34 +1,43 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <title><?php echo $Titulo?></title>
-    
+    <title><?php echo $Titulo ?></title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- VALIDACIONES ESTILOS -->
-    <link rel="stylesheet" href="../../Utiles/validaciones.css">
-
+    <!-- JQUERY -->
+    <script type="text/javascript" src="../../Utiles/jquery-3.6.1/jquery.min.js"></script>
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrapValidator.min.css">
-
+    <script src="..\..\Utiles\bootstrap\js\bootstrap.min.js"></script>
+    <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
+    <script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
+    <script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
+    <!-- BOOTBOXJS LIBRERIA NOTIFICACIONES -->
     <script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
-    <!-- JQUERY -->
-    <script type="text/javascript" src="../../Utiles/jquery-3.6.1/jquery.min.js"></script>
-    
-    <!-- Iconos Libreria -->
+    <!-- FONTAWESOME LIBRERIA ICONOS -->
     <script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
-    
+
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="./img/icon.ico">
-
+    <!-- VALIDACIONES ESTILOS -->
+    <link rel="stylesheet" href="../../Utiles/validaciones.css">
+    <!--VALIDADOR -->
+    <script src="..\..\Utiles\validaciones.js"></script>
+    <!--ENCRIPTACION -->
+    <script src="..\..\utiles\md5.js"></script>
+    <script src="..\..\Utiles\Carrito.js"></script>
+    <script type="text/javascript" src="../../utiles/funcionesABMAdmin.js"></script>
+    <script type="text/javascript" src="../../utiles/funcionesABMProducto.js"></script>
     <?php
-        include_once '../../configuracion.php';
-        $sesion = new Session();
+    include_once '../../configuracion.php';
+    $sesion = new Session();
     ?>
 </head>
-<?php  include_once("../../Vista/Estructura/menu.php") ?>
+<?php include_once("../../Vista/Estructura/menu.php") ?>
 <!-- FIN CABECERA -->
 
 <body class="container my-3">

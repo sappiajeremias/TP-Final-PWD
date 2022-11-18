@@ -39,8 +39,8 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
             </table>
         </div>
 
-        <div class="position-absolute top-40 start-50 translate-middle">
-            <div class="container-fluid p-4 mt-5 border border-dark border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarProducto'>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarProducto'>
                 <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Actualizar Producto</h5>
                 <hr>
                 <form action="../accion/editarProd.php" method="post" name="editarP" id="editarP" accept-charset="utf-8" class="mb-3">
@@ -66,8 +66,8 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                 </form>
             </div>
         </div>
-
         <script src="../../Utiles/js/producto/editarProducto.js"></script>
+        <script src="../../Utiles/js/producto/eliminarProducto.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">
