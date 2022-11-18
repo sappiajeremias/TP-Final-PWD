@@ -35,10 +35,6 @@ $(document).ready(function () {
 
         /*$.post("./accion/editarProd.php",{ data: $(this).serialize() },
             function(response) {
-            }
-        );
-        $.post("./accion/editarProd.php", { data: datosForm},
-            function (response) {
                 var response = jQuery.parseJSON(response);
                 console.log(response.respuesta);
             }

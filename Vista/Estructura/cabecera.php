@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrapValidator.min.css">
 
-    
+    <script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
     <!-- JQUERY -->
     <script type="text/javascript" src="../../Utiles/jquery-3.6.1/jquery.min.js"></script>
     
