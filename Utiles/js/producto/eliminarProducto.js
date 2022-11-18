@@ -5,6 +5,7 @@ $(document).on('click', '.eliminar', function() {
     var idproducto = fila[0].children[0].innerHTML;
     var pronombre = fila[0].children[1].innerHTML;
 
+    // CARTEL LIBRERIA
     bootbox.confirm({
         title: "Eliminar Producto?",
         closeButton: false,
@@ -44,5 +45,4 @@ function eliminar(fila){
             }
         }
     });
-
 };

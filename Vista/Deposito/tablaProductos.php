@@ -27,7 +27,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <td><input class="form-control" type="number" placeholder="#" readonly></td>
                         <td><input class="form-control" type="text" placeholder="Nombre"></td>
                         <td><input class="form-control" type="text" placeholder="Detalle"></td>
-                        <td><input class="form-control" type="number" placeholder="Stock"></td>
+                        <td><input class="form-control" type="number" min=0 placeholder="Stock"></td>
                         <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                     </tr>
                     <?php
@@ -73,6 +73,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                 </form>
             </div>
         </div>
+        <script src="../../Utiles/js/producto/listarProducto.js"></script>
         <script src="../../Utiles/js/producto/agregarProducto.js"></script>
         <script src="../../Utiles/js/producto/editarProducto.js"></script>
         <script src="../../Utiles/js/producto/eliminarProducto.js"></script>

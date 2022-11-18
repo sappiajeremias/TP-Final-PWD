@@ -22,6 +22,7 @@ $(document).on('click', '.agregar', function () {
     if (verificador){
         agregar(arreglo);
     } else {
+        // ALERT LIBRERIA
         bootbox.alert({
             message: "No puedes dejar campos vacios!",
             size: 'small',
