@@ -88,6 +88,28 @@ class abmUsuario
     }
 
     /**
+     * Espera como parametro un arreglo asociativo donde las claves coinciden
+     * con los nombres de las variables instancias del objeto
+     * @param array $param
+     * @return usuario
+     */
+    private function cargarObjetoSinID($param)
+    {
+        $obj = null;
+        if (
+            array_key_exists('usnombre', $param) &&
+            array_key_exists('uspass', $param) &&
+            array_key_exists('usmail', $param) &&
+            array_key_exists('usdeshabilitado', $param)
+        ) {
+            $obj = new usuario();
+            $obj->setearSinID($param['usnombre'], $param['uspass'],$param['usmail'], $param['usdeshabilitado']);
+        }
+        return $obj;
+        
+    }
+
+    /**
      * Corrobora que dentro del arreglo asociativo estan seteados los campos claves
      * @param array $param
      * @return boolean
@@ -115,6 +137,22 @@ class abmUsuario
         }
         return $resp;
     }
+
+     /**
+     *
+     * @param array $param
+     */
+    public function altaSinID($param)
+    {
+        $resp = false;
+       
+        $objUsuario = $this->cargarObjetoSinID($param);
+        if ($objUsuario!=null and $objUsuario->insertar()) {
+            $resp = true;
+        }
+        return $resp;
+    }
+
 
     /**
      * permite realizar borrado lógico (marcar como deshabilitado)

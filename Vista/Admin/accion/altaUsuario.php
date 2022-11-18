@@ -1,20 +1,22 @@
 <?php 
 include_once "../../../configuracion.php";
 $data = data_submitted();
+print_r($data);
 $respuesta = false;
-if (!empty($data)){
-        $objAbmuUser = new abmUsuario();
-        $respuesta = $objAbmUser->alta($data);
+if (isset($data['pronombre'])){
+        $obj = new abmUsuario();
+        $respuesta = $obj->altaSinID($data);
+      
         if (!$respuesta){
-            $mensajeError = " No se pudo dar de alta al Usuario";
+            $sms_error = " La accion de crear no pudo concretarse";
             
         }
 }
 $retorno['respuesta'] = $respuesta;
-if (isset($mensajeError)){
-
-    $retorno['mensajeError']=$mensajeError;
+if (isset($mensaje)){
     
+    $retorno['errorMsg']=$sms_error;
+   
 }
  echo json_encode($retorno);
 ?>

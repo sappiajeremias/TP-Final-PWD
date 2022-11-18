@@ -2,17 +2,18 @@
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $respuesta = false;
-if (!empty($data)){
-    $objAbmUsuario = new abmUsuario();
-    $respuesta = $objAbmUsuario->modificacion($data);
+if (isset($data['idusuario'])){
+    $obj = new abmUsuario();
+    $respuesta = $obj->modificacion($data);
     if (!$respuesta){
-        $mensajeError = "No se pudo modificar al Usuario";
-    }   
+        $sms_error = " La modificacion no pudo concretarse";
+    }
+    
 }
 $retorno['respuesta'] = $respuesta;
-if (isset($mensajeError)){
+if (isset($mensaje)){
     
-    $retorno['mensajeError']=$mensajeError;
+    $retorno['errorMsg']=$sms_error;
     
 }
 echo json_encode($retorno);

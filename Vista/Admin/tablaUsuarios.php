@@ -1,75 +1,100 @@
 <?php
-// Gestionar los usuarios, añadir usuarios, modificar usuarios (roles) y eliminarlos
 $Titulo = "Tabla Usuarios";
 include_once '../Estructura/cabecera.php';
-if($_SESSION['rolactivodescripcion'] <> 'admin'){
-    $mensaje="No tiene permiso de administrador para acceder a este sitio.";
-    echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";
-}else{
-    $objControl = new abmUsuario();
-    $listaUsuarios = $objControl->buscar(null);
-    $combo = '<select class="form-select"  id="idusuario"  name="idusuario" label="User:" labelPosition="top">
-    <option selected>Usuarios</option>';
-    foreach ($listaUsuarios as $objUser){
-        $combo .='<option value="'.$objUser->getID().'">'.$objUser->getUsNombre().'>'.$objUser->getUsMail().'>'.$objUser->getUsDeshabilitado().'</option>';
-        }
-
-    $combo .='</select>';
-    ?>
-<div class="container">
-    <table id="dg" title="Administrador de usuarios" class="table table-hover" style="width:700px; margin-top: 3rem;"
-    url="accion/listarUsuarios.php">
-            <thead>
-                <tr>
-                    <th field="idrol" width="50">ID</th>
-                    <th field="usnombre" width="50">Nombre</th>
-                    <th field="usmail" width="50">Descripci&oacute;n</th>
-                    <th field="usdeshabilitado" width="50">Deshabilitado</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    foreach($listaUsuarios as $objUser){
-                ?>
-                    <tr>
-                        <td><?php echo $objUser->getID() ?></td>
-                        <td><?php echo $objUser->getUsNombre() ?></td>
-                        <td><?php echo $objUser->getUsMail() ?></td>
-                        <td><?php echo $objUser->getUsDeshabilitado() ?></td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-    </table>
-            <div class="btn-group" role="group" aria-label="Default button group">
-                <button class="btn btn-outline-success" onclick="nuevoUsuario()"><i class="fa-solid fa-plus"></i> Nuevo Usuario</button>
-                <button class="btn btn-outline-warning" onclick="editarUsuario()"><i class="fa-solid fa-pen-to-square"></i> Editar Usuario</button>
-                <button class="btn btn-outline-danger" onclick="eliminarUsuario()"><i class="fa-solid fa-trash"></i> Baja Usuario</button>
-            </div>
-            <div id="dlg" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-            <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-                <h3>Usuario Informacion</h3>
-                <div style="margin-bottom:10px">
-                    <input  name="idusuario" id="idusuario"  class="easyui-textbox" required="true" label="ID-Usuario:" style="width:100%">
-                    </div>        
-                    <input name="usnombre" id="usnombre"  class="easyui-textbox" required="true" label="Nombre:" style="width:100%">
-                    </div>
-                    <div style="margin-bottom:10px">
-                    <input  name="usmail" id="usmail"  class="easyui-textbox" required="true" label="Mail:" style="width:100%">
-                    </div>
-                    <div style="margin-bottom:10px">
-                    <?php echo $combo; ?>
-                    </div>
-                <div style="margin-bottom:10px">
-                    <input class="easyui-checkbox" name="medeshabilitado" value="medeshabilitado" label="Des-Habilitar:">
-                </div>
-            </form>
-            </div>
-            <div id="dlg-buttons">
-            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="guardarUsuario()" style="width:90px">Aceptar</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
-            </div>
-                    </div>
-<?php
-}
+if ($_SESSION['rolactivodescripcion'] <> 'admin') {
+    $mensaje = "No tiene permiso de admin para acceder a este sitio.";
+    echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
+} else {
+    $objUsuarios = new abmUsuario();
+    $listaUsuario = $objUsuarios->buscar(null);
+    $objRoles = new abmRol();
+    $listaRoles = $objRoles->buscar(null);
+    if (count($listaUsuario) > 0) {
 ?>
-<?php include_once '../Estructura/pie.php'; ?>
+        <div class="table-responsive">
+            <table class="table table-hover caption-top" id="tablaProductos">
+                <caption>Usuarios</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <th width="70">ID</th>
+                        <th>Nombre</th>
+                        <th>Mail</th>
+                        <th>Deshabilitado</th>
+                        <th width="50">Editar</th>
+                        <th width="50">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr  class="table-success">
+                        <td><input class="form-control" type="number" placeholder="#" readonly></td>
+                        <td><input class="form-control" type="text" placeholder="Nombre"></td>
+                        <td><input class="form-control" type="text" placeholder="Mail"></td>
+                        <td>
+                            <select  class="form-control">
+                            <?php
+                            foreach ($listaRoles as $objR) {
+                            ?>
+                            <option value=<?php echo $objR->getRolDescripcion()?>><?php echo $objR->getRolDescripcion() ?></option>
+                            
+                            <?php } ?>
+                            </select>
+                        </td>
+                        <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
+                    </tr>
+                    <?php
+                    foreach ($listaUsuario as $objU) {
+                    ?>
+                        <tr>
+                            <td><?php echo $objU->getID() ?></td>
+                            <td><?php echo $objU->getUsNombre() ?></td>
+                            <td><?php echo $objU->getUsMail() ?></td>
+                            <td><?php echo $objU->getUsDeshabilitado() ?></td>
+                            <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
+                            <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarUsuario'>
+                <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Actualizar Usuario</h5>
+                <hr>
+                <form action="./accion/editarUsuario.php" method="post" name="editarU" id="editarU" accept-charset="utf-8" class="mb-3">
+                    <div class="form-group mb-3">
+                        <div class="col-lg-7 col-12" id='mostrarId'></div>
+                        <label for="idusuario" class="form-label">ID: </label>
+                        <input type="number" class="form-control" id="idusuario" name="idusuario" readonly>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="nombreusuario" class="form-label">Nombre del usuario: </label>
+                        <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="mailusuario" class="form-label">Mail del usuario: </label>
+                        <input type="text" class="form-control" id="mailusuario" name="mailusuario" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="usuariodeshabilitado" class="form-label">Deshabilitado: </label>
+                        <input type="number" class="form-control" id="usuariodeshabilitado" name="usuariodeshabilitado" autocomplete="off">
+                    </div>
+                   
+                    <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>
+                    <button class="btn btn-outline-danger mx-2" name="cancelar" type="button" id="cancelar">Cancelar</button>
+                </form>
+            </div>
+        </div>
+       
+        <script src="../../Utiles/funcionesABMUsuario.js"></script>
+    <?php } else {
+    ?>
+        <div class="container p-2">
+            <div class="alert alert-info" role="alert">
+                No hay usuarios cargados
+            </div>
+        </div>
+<?php
+    }
+    include_once '../Estructura/pie.php';
+} ?>
