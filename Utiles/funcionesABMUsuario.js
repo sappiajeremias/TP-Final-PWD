@@ -1,8 +1,8 @@
-/* AGREGAR */
+/*################################# AGREGAR USUARIO #################################*/
 
 $(document).on('click', '.agregar', function () {
     var row = $(this).closest('tr').find(".form-control");
-   
+
 
     var nombre = row[1].value;
     var mail = row[2].value;
@@ -15,27 +15,35 @@ $(document).on('click', '.agregar', function () {
         'uspass': null
     };
 
-    bootbox.prompt({ 
-        size: "small",
-        inputType: "password",
-        title: "Ingrese una contraseña",
-        callback: function(result){ 
-                arreglo['uspass'] = result;
-        }
-    });
-    
     var verificador = true;
 
     $.each(arreglo, function (index, value) {
-       
-        if (value === ''){
-           verificador = false;
+
+        if (value === '') {
+            verificador = false;
         }
     });
 
-    if (verificador){
-        
-        agregar(arreglo);
+    if (verificador) {
+        bootbox.prompt({
+            size: "small",
+            closeButton: false,
+            inputType: "password",
+            title: "Ingrese una contraseña",
+            callback: function (result) {
+                if (result != '') {
+                    arreglo['uspass'] = result;
+                    agregar(arreglo);
+                } else {
+                    // ALERT LIBRERIA
+                    bootbox.alert({
+                        message: "Debes ingresar una contraseña válida!",
+                        size: 'small',
+                        closeButton: false,
+                    });
+                }
+            }
+        });
     } else {
         // ALERT LIBRERIA
         bootbox.alert({
@@ -44,21 +52,21 @@ $(document).on('click', '.agregar', function () {
             closeButton: false,
         });
     }
-    
+
 });
 
-function agregar(array){
+function agregar(array) {
     $.ajax({
         type: "POST",
         url: './accion/altaUsuario.php',
         data: array,
         success: function (response) {
             var response = jQuery.parseJSON(response);
-            if(response.respuesta){
+            if (response.respuesta) {
                 location.reload();
             } else {
                 bootbox.alert({
-                    message: "Respuesta: "+response.respuesta,
+                    message: "Respuesta: " + response.respuesta,
                     size: 'small',
                     closeButton: false,
                 });
@@ -68,7 +76,7 @@ function agregar(array){
 }
 
 
-/* EDITAR */
+/*################################# EDITAR USUARIO #################################*/
 
 $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
     document.getElementById('editarUsuario').classList.remove('d-none');
@@ -79,7 +87,7 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     var usdeshabilitado = fila[0].children[3].innerHTML;
 
     var form = document.getElementById('editarU');
-    
+
     var inputs = form.getElementsByTagName('input');
 
     document.getElementById('idusuario').innerHTML = idusuario;
@@ -106,14 +114,14 @@ $(document).ready(function () {
                 console.log(response.respuesta);
             }
         );*/
-        
+
         $.ajax({
             type: "POST",
             url: './accion/editarUsuario.php',
             data: $(this).serialize(),
             success: function (response) {
                 var response = jQuery.parseJSON(response);
-                if(response.respuesta){
+                if (response.respuesta) {
                     location.reload();
                 } else {
                     console.log(response.respuesta);
@@ -124,10 +132,10 @@ $(document).ready(function () {
 });
 
 
-/* ELIMINAR */
+/*################################# ELIMINAR USUARIO #################################*/
 
 
-$(document).on('click', '.eliminar', function() {
+$(document).on('click', '.eliminar', function () {
 
     var fila = $(this).closest('tr');
     var idusuario = fila[0].children[0].innerHTML;
@@ -137,7 +145,7 @@ $(document).on('click', '.eliminar', function() {
     bootbox.confirm({
         title: "Eliminar usuario?",
         closeButton: false,
-        message: "Estas seguro que quieres eliminar a "+usnombre+" con ID:"+idusuario,
+        message: "Estas seguro que quieres eliminar a " + usnombre + " con ID:" + idusuario,
         buttons: {
             cancel: {
                 className: 'btn btn-outline-danger',
@@ -149,22 +157,22 @@ $(document).on('click', '.eliminar', function() {
             }
         },
         callback: function (result) {
-            if(result){
+            if (result) {
                 eliminar(idusuario);
             }
         }
     });
 });
 
-function eliminar(idusuario){
+function eliminar(idusuario) {
 
     $.ajax({
         type: "POST",
         url: './accion/eliminarUsuario.php',
-        data: {idusuario:idusuario},
+        data: { idusuario: idusuario },
         success: function (response) {
             var response = jQuery.parseJSON(response);
-            if(response.respuesta){
+            if (response.respuesta) {
                 location.reload();
             } else {
                 console.log(response.respuesta);
