@@ -30,18 +30,6 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <td><input class="form-control" type="number" min=0 placeholder="Stock"></td>
                         <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                     </tr>
-                    <?php
-                    foreach ($listaProds as $objProd) {
-                    ?>
-                        <tr>
-                            <td><?php echo $objProd->getID() ?></td>
-                            <td><?php echo $objProd->getProNombre() ?></td>
-                            <td><?php echo $objProd->getProDetalle() ?></td>
-                            <td><?php echo $objProd->getProCantStock() ?></td>
-                            <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
-                            <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
-                        </tr>
-                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -73,8 +61,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                 </form>
             </div>
         </div>
-        <script src="../../Utiles/js/producto/listarProducto.js"></script>
-        <script src="../../Utiles/funcionesABMProducto.js"></script>
+        <script src="../../Utiles/js/producto/funcionesABMProducto.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">
