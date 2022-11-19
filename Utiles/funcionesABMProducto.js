@@ -137,15 +137,13 @@ $(document).on('click', '.eliminar', function() {
         },
         callback: function (result) {
             if(result){
-                eliminar(fila);
+                eliminar(idproducto);
             }
         }
     });
 });
 
-function eliminar(fila){
-    
-    var idproducto = fila[0].children[0].innerHTML;
+function eliminar(idproducto){
 
     $.ajax({
         type: "POST",

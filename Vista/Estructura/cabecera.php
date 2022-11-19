@@ -30,8 +30,6 @@
     <!--ENCRIPTACION -->
     <script src="..\..\utiles\md5.js"></script>
     <script src="..\..\Utiles\Carrito.js"></script>
-    <script type="text/javascript" src="../../utiles/funcionesABMAdmin.js"></script>
-    <script type="text/javascript" src="../../utiles/funcionesABMProducto.js"></script>
     <?php
     include_once '../../configuracion.php';
     $sesion = new Session();

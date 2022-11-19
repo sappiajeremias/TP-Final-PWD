@@ -4,10 +4,36 @@ $(window).on("load", function () {
         url: './accion/listarProductos.php',
         data: null,
         success: function (response) {
-            console.log('hola')
-            var response = jQuery.parseJSON(response);
-            console.log(typeof response)
-            console.log(response.respuesta)
+            $.each($.parseJSON(response), function (index, value) {
+                console.log(index);
+                console.log(value);
+            });
         }
     });
-})
+});
+$(function() {
+    $.ajax({
+        type: "POST",
+        url: './accion/listarProductos.php',
+        data: null,
+        success: function (response) {
+            $.each($.parseJSON(response), function (index, value) {
+                console.log(index);
+                console.log(value);
+            });
+        }
+    });
+});
+$( document ).ready(function() {
+    $.ajax({
+        type: "POST",
+        url: './accion/listarProductos.php',
+        data: null,
+        success: function (response) {
+            $.each($.parseJSON(response), function (index, value) {
+                console.log(index);
+                console.log(value);
+            });
+        }
+    });
+});

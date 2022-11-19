@@ -150,15 +150,13 @@ $(document).on('click', '.eliminar', function() {
         },
         callback: function (result) {
             if(result){
-                eliminar(fila);
+                eliminar(idusuario);
             }
         }
     });
 });
 
-function eliminar(fila){
-    
-    var idusuario = fila[0].children[0].innerHTML;
+function eliminar(idusuario){
 
     $.ajax({
         type: "POST",

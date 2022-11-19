@@ -2,17 +2,25 @@
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $obj = new abmProducto();
+$respuesta=false;
 $list = $obj->buscar($data);
-$arreglo_salida =  false;
-foreach ($list as $elem){
-    
-    $nuevoElem['idproducto'] = $elem->getIdMenu();
-    $nuevoElem["pronombre"]=$elem->getProNombre();
-    $nuevoElem["prodetalle"]=$elem->getProDetalle();
-    $nuevoElem["procantstock"]=$elem->getProCantStock();
-
-    array_push($arreglo_salida,$nuevoElem);
+if (count($list) > 0){
+    $arreglo_salida =  [];
+    foreach ($list as $elem){
+        
+        $nuevoElem = [
+            "idproducto" => $elem->getIdMenu(),
+            "pronombre" => $elem->getProNombre(),
+            "prodetalle" => $elem->getProDetalle(),
+            "procantstock" => $elem->getProCantStock()
+        ];
+        array_push($arreglo_salida,$nuevoElem);
+    }
+    $respuesta['respuesta'] = 'sexo';
+} else {
+    $respuesta['respuesta'] = 'mondongo';
 }
 //verEstructura($arreglo_salida);
-echo json_encode(false);
-?>
+
+echo json_encode($retorno);
+
