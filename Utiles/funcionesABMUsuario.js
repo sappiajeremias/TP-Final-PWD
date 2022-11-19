@@ -33,6 +33,7 @@ $(document).on('click', '.agregar', function () {
             callback: function (result) {
                 if (result != '') {
                     arreglo['uspass'] = result;
+                    console.log(arreglo);
                     agregar(arreglo);
                 } else {
                     // ALERT LIBRERIA
@@ -55,12 +56,14 @@ $(document).on('click', '.agregar', function () {
 
 });
 
-function agregar(array) {
+function agregar(arreglo) {
+    console.log(arreglo);
     $.ajax({
         type: "POST",
         url: './accion/altaUsuario.php',
-        data: array,
+        data: arreglo,
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
             if (response.respuesta) {
                 location.reload();
