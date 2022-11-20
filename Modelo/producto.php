@@ -9,6 +9,7 @@ class producto extends BaseDatos
     private $pronombre; 
     private $prodetalle;
     private $procantstock;
+    private $precio;
     private $mensajeoperacion;
 
     public function __construct()
@@ -18,22 +19,25 @@ class producto extends BaseDatos
         $this->pronombre="";
         $this->prodetalle="";
         $this->procantstock="";
+        $this->precio="";
         $this->mensajeOperacion="";
     }
 
-    public function setear($idproducto, $pronombre, $prodetalle, $procantstock)
+    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio)
     {
         $this->setID($idproducto);
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
+        $this->setPrecio($precio);
     }
 
-    public function setearSinID($pronombre, $prodetalle, $procantstock)
+    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio)
     {
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
+        $this->setPrecio($precio);
     }
 
 
@@ -49,7 +53,7 @@ class producto extends BaseDatos
             if ($res>-1) {
                 if ($res>0) {
                     $row = $this->Registro();
-                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio']);
                 }
             }
         } else {
@@ -69,7 +73,8 @@ class producto extends BaseDatos
             VALUES('"
             .$this->getPronombre()."', '"
             .$this->getProdetalle()."', '"
-            .$this->getProCantStock()."'
+            .$this->getProCantStock()."', '"
+            .$this->getPrecio()."'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -93,6 +98,7 @@ class producto extends BaseDatos
         SET pronombre='".$this->getProNombre()
         ."', prodetalle='".$this->getProDetalle()
         ."', procantstock='". $this->getProCantStock()
+        ."', precio='". $this->getPrecio()
         ."' WHERE idproducto='".$this->getID()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
@@ -136,7 +142,7 @@ class producto extends BaseDatos
             if ($res>0) {
                 while ($row = $this->Registro()) {
                     $producto = new producto();
-                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock']);
+                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio']);
                     array_push($arreglo, $producto);
                 }
             }
@@ -248,6 +254,26 @@ class producto extends BaseDatos
     public function setProCantStock($procantstock)
     {
         $this->procantstock = $procantstock;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of procantstock
+     */ 
+    public function getPrecio()
+    {
+        return $this->precio;
+    }
+
+    /**
+     * Set the value of procantstock
+     *
+     * @return  self
+     */ 
+    public function setPrecio($precio)
+    {
+        $this->precio = $precio;
 
         return $this;
     }

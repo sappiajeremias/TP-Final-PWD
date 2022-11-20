@@ -35,10 +35,11 @@ class abmProducto
         if (array_key_exists('idproducto', $param) &&
             array_key_exists('pronombre', $param) &&
             array_key_exists('prodetalle', $param) &&
-            array_key_exists('procantstock', $param)
+            array_key_exists('procantstock', $param) &&
+            array_key_exists('precio', $param)
         ) {
             $obj = new producto();
-            $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock']);
+            $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio']);
         }
         return $obj;
         
@@ -56,10 +57,11 @@ class abmProducto
         if (
             array_key_exists('pronombre', $param) &&
             array_key_exists('prodetalle', $param) &&
-            array_key_exists('procantstock', $param)
+            array_key_exists('procantstock', $param) &&
+             array_key_exists('precio', $param)
         ) {
             $obj = new producto();
-            $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock']);
+            $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio']);
         }
         return $obj;
         
@@ -180,6 +182,9 @@ class abmProducto
             }
             if (isset($param['procantstock'])) {
                 $where.=" and procantstock ='".$param['procantstock']."'";
+            }
+            if (isset($param['precio'])) {
+                $where.=" and precio ='".$param['precio']."'";
             }
         }
 

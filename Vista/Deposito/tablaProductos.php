@@ -18,6 +18,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <th>Nombre</th>
                         <th>Detalle</th>
                         <th>Stock</th>
+                        <th>Precio</th>
                         <th width="50">Editar</th>
                         <th width="50">Eliminar</th>
                     </tr>
@@ -28,6 +29,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <td><input class="form-control" type="text" placeholder="Nombre"></td>
                         <td><input class="form-control" type="text" placeholder="Detalle"></td>
                         <td><input class="form-control" type="number" min=0 placeholder="Stock"></td>
+                        <td><input class="form-control" type="number" min=0 placeholder="Precio"></td>
                         <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                     </tr>
                 </tbody>
@@ -55,6 +57,10 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     <div class="form-group mb-3">
                         <label for="procantstock" class="form-label">Stock: </label>
                         <input type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="precio" class="form-label">Precio: </label>
+                        <input type="number" class="form-control" id="precio" name="precio" autocomplete="off">
                     </div>
                     <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>
                     <button class="btn btn-outline-danger mx-2" name="cancelar" type="button" id="cancelar">Cancelar</button>

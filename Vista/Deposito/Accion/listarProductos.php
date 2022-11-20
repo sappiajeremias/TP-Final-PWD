@@ -12,7 +12,8 @@ if (count($list) > 0){
             "idproducto" => $elem->getID(),
             "pronombre" => $elem->getProNombre(),
             "prodetalle" => $elem->getProDetalle(),
-            "procantstock" => $elem->getProCantStock()
+            "procantstock" => $elem->getProCantStock(),
+            "precio" => $elem->getPrecio()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }
