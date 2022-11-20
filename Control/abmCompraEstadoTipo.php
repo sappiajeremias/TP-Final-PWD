@@ -145,7 +145,8 @@ class abmCompraEstadoTipo
                 $where.=" and cetdetalle ='".$param['cetdetalle']."'";
             }
         }
-        $arreglo = compraEstadoTipo::listar($where);
+        $objCET = new compraEstadoTipo();
+        $arreglo = $objCET->listar($where);
         return $arreglo;
     }
     

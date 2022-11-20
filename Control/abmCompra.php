@@ -147,7 +147,8 @@ class abmCompra
                 $where.=" and objusuario ='".$param['objusuario']."'";
             }
         }
-        $arreglo = compra::listar($where);
+        $objC =  new compra();
+        $arreglo = $objC->listar($where);
         return $arreglo;
     }
 }

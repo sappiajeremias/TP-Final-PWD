@@ -140,7 +140,8 @@ class abmCompraEstado
                 $where.=" and cefechafin ='".$param['cefechafin']."'";
             }
         }
-        $arreglo = compraEstado::listar($where);
+        $objCE = new compraEstado();
+        $arreglo = $objCE->listar($where);
         return $arreglo;
     }
 }

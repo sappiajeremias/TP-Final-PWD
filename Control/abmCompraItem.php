@@ -161,7 +161,8 @@ class abmCompraItem
                 $where.=" and cicantidad ='".$param['cicantidad']."'";
             }
         }
-        $arreglo = compraItem::listar($where);
+        $objCI = new compraItem();
+        $arreglo = $objCI->listar($where);
         return $arreglo;
     }
         
