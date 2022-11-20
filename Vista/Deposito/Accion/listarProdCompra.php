@@ -9,10 +9,8 @@ if (count($list) > 0){
     foreach ($list as $elem){
         
         $nuevoElem = [
-            "idproducto" => $elem->getID(),
-            "pronombre" => $elem->getProNombre(),
-            "prodetalle" => $elem->getProDetalle(),
-            "procantstock" => $elem->getProCantStock()
+            "objproducto" => $elem->getObjProducto(),
+            "procantstock" => $elem->getCicantidad()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }

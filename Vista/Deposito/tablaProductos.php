@@ -61,7 +61,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                 </form>
             </div>
         </div>
-        <script src="../../Utiles/js/producto/funcionesABMProducto.js"></script>
+        <script src="../../Utiles/js/funcionesABMProducto.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">
