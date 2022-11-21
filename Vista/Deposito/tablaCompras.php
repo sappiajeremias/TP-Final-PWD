@@ -12,8 +12,8 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
     // ENVIADA (CAMBIO DE ESTADO)
 } else {
     $objItems = new abmCompra();
-    $listaProds = $objItems->buscar(null);
-    if (count($listaProds) > 0) {
+    $listaCompras = $objItems->buscar(null);
+    if (count($listaCompras) > 0) {
 ?>
         <div class="table-responsive">
             <table class="table table-hover caption-top" id="tablaProductos">
@@ -30,11 +30,11 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php foreach ($listaProds as $item) {?>
+                    <?php foreach ($listaCompras as $item) { ?>
                         <tr>
                             <td><?php echo $item->getID() ?></td>
                             <td><?php echo $item->getObjUsuario()->getUsNombre() ?></td>
-                            <td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8 mx-4"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td>
+                            <td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td>
                             <td></td>
                             <td><?php echo $item->getCofecha() ?></td>
                             <td></td>
@@ -46,9 +46,27 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
         </div>
 
         <div class="position-absolute top-50 start-50 translate-middle">
-            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarProducto'>
-                <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Actualizar Producto</h5>
+            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" id='oculto'>
+                <h5 class="text-center"></h5>
                 <hr>
+                <ol class="list-group" style="width: 400px;" id="listaProductos">
+                    <!--<li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="..." class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>-->
+                </ol>
+                <button type="button" class="btn btn-outline-danger mt-2" id="cerrar"><i class="fa-solid fa-xmark me-2"></i>Cerrar</button>
             </div>
         </div>
 

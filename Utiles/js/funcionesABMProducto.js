@@ -23,7 +23,7 @@ $(window).on("load", function () {
 // Buscamos la tabla y añadimos cada producto
 function armarTabla(arreglo) {
     $.each(arreglo, function (index, producto) {
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>$ ' + producto.precio + '</td><td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
     });
 }
 
