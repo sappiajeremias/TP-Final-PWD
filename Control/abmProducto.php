@@ -27,7 +27,7 @@ class abmProducto
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
      * @param array $param
-     * @return menu
+     * @return producto
      */
     private function cargarObjeto($param)
     {
@@ -49,7 +49,7 @@ class abmProducto
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
      * @param array $param
-     * @return menu
+     * @return producto
      */
     private function cargarObjetoSinID($param)
     {
@@ -71,7 +71,7 @@ class abmProducto
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
      * @param array $param
-     * @return menu
+     * @return producto
      */
     private function cargarObjetoConClave($param)
     {

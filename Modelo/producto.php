@@ -64,12 +64,10 @@ class producto extends BaseDatos
 
     public function insertar()
     {
-        //Fecha ini poner fecha actual
-        //Setear fecha fin cuando el admin apruebe la compra (fecha)
         $resp = false;
         
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock) 
+        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock, precio) 
             VALUES('"
             .$this->getPronombre()."', '"
             .$this->getProdetalle()."', '"

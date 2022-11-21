@@ -6,7 +6,7 @@ $respuesta = false;
 if (isset($data['pronombre'])){
         $obj = new abmProducto();
         $respuesta = $obj->altaSinID($data);
-      
+        
         if (!$respuesta){
             $sms_error = " La accion de crear no pudo concretarse";
             

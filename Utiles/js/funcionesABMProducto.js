@@ -6,6 +6,7 @@ $(window).on("load", function () {
         url: './accion/listarProductos.php',
         data: null,
         success: function (response) {
+            console.log(response)
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, productoActual) {
@@ -45,6 +46,7 @@ $(document).on('click', '.agregar', function () {
     var verificador = true;
 
     $.each(arreglo, function (index, value) {
+        console.log(value)
         if (value === '') {
             verificador = false;
         }
