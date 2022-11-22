@@ -28,23 +28,23 @@ function armarTabla(arreglo) {
         switch (compra.estado) {
             case "iniciada":
                 estadoVista = "<span class='badge text-bg-primary'>Iniciada</span>";
-                botones = "<td colspan='2'><a href='#' class='aceptarCompra me-2'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' class='cancelarCompra'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
+                botones = "<td><a href='#' id='aceptarCompra' class='me-2'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
                 break;
             case "aceptada":
                 estadoVista = "<span class='badge text-bg-success'>Aceptada</span>";
-                botones = "<td colspan='2'><a href='#' class='enviarCompra'><button class='btn btn-outline-info'<i class='fa-solid fa-truck-ramp-box me-2'></i>Enviar</button></a></td>";
+                botones = "<td><a href='#' id='enviarCompra'><button class='btn btn-outline-info'<i class='fa-solid fa-truck-ramp-box me-2'></i>Enviar</button></a></td>";
                 break;
             case "enviada":
                 estadoVista = "<span class='badge text-bg-warning'>Enviada</span>";
-                botones = "<td colspan='2'>No hay acciones</td>";
+                botones = "<td>No hay acciones</td>";
                 break;
             case "cancelada":
                 estadoVista = "<span class='badge text-bg-danger'>Cancelada</span>";
-                botones = "<td colspan='2'>No hay acciones</td>";
+                botones = "<td>No hay acciones</td>";
                 break;
         }
 
-        $('#tablaCompras > tbody:last-child').append('<tr><td>'+compra.idcompra+'</td><td>'+compra.usnombre+'</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>'+estadoVista+'</td><td>'+compra.cofecha+'</td><td>'+compra.finfecha+'</td>'+botones+'</tr>');
+        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">'+compra.idcompraestado+'</td><td>'+compra.idcompra+'</td><td>'+compra.usnombre+'</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>'+estadoVista+'</td><td>'+compra.cofecha+'</td><td>'+compra.finfecha+'</td>'+botones+'</tr>');
     });
 }
 
@@ -68,7 +68,16 @@ $(document).on('click', '.verProductos', function () {
                     arreglo.push(productoActual);
                 });
             });
-            listaProductos(arreglo, pronombre);
+            var dialog = bootbox.dialog({
+                message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Listando Productos...</div>',
+                closeButton: false
+            });
+            dialog.init(function () {
+                setTimeout(function () {
+                    listaProductos(arreglo, pronombre);
+                    bootbox.hideAll();
+                }, 1000);
+            });
         }
     });
 
@@ -87,4 +96,40 @@ $(document).on('click', '#cerrar', function () {
     $('h5').empty();
     $("#listaProductos").empty();
     document.getElementById('oculto').classList.add('d-none');
+});
+
+/*################################# ACEPTAR COMPRA #################################*/
+
+$(document).on('click', '#aceptarCompra', function () {
+    var fila = $(this).closest('tr');
+    var idcompraestado = fila[0].children[0].innerHTML;
+    var idcompra = fila[0].children[1].innerHTML;
+
+    $.ajax({
+        type: "POST",
+        url: './accion/modificarEstadoCompra.php',
+        data: { idcompraestado: idcompraestado, idcompra: idcompra, cetdescripcion: 'aceptada' },
+        success: function (response) {
+            console.log(response)
+            if (response.respuesta) {
+                // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Aceptando Compra...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
+                });
+            } else {
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo eliminar el producto!",
+                    size: 'small',
+                    closeButton: false,
+                });
+            }
+        }
+    });
 });

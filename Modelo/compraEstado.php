@@ -138,7 +138,7 @@ class compraEstado extends BaseDatos{
                     $objCompra->cargar();
                     $objCompraEstadoTipo->cargar();
 
-                    $obj->setear($row['idcompraestadotipo'], $objCompra, 
+                    $obj->setear($row['idcompraestado'], $objCompra, 
                     $objCompraEstadoTipo, $row['cefechaini'], $row['cefechafin']);
                     array_push($arreglo, $obj);
                 }

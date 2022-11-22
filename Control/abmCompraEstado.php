@@ -127,11 +127,11 @@ class abmCompraEstado
             if (isset($param['idcompraestado'])) {
                 $where.=" and idcompraestado ='".$param['idcompraestado']."'";
             }
-            if (isset($param['objcompra'])) {
-                $where.=" and idcompra ='".$param['objcompra']."'";
+            if (isset($param['idcompra'])) {
+                $where.=" and idcompra ='".$param['idcompra']."'";
             }
-            if (isset($param['objcompraestadotipo'])) {
-                $where.=" and idcompraestadotipo ='".$param['objcompraestadotipo']."'";
+            if (isset($param['idcompraestadotipo'])) {
+                $where.=" and idcompraestadotipo ='".$param['idcompraestadotipo']."'";
             }
             if (isset($param['cefechaini'])) {
                 $where.=" and cefechaini ='".$param['cefechaini']."'";

@@ -1,31 +1,35 @@
 <?php 
 include_once "../../../configuracion.php";
 $data = data_submitted();
-$obj = new abmCompra();
+$objC = new abmCompra();
 $respuesta=false;
-$list = $obj->buscar($data);
-if (count($list) > 0){
+$listaCompras = $objC->buscar($data);
+if (count($listaCompras) > 0){
     $arreglo_salida =  [];
-    $obj = new abmCompraEstado;
-    foreach ($list as $elem){
-        $estadosElem = $obj->buscar($elem->getID());
+    $objCE = new abmCompraEstado;
 
+    //RECORREMOS EL LISTADO DE COMPRAS
+    foreach ($listaCompras as $compraActual){
+        //BUSCAMOS LOS ESTADOS POR LA COMPRA ACTUAL
+        $estadosElem = $objCE->buscar(["idcompra" => $compraActual->getID()]);
         $estadoDescripcion = null;
 
-        // Obtenemos el último estado de la compra
+        // OBTENEMOS EL ÚLTIMO ESTADO DE LA COMPRA Y EL ID DE COMPRAESTADO
         foreach($estadosElem as $estadoActual){
-            if($estadoActual->getCeFechaFin() == null){
-                $estadoDescripcion = $estadoActual->getObjCompraEstadoTipo()->getCetDescripcion();
-            }
             $fechaFin = $estadoActual->getCeFechaFin();
+            if($fechaFin == null || $fechaFin == ""){
+                $estadoDescripcion = $estadoActual->getObjCompraEstadoTipo()->getCetDescripcion();
+                $idEstadoActual = $estadoActual->getID();
+            }
         }
         
         $nuevoElem = [
-            "idcompra" => $elem->getID(),
-            "cofecha" => $elem->getCofecha(),
+            "idcompra" => $compraActual->getID(),
+            "cofecha" => $compraActual->getCofecha(),
             "finfecha" =>$fechaFin,
-            "usnombre" => $elem->getObjUsuario()->getUsNombre(),
-            "estado" => $estadoDescripcion
+            "usnombre" => $compraActual->getObjUsuario()->getUsNombre(),
+            "estado" => $estadoDescripcion,
+            "idcompraestado" => $idEstadoActual
         ];
         array_push($arreglo_salida,$nuevoElem);
     }
