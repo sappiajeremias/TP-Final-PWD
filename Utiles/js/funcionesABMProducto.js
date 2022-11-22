@@ -10,7 +10,6 @@ $(window).on("load", function () {
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, productoActual) {
-                    console.log(productoActual)
                     arreglo.push(productoActual);
                 });
             });
@@ -192,7 +191,7 @@ function eliminar(idproducto) {
         url: './accion/eliminarProducto.php',
         data: { idproducto: idproducto },
         success: function (response) {
-            var response = jQuery.parseJSON(response);
+            console.log(response)
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
@@ -205,7 +204,12 @@ function eliminar(idproducto) {
                     }, 1500);
                 });
             } else {
-                console.log(response.respuesta);
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo eliminar el producto!",
+                    size: 'small',
+                    closeButton: false,
+                });
             }
         }
     });

@@ -16,7 +16,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
     if (count($listaCompras) > 0) {
 ?>
         <div class="table-responsive">
-            <table class="table table-hover caption-top" id="tablaProductos">
+            <table class="table table-hover caption-top" id="tablaCompras">
                 <caption>Compras</caption>
                 <thead class="table-dark">
                     <tr>
@@ -30,17 +30,6 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <?php foreach ($listaCompras as $item) { ?>
-                        <tr>
-                            <td><?php echo $item->getID() ?></td>
-                            <td><?php echo $item->getObjUsuario()->getUsNombre() ?></td>
-                            <td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td>
-                            <td></td>
-                            <td><?php echo $item->getCofecha() ?></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    <?php } ?>
                 </tbody>
             </table>
         </div>

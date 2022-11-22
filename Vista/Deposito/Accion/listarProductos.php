@@ -21,7 +21,6 @@ if (count($list) > 0){
 } else {
     $respuesta['respuesta'] = 'No hay productos!';
 }
-//verEstructura($arreglo_salida);
 
 echo json_encode($respuesta);
 
