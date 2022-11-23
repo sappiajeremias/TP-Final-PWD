@@ -52,6 +52,29 @@ class abmCompraItem
         
     }
 
+    private function cargarObjetoSinID($param)
+    {
+        $obj = null;
+        if (
+            array_key_exists('idproducto', $param) &&
+            array_key_exists('idcompra', $param) &&
+            array_key_exists('cicantidad', $param)
+        ) {
+            $obj = new compraItem();
+            $producto=new producto();
+            $compra=new compra();
+
+            $producto->setID($param['idproducto']);
+            $producto->cargar();
+            $compra->setID($param['idcompra']);
+            $compra->cargar();
+
+            $obj->setearSinID($producto,$compra, $param['cicantidad']);
+        }
+        return $obj;
+        
+    }
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto que son claves
@@ -62,7 +85,7 @@ class abmCompraItem
     {
         $obj = null;
         if (isset($param['idcompraitem'])) {
-            $obj = new compra();
+            $obj = new compraItem();
             $obj->setear($param['idcompraitem'], null, null,null);
         }
         return $obj;
@@ -95,6 +118,17 @@ class abmCompraItem
         $objcompra = $this->cargarObjeto($param);
         // verEstructura($Objrol);
         if ($objcompra!=null and $objcompra->insertar()) {
+            $resp = true;
+        }
+        return $resp;
+    }
+
+    public function altaSinID($param)
+    {
+        $resp = false;
+       
+        $objProducto = $this->cargarObjetoSinID($param);
+        if ($objProducto!=null and $objProducto->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -142,7 +176,7 @@ class abmCompraItem
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return boolean
+     * @return array
      */
     public function buscar($param)
     {
