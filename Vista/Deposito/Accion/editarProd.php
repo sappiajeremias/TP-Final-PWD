@@ -6,14 +6,14 @@ if (isset($data['idproducto'])){
     $obj = new abmProducto();
     $respuesta = $obj->modificacion($data);
     if (!$respuesta){
-        $sms_error = " La modificacion no pudo concretarse";
+        $mensajeError = " La modificacion no pudo concretarse";
     }
     
 }
 $retorno['respuesta'] = $respuesta;
-if (isset($mensaje)){
+if (isset($mensajeError)){
     
-    $retorno['errorMsg']=$sms_error;
+    $retorno['mensajeError']=$mensajeError;
     
 }
 echo json_encode($retorno);

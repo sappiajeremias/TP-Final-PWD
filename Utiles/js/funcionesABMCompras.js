@@ -6,7 +6,6 @@ $(window).on("load", function () {
         url: './accion/listarCompras.php',
         data: null,
         success: function (response) {
-            console.log(response)
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, compraActual) {
@@ -24,27 +23,40 @@ function armarTabla(arreglo) {
     $.each(arreglo, function (index, compra) {
         var botones = null;
         var estadoVista = null;
-        // Por cada estado preparamos botones para realizar distintas acciones o ninguna
-        switch (compra.estado) {
-            case "iniciada":
-                estadoVista = "<span class='badge text-bg-primary'>Iniciada</span>";
-                botones = "<td><a href='#' id='aceptarCompra' class='me-2'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
-                break;
-            case "aceptada":
-                estadoVista = "<span class='badge text-bg-success'>Aceptada</span>";
-                botones = "<td><a href='#' id='enviarCompra'><button class='btn btn-outline-info'<i class='fa-solid fa-truck-ramp-box me-2'></i>Enviar</button></a></td>";
-                break;
-            case "enviada":
-                estadoVista = "<span class='badge text-bg-warning'>Enviada</span>";
-                botones = "<td>No hay acciones</td>";
-                break;
-            case "cancelada":
-                estadoVista = "<span class='badge text-bg-danger'>Cancelada</span>";
-                botones = "<td>No hay acciones</td>";
-                break;
+        //BOTONES ACCIONES SEGÚN SI ES EL ÚLTIMO ESTADO
+        if (compra.finfecha == null || compra.finfecha == "0000-00-00 00:00:00") {
+            switch (compra.estado) {
+                case "iniciada":
+                    botones = "<td class='text-center'><a href='#' id='aceptarCompra' class='me-2' onclick='cambiarEstado(2, this.id)'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra' onclick='cambiarEstado(4, this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
+                    break;
+                case "aceptada":
+                    botones = "<td class='text-center'><a href='#' id='enviarCompra' onclick='cambiarEstado(3, this.id)'><button class='btn btn-outline-info'><i class='fa-solid fa-truck-fast me-2'></i>Enviar</button></a></td>";
+                    break;
+                case "cancelada":
+                case "enviada":
+                    botones = "<td>No hay acciones</td>";
+                    break;
+            }
+        } else {
+            botones = "<td>No hay acciones</td>";
         }
 
-        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">'+compra.idcompraestado+'</td><td>'+compra.idcompra+'</td><td>'+compra.usnombre+'</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>'+estadoVista+'</td><td>'+compra.cofecha+'</td><td>'+compra.finfecha+'</td>'+botones+'</tr>');
+        // BADGE SEGÚN ESTADO
+        switch (compra.estado) {
+            case "iniciada":
+                estadoVista = "<span class='badge rounded-pill text-bg-primary'>Iniciada</span>";
+                break;
+            case "aceptada":
+                estadoVista = "<span class='badge rounded-pill text-bg-success'>Aceptada</span>";
+                break;
+            case "enviada":
+                estadoVista = "<span class='badge rounded-pill text-bg-warning'>Enviada</span>";
+                break;
+            case "cancelada":
+                estadoVista = "<span class='badge rounded-pill text-bg-danger'>Cancelada</span>";
+                break;
+        }
+        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompraestado + '</td><td>' + compra.idcompra + '</td><td>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' + botones + '</tr>');
     });
 }
 
@@ -53,8 +65,8 @@ function armarTabla(arreglo) {
 $(document).on('click', '.verProductos', function () {
 
     var fila = $(this).closest('tr');
-    var idcompra = fila[0].children[0].innerHTML;
-    var pronombre = fila[0].children[1].innerHTML;
+    var idcompra = fila[0].children[1].innerHTML;
+    var pronombre = fila[0].children[2].innerHTML;
 
 
     $.ajax({
@@ -98,23 +110,24 @@ $(document).on('click', '#cerrar', function () {
     document.getElementById('oculto').classList.add('d-none');
 });
 
-/*################################# ACEPTAR COMPRA #################################*/
+/*################################# CAMBIAR ESTADO COMPRA #################################*/
 
-$(document).on('click', '#aceptarCompra', function () {
-    var fila = $(this).closest('tr');
+function cambiarEstado(idcompraestadotipo, idboton) {
+    console.log('#' + idboton);
+    var fila = $('#' + idboton + '').closest('tr');
     var idcompraestado = fila[0].children[0].innerHTML;
     var idcompra = fila[0].children[1].innerHTML;
 
     $.ajax({
         type: "POST",
         url: './accion/modificarEstadoCompra.php',
-        data: { idcompraestado: idcompraestado, idcompra: idcompra, cetdescripcion: 'aceptada' },
+        data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
-            console.log(response)
+            var response = jQuery.parseJSON(response);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
-                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Aceptando Compra...</div>',
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Modificando Estado Compra...</div>',
                     closeButton: false
                 });
                 dialog.init(function () {
@@ -132,4 +145,4 @@ $(document).on('click', '#aceptarCompra', function () {
             }
         }
     });
-});
+}

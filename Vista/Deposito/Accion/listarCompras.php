@@ -1,37 +1,28 @@
-<?php 
+<?php
 include_once "../../../configuracion.php";
 $data = data_submitted();
-$objC = new abmCompra();
-$respuesta=false;
-$listaCompras = $objC->buscar($data);
-if (count($listaCompras) > 0){
+$objCE = new abmCompraEstado;
+$respuesta = false;
+$listaCE = $objCE->buscar($data);
+if (count($listaCE) > 0) {
     $arreglo_salida =  [];
-    $objCE = new abmCompraEstado;
 
-    //RECORREMOS EL LISTADO DE COMPRAS
-    foreach ($listaCompras as $compraActual){
-        //BUSCAMOS LOS ESTADOS POR LA COMPRA ACTUAL
-        $estadosElem = $objCE->buscar(["idcompra" => $compraActual->getID()]);
-        $estadoDescripcion = null;
+    //RECORREMOS EL LISTADO DE COMPRAS ESTADO
+    foreach ($listaCE as $compraActual) {
 
-        // OBTENEMOS EL ÚLTIMO ESTADO DE LA COMPRA Y EL ID DE COMPRAESTADO
-        foreach($estadosElem as $estadoActual){
-            $fechaFin = $estadoActual->getCeFechaFin();
-            if($fechaFin == null || $fechaFin == ""){
-                $estadoDescripcion = $estadoActual->getObjCompraEstadoTipo()->getCetDescripcion();
-                $idEstadoActual = $estadoActual->getID();
-            }
+        // SI NO ES UN CARRITO LO SUMAMOS AL ARREGLO
+        if (!($compraActual->getObjCompraEstadoTipo()->getCetDescripcion() === "carrito")) {
+
+            $nuevoElem = [
+                "idcompra" => $compraActual->getObjCompra()->getID(),
+                "cofecha" => $compraActual->getCeFechaIni(),
+                "finfecha" => $compraActual->getCeFechaFin(),
+                "usnombre" => $compraActual->getObjCompra()->getObjUsuario()->getUsNombre(),
+                "estado" => $compraActual->getObjCompraEstadoTipo()->getCetDescripcion(),
+                "idcompraestado" => $compraActual->getID()
+            ];
+            array_push($arreglo_salida, $nuevoElem);
         }
-        
-        $nuevoElem = [
-            "idcompra" => $compraActual->getID(),
-            "cofecha" => $compraActual->getCofecha(),
-            "finfecha" =>$fechaFin,
-            "usnombre" => $compraActual->getObjUsuario()->getUsNombre(),
-            "estado" => $estadoDescripcion,
-            "idcompraestado" => $idEstadoActual
-        ];
-        array_push($arreglo_salida,$nuevoElem);
     }
     $respuesta['respuesta'] = $arreglo_salida;
 } else {

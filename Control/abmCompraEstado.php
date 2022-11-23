@@ -12,16 +12,16 @@ class abmCompraEstado
     {
         $obj = null;
         if (array_key_exists('idcompraestado', $param) &&
-            array_key_exists('objcompra', $param)&&
-            array_key_exists('objcompraestadotipo', $param)&&
+            array_key_exists('idcompra', $param)&&
+            array_key_exists('idcompraestadotipo', $param)&&
             array_key_exists('cefechaini', $param) &&
             array_key_exists('cefechafin', $param)
         ) {
             $objcompraestadotipo = new compraEstadoTipo();
             $objcompra = new compra();
 
-            $objcompra->setID($param['objcompra']);
-            $objcompraestadotipo->setID($param['objcompraestadotipo']);
+            $objcompra->setID($param['idcompra']);
+            $objcompraestadotipo->setID($param['idcompraestadotipo']);
 
             $objcompra->cargar();
             $objcompraestadotipo->cargar();
@@ -30,6 +30,31 @@ class abmCompraEstado
             $obj->setear($param['idcompraestado'],$objcompra, $objcompraestadotipo, $param['cefechaini'], $param['cefechafin']);
         }
         return $obj;
+    }
+
+    private function cargarObjetoSinID($param)
+    {
+        $obj = null;
+        if (
+            array_key_exists('idcompra', $param) &&
+            array_key_exists('idcompraestadotipo', $param) &&
+            array_key_exists('cefechaini', $param) &&
+            array_key_exists('cefechafin', $param)
+        ) {
+            $objcompraestadotipo = new compraEstadoTipo();
+            $objcompra = new compra();
+
+            $objcompra->setID($param['idcompra']);
+            $objcompraestadotipo->setID($param['idcompraestadotipo']);
+
+            $objcompra->cargar();
+            $objcompraestadotipo->cargar();
+
+            $obj = new compraEstado();
+            $obj->setearSinID($objcompra, $objcompraestadotipo, $param['cefechaini'], $param['cefechafin']);
+        }
+        return $obj;
+        
     }
 
     /**
@@ -62,6 +87,17 @@ class abmCompraEstado
         return $resp;
     }
 
+    public function altaSinID($param)
+    {
+        $resp = false;
+       
+        $objCE = $this->cargarObjetoSinID($param);
+        if ($objCE!=null and $objCE->insertar()) {
+            $resp = true;
+        }
+        return $resp;
+    }
+
     /**
      *
      * @param array $param
@@ -69,9 +105,7 @@ class abmCompraEstado
     public function alta($param)
     {
         $resp = false;
-        // $param['idrol'] =null;
         $objcompraestado = $this->cargarObjeto($param);
-        // verEstructura($Objrol);
         if ($objcompraestado!=null and $objcompraestado->insertar()) {
             $resp = true;
         }
@@ -103,8 +137,6 @@ class abmCompraEstado
      */
     public function modificacion($param)
     {
-        // echo "<i>**Realizando la modificación**</i>";
-
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompraestado = $this->cargarObjeto($param);
@@ -118,7 +150,7 @@ class abmCompraEstado
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return boolean
+     * @return array
      */
     public function buscar($param)
     {

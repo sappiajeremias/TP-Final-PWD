@@ -16,5 +16,5 @@ if (isset($mensajeError)){
     $retorno['mensajeError']=$mensajeError;
 
 }
-    echo json_encode($retorno);
+echo json_encode($retorno);
 ?>

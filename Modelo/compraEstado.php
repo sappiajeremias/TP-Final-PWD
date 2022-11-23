@@ -29,6 +29,13 @@ class compraEstado extends BaseDatos{
         $this->setCeFechaFin($cefechafin);
     }
 
+    public function setearSinID($objcompra,$objcompraestadotipo,$cefechaini,$cefechafin){
+        $this->setObjCompra($objcompra);
+        $this->setObjCompraEstadoTipo($objcompraestadotipo);
+        $this->setCeFechaIni($cefechaini);
+        $this->setCeFechaFin($cefechafin);
+    }
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar(){

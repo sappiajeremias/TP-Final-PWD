@@ -191,7 +191,8 @@ function eliminar(idproducto) {
         url: './accion/eliminarProducto.php',
         data: { idproducto: idproducto },
         success: function (response) {
-            console.log(response)
+            var response = jQuery.parseJSON(response);
+            console.log(response.respuesta);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
