@@ -1,28 +1,17 @@
 /*################################# AGREGAR USUARIO #################################*/
 
 $(document).on('click', '.agregar', function () {
+    
     var row = $(this).closest('tr').find(".form-control");
 
 
     var nombre = row[1].value;
     var mail = row[2].value;
-    var rol = row[3].options[row[3].selectedIndex].value;
-
-    arreglo = {
-        'usnombre': nombre,
-        'usmail': mail,
-        'rol': rol,
-        'uspass': null
-    };
+    var rol = row[3].value;
 
     var verificador = true;
-
-    $.each(arreglo, function (index, value) {
-
-        if (value === '') {
-            verificador = false;
-        }
-    });
+console.log(rol);
+    
 
     if (verificador) {
         bootbox.prompt({
@@ -32,7 +21,13 @@ $(document).on('click', '.agregar', function () {
             title: "Ingrese una contraseña",
             callback: function (result) {
                 if (result != '') {
-                    arreglo['uspass'] = result;
+                    arreglo = {
+                        'usnombre': nombre,
+                        'usmail': mail,
+                        'idrol': rol,
+                        'uspass': result,
+                        'usdeshabilitado': null
+                    };
                     console.log(arreglo);
                     agregar(arreglo);
                 } else {
@@ -59,6 +54,7 @@ $(document).on('click', '.agregar', function () {
 function agregar(arreglo) {
     console.log(arreglo);
     $.ajax({
+        
         type: "POST",
         url: './accion/altaUsuario.php',
         data: arreglo,
@@ -79,26 +75,33 @@ function agregar(arreglo) {
 }
 
 
-/*################################# EDITAR USUARIO #################################*/
+/*################################# AGREGAR ROL #################################*/
 
-$(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
-    document.getElementById('editarUsuario').classList.remove('d-none');
+$(document).on('click', '.editarAgregar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
     var fila = $(this).closest('tr');
     var idusuario = fila[0].children[0].innerHTML;
-    var usnombre = fila[0].children[1].innerHTML;
-    var usmail = fila[0].children[2].innerHTML;
-    var usdeshabilitado = fila[0].children[3].innerHTML;
-
-    var form = document.getElementById('editarU');
-
-    var inputs = form.getElementsByTagName('input');
-
-    document.getElementById('idusuario').innerHTML = idusuario;
-
-    inputs[0].value = idusuario;
-    inputs[1].value = usnombre;
-    inputs[2].value = usmail;
-    inputs[3].value = usdeshabilitado;
+    bootbox.prompt({
+        title: 'Agregar roles a ID: '+ idusuario,
+        inputType: 'select',
+        inputOptions: [
+            {
+                text: 'Admin',
+                value: 1
+            },
+            {
+                text: 'Deposito',
+                value: 2
+            },
+            {
+                text: 'Cliente',
+                value: 3
+            }
+        ],
+        callback: function (result) {
+            let arreglo = {'idusuario': idusuario, 'idrol': result};
+            editarAgregar(arreglo);
+        }
+    });
 });
 
 //CIERRA EL FORMULARIO
@@ -108,6 +111,7 @@ $(document).on('click', '#cancelar', function () {
 
 //ENVIA LOS DATOS
 $(document).ready(function () {
+    
     $('form').submit(function (e) {
         e.preventDefault();
 
@@ -116,13 +120,14 @@ $(document).ready(function () {
                 var response = jQuery.parseJSON(response);
                 console.log(response.respuesta);
             }
-        );*/
-
+        );*/});});
+function editarAgregar(arreglo){
         $.ajax({
             type: "POST",
             url: './accion/editarUsuario.php',
-            data: $(this).serialize(),
+            data: arreglo,
             success: function (response) {
+                
                 var response = jQuery.parseJSON(response);
                 if (response.respuesta) {
                     location.reload();
@@ -131,8 +136,72 @@ $(document).ready(function () {
                 }
             }
         });
+    };
+
+    /*################################# ELIMINAR ROL #################################*/
+
+$(document).on('click', '.editarEliminar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
+    var fila = $(this).closest('tr');
+    var idusuario = fila[0].children[0].innerHTML;
+    bootbox.prompt({
+        title: 'Eliminar roles a ID: '+ idusuario,
+        inputType: 'select',
+        inputOptions: [
+            {
+                text: 'Admin',
+                value: 1
+            },
+            {
+                text: 'Deposito',
+                value: 2
+            },
+            {
+                text: 'Cliente',
+                value: 3
+            }
+        ],
+        callback: function (result) {
+            let arreglo = {'idusuario': idusuario, 'idrol': result};
+            editarEliminar(arreglo);
+        }
     });
 });
+
+//CIERRA EL FORMULARIO
+$(document).on('click', '#cancelar', function () {
+    document.getElementById('editarUsuario').classList.add('d-none');
+});
+
+//ENVIA LOS DATOS
+$(document).ready(function () {
+    
+    $('form').submit(function (e) {
+        e.preventDefault();
+
+        /*$.post("./accion/editarProd.php",{ data: $(this).serialize() },
+            function(response) {
+                var response = jQuery.parseJSON(response);
+                console.log(response.respuesta);
+            }
+        );*/});});
+function editarEliminar(arreglo){
+
+        $.ajax({
+            type: "POST",
+            url: './accion/editarUsuarioEliminar.php',
+            data: arreglo,
+            success: function (response) {
+                var response = jQuery.parseJSON(response);
+                
+                if (response.respuesta) {
+                    location.reload();
+                } else {
+                    console.log(response.respuesta);
+                }
+            }
+        });
+    };
+
 
 
 /*################################# ELIMINAR USUARIO #################################*/

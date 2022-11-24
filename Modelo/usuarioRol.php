@@ -77,7 +77,7 @@ class usuarioRol extends BaseDatos{
         $resp = false;
         $idUsuario=$this->getObjUsuario()->getID();
         $idRol=$this->getObjRol()->getID();
-        $sql="DELETE FROM usuariorol WHERE idusuario=".$idUsuario."AND idrol=".$idRol;
+        $sql="DELETE FROM usuariorol WHERE idusuario = ".$idUsuario." AND idrol = ".$idRol;
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
                 return true;

@@ -34,7 +34,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'admin') {
                             <?php
                             foreach ($listaRoles as $objR) {
                             ?>
-                            <option value=<?php echo $objR->getRolDescripcion()?>><?php echo $objR->getRolDescripcion() ?></option>
+                            <option value=<?php echo $objR->getID()?>><?php echo $objR->getRolDescripcion() ?></option>
                             
                             <?php } ?>
                             </select>
@@ -49,7 +49,8 @@ if ($_SESSION['rolactivodescripcion'] <> 'admin') {
                             <td><?php echo $objU->getUsNombre() ?></td>
                             <td><?php echo $objU->getUsMail() ?></td>
                             <td><?php echo $objU->getUsDeshabilitado() ?></td>
-                            <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
+                            <td><a href="#" class="editarAgregar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
+                            <td><a href="#" class="editarEliminar"><button class="btn btn-outline-warning"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
                             <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
                         </tr>
                     <?php } ?>
@@ -64,20 +65,16 @@ if ($_SESSION['rolactivodescripcion'] <> 'admin') {
                 <form action="./accion/editarUsuario.php" method="post" name="editarU" id="editarU" accept-charset="utf-8" class="mb-3">
                     <div class="form-group mb-3">
                         <div class="col-lg-7 col-12" id='mostrarId'></div>
-                        <label for="idusuario" class="form-label">ID: </label>
-                        <input type="number" class="form-control" id="idusuario" name="idusuario" readonly>
+                        <h1>Por favor seleccione el rol que desea agregar</h1>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="nombreusuario" class="form-label">Nombre del usuario: </label>
-                        <input type="text" class="form-control" id="nombreusuario" name="nombreusuario" autocomplete="off">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="mailusuario" class="form-label">Mail del usuario: </label>
-                        <input type="text" class="form-control" id="mailusuario" name="mailusuario" autocomplete="off">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="usuariodeshabilitado" class="form-label">Deshabilitado: </label>
-                        <input type="number" class="form-control" id="usuariodeshabilitado" name="usuariodeshabilitado" autocomplete="off">
+                        <select  class="form-control">
+                            <?php
+                            foreach ($listaRoles as $objR) {
+                            ?>
+                            <option value=<?php echo $objR->getID()?>><?php echo $objR->getRolDescripcion() ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
                    
                     <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>

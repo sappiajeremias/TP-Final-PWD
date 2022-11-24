@@ -1,15 +1,24 @@
 <?php 
 include_once "../../../configuracion.php";
 $data = data_submitted();
-print_r($data);
+
 $respuesta = false;
-if (isset($data['pronombre'])){
+if (isset($data['usnombre'])){
         $obj = new abmUsuario();
+        
+
+        $data['uspass']= md5($data['uspass']);
         $respuesta = $obj->altaSinID($data);
-      
+        
         if (!$respuesta){
             $sms_error = " La accion de crear no pudo concretarse";
-            
+        } else {
+            $objUsu = new abmUsuario();
+            $arregloUsu = $objUsu->buscar(['usnombre'=>$data['usnombre'], 'usmail' => $data['usmail']]);
+            print_r($data['idrol'] . "HOLAAAAAAAAAAAAAAAAAA");
+            print_r($arregloUsu[0]->getID(). "HOLAAAAAAAAAAAAAAAA");
+            $objUsuRol = new abmUsuarioRol();
+            $objUsuRol->alta(['idrol'=>$data['idrol'],'idusuario'=>$arregloUsu[0]->getID()]);
         }
 }
 $retorno['respuesta'] = $respuesta;
@@ -19,4 +28,5 @@ if (isset($mensaje)){
    
 }
  echo json_encode($retorno);
-?>
+
+
