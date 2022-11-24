@@ -2,8 +2,6 @@
 
 class compra extends BaseDatos
 {
-    //ver los diferentes estados de la compra y sus posibles contextos de cambio
-    //hacer la extensión con la BD
 
     private $idcompra;
     private $cofecha; //TIMESTAMP
@@ -25,6 +23,12 @@ class compra extends BaseDatos
         $this->setCoFecha($cofecha);
         $this->setObjUsuario($objusuario);
     }
+
+    public function setearSinID($cofecha, $objusuario){
+        $this->setCoFecha($cofecha);
+        $this->setObjUsuario($objusuario);
+    }
+
 
     //MÉTODOS PROPIOS DE LA CLASE
 
@@ -138,6 +142,7 @@ class compra extends BaseDatos
 
         return $arreglo;
     }
+
 
 
 
