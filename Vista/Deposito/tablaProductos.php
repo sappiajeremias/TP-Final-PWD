@@ -24,14 +24,6 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr  class="table-success">
-                        <td><input class="form-control" type="number" placeholder="#" readonly></td>
-                        <td><input class="form-control" type="text" placeholder="Nombre"></td>
-                        <td><input class="form-control" type="text" placeholder="Detalle"></td>
-                        <td><input class="form-control" type="number" min=0 placeholder="Stock"></td>
-                        <td><input class="form-control" type="number" min=0 placeholder="Precio"></td>
-                        <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
-                    </tr>
                 </tbody>
             </table>
         </div>

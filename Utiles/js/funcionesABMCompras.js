@@ -1,6 +1,10 @@
 /*################################# CARGAR COMPRAS #################################*/
 
 $(window).on("load", function () {
+    cargarCompras();
+});
+
+function cargarCompras(){
     $.ajax({
         type: "POST",
         url: './accion/listarCompras.php',
@@ -16,10 +20,12 @@ $(window).on("load", function () {
             armarTabla(arreglo);
         }
     });
-});
+}
 
 // Buscamos la tabla y añadimos cada compra
 function armarTabla(arreglo) {
+    $('#tablaCompras > tbody:last-child').empty();
+
     $.each(arreglo, function (index, compra) {
         var botones = null;
         var estadoVista = null;
@@ -27,18 +33,18 @@ function armarTabla(arreglo) {
         if (compra.finfecha == null || compra.finfecha == "0000-00-00 00:00:00") {
             switch (compra.estado) {
                 case "iniciada":
-                    botones = "<td class='text-center'><a href='#' id='aceptarCompra' class='me-2' onclick='cambiarEstado(2, this.id)'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra' onclick='cambiarEstado(4, this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
+                    botones = "<td><a href='#' id='aceptarCompra' class='me-2' onclick='cambiarEstado(2, this.id)'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra' onclick='cambiarEstado(4, this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
                     break;
                 case "aceptada":
-                    botones = "<td class='text-center'><a href='#' id='enviarCompra' onclick='cambiarEstado(3, this.id)'><button class='btn btn-outline-info'><i class='fa-solid fa-truck-fast me-2'></i>Enviar</button></a></td>";
+                    botones = "<td><a href='#' id='enviarCompra' onclick='cambiarEstado(3, this.id)'><button class='btn btn-outline-info'><i class='fa-solid fa-truck-fast me-2'></i>Enviar</button></a></td>";
                     break;
                 case "cancelada":
                 case "enviada":
-                    botones = "<td>No hay acciones</td>";
+                    botones = "<td>-</td>";
                     break;
             }
         } else {
-            botones = "<td>No hay acciones</td>";
+            botones = "<td>-</td>";
         }
 
         // BADGE SEGÚN ESTADO
@@ -56,7 +62,7 @@ function armarTabla(arreglo) {
                 estadoVista = "<span class='badge rounded-pill text-bg-danger'>Cancelada</span>";
                 break;
         }
-        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompraestado + '</td><td>' + compra.idcompra + '</td><td>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' + botones + '</tr>');
+        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompraestado + '</td><th scope="row">' + compra.idcompra + '</th><td>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' + botones + '</tr>');
     });
 }
 
@@ -99,7 +105,7 @@ function listaProductos(arreglo, nombre) {
     document.getElementById('oculto').classList.remove('d-none');
     $('h5').append('<i class="fa-regular fa-rectangle-list me-2"></i>Lista Productos Compra de <b><u>' + nombre + '</u></b>');
     $.each(arreglo, function (index, producto) {
-        $('#listaProductos').append('<li class="list-group-item d-flex justify-content-between align-items-start"><div class="row g-0"><div class="col-md-4"><img src="..." class="img-fluid rounded-start" alt="..."></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p></div></div></div><h5><span class="badge bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></li>');
+        $('#listaProductos').append('<li class="list-group-item d-flex justify-content-between align-items-start"><div class="row g-0"><div class="col-md-4"><img src="..." class="img-fluid rounded-start" alt="..."></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p></div></div></div><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></li>');
     });
 };
 
@@ -132,7 +138,8 @@ function cambiarEstado(idcompraestadotipo, idboton) {
                 });
                 dialog.init(function () {
                     setTimeout(function () {
-                        location.reload();
+                        cargarCompras();
+                        bootbox.hideAll();
                     }, 1000);
                 });
             } else {

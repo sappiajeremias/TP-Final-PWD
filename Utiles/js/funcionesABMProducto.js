@@ -1,6 +1,9 @@
 /*################################# CARGAR PRODUCTO #################################*/
-// Mientras carga el sitio consulta al accion listarProd
 $(window).on("load", function () {
+    cargarProductos();
+});
+
+function cargarProductos(){
     $.ajax({
         type: "POST",
         url: './accion/listarProductos.php',
@@ -17,10 +20,15 @@ $(window).on("load", function () {
             armarTabla(arreglo);
         }
     });
-});
+}
 
 // Buscamos la tabla y añadimos cada producto
 function armarTabla(arreglo) {
+    // VACIAMOS LA TABLA
+    $('#tablaProductos > tbody').empty();
+    // GENERAMOS EL FORM PARA AGREGAR EL PRODUCTO
+    $('#tablaProductos > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
+    // AGREGAMOS LOS PRODUCTOS
     $.each(arreglo, function (index, producto) {
         $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
     });
@@ -79,7 +87,8 @@ function agregar(array) {
                 });
                 dialog.init(function () {
                     setTimeout(function () {
-                        location.reload();
+                        cargarProductos();
+                        bootbox.hideAll();
                     }, 1500);
                 });
             } else {
@@ -142,7 +151,9 @@ $(document).ready(function () {
                     });
                     dialog.init(function () {
                         setTimeout(function () {
-                            location.reload();
+                            document.getElementById('editarProducto').classList.add('d-none');
+                            cargarProductos();
+                            bootbox.hideAll();
                         }, 1500);
                     });
                 } else {
@@ -201,7 +212,8 @@ function eliminar(idproducto) {
                 });
                 dialog.init(function () {
                     setTimeout(function () {
-                        location.reload();
+                        cargarProductos();
+                        bootbox.hideAll();
                     }, 1500);
                 });
             } else {
