@@ -44,6 +44,25 @@ class abmCompra
         }
         return $obj;
     }
+    private function cargarObjetoSinID($param)
+    {
+        $obj = null;
+        if (
+            array_key_exists('cofecha', $param) &&
+            array_key_exists('idusuario', $param) 
+        ) {
+            $objusuario = new usuario();
+
+            $objusuario->setID($param['idusuario']);
+
+            $objusuario->cargar();
+
+            $obj = new compra();
+            $obj->setearSinID($param['cofecha'], $objusuario);
+        }
+        return $obj;
+        
+    }
 
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
@@ -91,6 +110,17 @@ class abmCompra
         return $resp;
     }
 
+    public function altaSinID($param)
+    {
+        $resp = false;
+       
+        $objCompra = $this->cargarObjetoSinID($param);
+        if ($objCompra!=null and $objCompra->insertar()) {
+            $resp = true;
+        }
+        return $resp;
+    }
+
     /**
      * permite eliminar un objeto
      * @param array $param
@@ -131,7 +161,7 @@ class abmCompra
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return boolean
+     * @return array
      */
     public function buscar($param)
     {
@@ -151,4 +181,6 @@ class abmCompra
         $arreglo = $objC->listar($where);
         return $arreglo;
     }
+
+    
 }
