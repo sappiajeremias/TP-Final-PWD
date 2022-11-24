@@ -26,6 +26,13 @@ class usuario extends BaseDatos{
         $this->setUsdeshabilitado($usdeshabilitado);
     }
 
+    public function setearSinID($usnombre,$uspass,$usmail,$usdeshabilitado){
+        $this->setUsnombre($usnombre);
+        $this->setUspass($uspass);
+        $this->setUsmail($usmail);
+        $this->setUsdeshabilitado($usdeshabilitado);
+    }
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar(){
