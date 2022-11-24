@@ -26,6 +26,13 @@ class compraItem extends BaseDatos{
         $this->setCicantidad($cicantidad);
     }
 
+    public function setearSinID($newObjProducto,$newObjCompra,$cicantidad)
+    {
+        $this->setObjproducto($newObjProducto);
+        $this->setObjcompra($newObjCompra);
+        $this->setCicantidad($cicantidad);
+    }
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar(){
@@ -231,7 +238,7 @@ class compraItem extends BaseDatos{
     /**
      * Get the value of cicantidad
      */ 
-    public function getCicantidad()
+    public function getCiCantidad()
     {
         return $this->cicantidad;
     }
@@ -241,7 +248,7 @@ class compraItem extends BaseDatos{
      *
      * @return  self
      */ 
-    public function setCicantidad($cicantidad)
+    public function setCiCantidad($cicantidad)
     {
         $this->cicantidad = $cicantidad;
 
