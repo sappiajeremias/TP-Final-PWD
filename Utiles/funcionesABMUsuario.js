@@ -127,8 +127,8 @@ function editarAgregar(arreglo){
             url: './accion/editarUsuario.php',
             data: arreglo,
             success: function (response) {
-                console.log(response);
-                //var response = jQuery.parseJSON(response);
+                
+                var response = jQuery.parseJSON(response);
                 if (response.respuesta) {
                     location.reload();
                 } else {
@@ -191,8 +191,8 @@ function editarEliminar(arreglo){
             url: './accion/editarUsuarioEliminar.php',
             data: arreglo,
             success: function (response) {
-                //var response = jQuery.parseJSON(response);
-                console.log(response);
+                var response = jQuery.parseJSON(response);
+                
                 if (response.respuesta) {
                     location.reload();
                 } else {
