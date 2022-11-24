@@ -2,10 +2,11 @@
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $respuesta = false;
-$arregloUsuRol = ['idusuario'=>$data['idusuario'], 'idrol'=>$data['idrol']];
-if (isset($data['idusuario'])){
+$arregloRoles = ['idusuario'=>$data['idusuario'], 'idrol'=>$data['idrol']];
+if (isset($arregloRoles['idusuario'])){
     $obj = new abmUsuarioRol();
-    $respuesta = $obj->alta($arregloUsuRol);
+    //$obj->buscar($arregloRoles);
+    $respuesta = $obj->baja($arregloRoles);
     
     if (!$respuesta){
         $sms_error = " La modificacion no pudo concretarse";

@@ -14,9 +14,10 @@ class abmUsuarioRol
     {
         $obj = null;
         if (
-            array_key_exists('idusuario', $param) &&
-            array_key_exists('idrol', $param)
+            isset($param['idusuario']) &&
+            isset($param['idrol'])
         ) {
+           
             $obj = new usuarioRol();
             $objUs = new usuario();
             $objRol = new rol();
@@ -26,6 +27,7 @@ class abmUsuarioRol
             $objRol->cargar();
             $obj->setear($objUs, $objRol);
         }
+        print_r($obj);
         return $obj;
     }
 
@@ -38,7 +40,8 @@ class abmUsuarioRol
     private function cargarObjetoConClave($param)
     {
         $obj = null;
-        if (isset($param['idusuariorol'])) {
+        if (isset($param['idusuario']) &&
+            isset($param['idrol'])){
             $obj = new usuarioRol();
             $objUs = new usuario();
             $objRol = new rol();
@@ -59,8 +62,10 @@ class abmUsuarioRol
     private function seteadosCamposClaves($param)
     {
         $resp = false;
-        if (isset($param['idusuariorol']))
-            $resp = true;
+        if (isset($param['idusuario']) &&
+            isset($param['idrol'])){
+        $resp = true;
+        }
         return $resp;
     }
 
@@ -71,8 +76,8 @@ class abmUsuarioRol
     public function alta($param)
     {
         $resp = false;
-        $Objusuariorol = $this->cargarObjeto($param);
-        if ($Objusuariorol != null and $Objusuariorol->insertar()) {
+        $objUsuarioRol = $this->cargarObjeto($param);
+        if (($objUsuarioRol!=null) && ($objUsuarioRol->insertar())) {
             $resp = true;
         }
         return $resp;
@@ -86,13 +91,10 @@ class abmUsuarioRol
     public function baja($param)
     {
         $resp = false;
-        if ($this->seteadosCamposClaves($param)) {
-            $Objusuariorol = $this->cargarObjetoConClave($param);
-            if ($Objusuariorol != null and $Objusuariorol->eliminar()) {
+            $objUsuarioRol = $this->cargarObjeto($param);
+            if ($objUsuarioRol != null and $objUsuarioRol->eliminar()) {
                 $resp = true;
             }
-        }
-
         return $resp;
     }
 
@@ -106,8 +108,8 @@ class abmUsuarioRol
         // echo "<i>**Realizando la modificación**</i>"; var_dump($param);
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            $Objusuariorol = $this->cargarObjeto($param);
-            if ($Objusuariorol != null and $Objusuariorol->modificar()) {
+            $objUsuarioRol = $this->cargarObjeto($param);
+            if ($objUsuarioRol != null and $objUsuarioRol->modificar()) {
                 $resp = true;
             }
         }
