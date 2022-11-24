@@ -4,27 +4,28 @@ class abmUsuario
 {
 
 
-    public function abm($datos){
-        $resp=false;
-        if($datos['action']== 'eliminar'){
-            if($this->baja($datos)){
-                $resp=true;
+    public function abm($datos)
+    {
+        $resp = false;
+        if ($datos['action'] == 'eliminar') {
+            if ($this->baja($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'modificar'){
-            if($this->modificacion($datos)){
-                $resp=true;
+        if ($datos['action'] == 'modificar') {
+            if ($this->modificacion($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'alta'){
-            if($this->alta($datos)){
-                $resp=true;
+        if ($datos['action'] == 'alta') {
+            if ($this->alta($datos)) {
+                $resp = true;
             }
         }
         return $resp;
     }
 
-    
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
@@ -50,7 +51,7 @@ class abmUsuario
                     $param['usmail'],
                     $param['usdeshabilitado']
                 );
-            } else if(array_key_exists('idusuario', $param)) {
+            } else if (array_key_exists('idusuario', $param)) {
                 $obj->setear(
                     $param['idusuario'],
                     $param['usnombre'],
@@ -103,10 +104,9 @@ class abmUsuario
             array_key_exists('usdeshabilitado', $param)
         ) {
             $obj = new usuario();
-            $obj->setearSinID($param['usnombre'], $param['uspass'],$param['usmail'], $param['usdeshabilitado']);
+            $obj->setearSinID($param['usnombre'], $param['uspass'], $param['usmail'], $param['usdeshabilitado']);
         }
         return $obj;
-        
     }
 
     /**
@@ -132,22 +132,22 @@ class abmUsuario
         $resp = false;
         $Objusuario = $this->cargarObjeto($param);
         if ($Objusuario != null and $Objusuario->insertar()) {
-            
+
             $resp = true;
         }
         return $resp;
     }
 
-     /**
+    /**
      *
      * @param array $param
      */
     public function altaSinID($param)
     {
         $resp = false;
-       
+
         $objUsuario = $this->cargarObjetoSinID($param);
-        if ($objUsuario!=null and $objUsuario->insertar()) {
+        if ($objUsuario != null and $objUsuario->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -228,17 +228,17 @@ class abmUsuario
         return $arreglo;
     }
 
-    
 
-    public function DarRol($param ="")
+
+    public function DarRol($param = "")
     {
         $where = " true ";
-        if($param!=""){
-            if(isset($param['idusuario'])){
-                $where .= " and idusuario = '". $param['idusuario']. "'";
+        if ($param != "") {
+            if (isset($param['idusuario'])) {
+                $where .= " and idusuario = '" . $param['idusuario'] . "'";
             }
-            if(isset($param['idrol'])){
-                $where .= " and idrol = '".$param['idrol']."'";
+            if (isset($param['idrol'])) {
+                $where .= " and idrol = '" . $param['idrol'] . "'";
             }
         }
         $objUR = new usuarioRol();
@@ -246,14 +246,46 @@ class abmUsuario
         return $arreglo;
     }
 
-    public function alta_rol($param){
+    public function alta_rol($param)
+    {
         $resp = false;
-        if(isset($param['idusuario']) && isset($param['idrol'])){
+        if (isset($param['idusuario']) && isset($param['idrol'])) {
             $elObjtTabla = new usuarioRol();
             $elObjtTabla->setearConClave($param);
             $resp = $elObjtTabla->insertar();
         }
 
         return $resp;
+    }
+
+    public function obtenerCarrito($idUsuario)
+    { //parametro es $sesion->getIDUsuarioLogueado()
+        //Devuelve los compraItem del carrito.
+        $encontrado = false;
+        $objCompra = new compra();
+        $compraEncontrada = null;
+        $j = 0;
+        $compraEstadoEncontrada = null;
+        $listaCompras = $objCompra->listar("idusuario=' " . $idUsuario . "'");
+        if (count($listaCompras) > 0) { //CHEQUEO QUE TENGA COMPRAS
+            $objCompraEstado = new compraEstado();
+            while (!$encontrado && $j < (count($listaCompras))) { 
+                $listaCompraEstados = $objCompraEstado->listar("idcompra=' " . $listaCompras[$j]->getID() . "'");
+                $i = 0;
+                do {
+                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && $listaCompraEstados[$i]->getCeFechaFin() == null) {
+                        $compraEstadoEncontrada = $listaCompraEstados[$i];
+                        $encontrado = true;
+                    } else {
+                        $i++;
+                    }
+                } while (!$encontrado && $i < (count($listaCompraEstados)));
+                $j++;
+            }
+            if ($compraEstadoEncontrada <> null) {
+                $compraEncontrada= $compraEstadoEncontrada->getObjCompra();
+            }
+        }
+        return $compraEncontrada;
     }
 }
