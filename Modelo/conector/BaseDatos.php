@@ -12,8 +12,8 @@ private $resultado;
 
 public function __construct() {
     $this->engine = 'mysql';
-    //$this->host = '127.0.0.1:3306';
-    $this->host = 'localhost';
+    $this->host = '127.0.0.1:3307';
+    //$this->host = 'localhost';
     $this->database = 'bdcarritocompras'; // MODIFICAR POR CADA TP
     $this->user = 'root';
     $this->pass = '';
@@ -88,6 +88,7 @@ public function getSQL() {
 }
 
 public function Ejecutar($sql) {
+    
     $this->setError("");
     $this->setSQL($sql);
     if (stristr($sql, "insert")) { // se desea NSERT ? 
@@ -95,6 +96,7 @@ public function Ejecutar($sql) {
     }
     // se desea UPDATE o DELETE ? 
     if (stristr($sql, "update") or stristr($sql, "delete")) {
+        
         $resp =  $this->EjecutarDeleteUpdate($sql);
     }
 
@@ -102,6 +104,7 @@ public function Ejecutar($sql) {
     if (stristr($sql, "select")) {
         $resp =  $this->EjecutarSelect($sql);
     }
+  
     return $resp;
 }
 
