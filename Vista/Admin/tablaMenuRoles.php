@@ -13,17 +13,18 @@ if ($_SESSION['rolactivodescripcion'] <> 'admin') {
 
         <div class="table-responsive">
             <table class="table table-hover caption-top" id="tablaMenu">
-                <!-- <caption>Productos</caption>
+                
             <thead class="table-dark">
                 <tr>
                     <th width="70">ID</th>
                     <th>Nombre</th>
                     <th>Detalle</th>
-                    <th>Stock</th>
+                    <th>ID Padre</th>
+                    <th>Deshabilitado</th>
                     <th width="50">Editar</th>
                     <th width="50">Eliminar</th>
                 </tr>
-            </thead> -->
+            </thead>
                 <tbody class="table-group-divider">
                     <tr class="table-success">
                         <td><input class="form-control" type="number" placeholder="#" readonly></td>
