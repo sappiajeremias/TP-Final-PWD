@@ -90,11 +90,11 @@ class compraItem extends BaseDatos{
     
     public function modificar(){
         $resp = false;
-       
+    
         $sql="UPDATE compraitem 
         SET idproducto='".$this->getObjProducto()->getID()
         ."', idcompra='".$this->getObjCompra()->getID()
-        ."', cicantidad='".$this->getCicantidad()
+        ."', cicantidad='".$this->getCiCantidad()
         ."' WHERE idcompraitem='".$this->getID()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
