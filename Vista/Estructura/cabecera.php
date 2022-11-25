@@ -36,5 +36,3 @@
 </head>
 <?php include_once("../../Vista/Estructura/menu.php") ?>
 <!-- FIN CABECERA -->
-
-<body class="container my-3">
