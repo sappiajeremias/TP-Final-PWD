@@ -27,7 +27,6 @@ class abmUsuarioRol
             $objRol->cargar();
             $obj->setear($objUs, $objRol);
         }
-        print_r($obj);
         return $obj;
     }
 
@@ -119,7 +118,7 @@ class abmUsuarioRol
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return boolean
+     * @return array
      */
     public function buscar($param)
     {

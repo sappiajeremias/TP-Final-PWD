@@ -2,7 +2,6 @@
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $obj = new abmProducto();
-$respuesta=false;
 $list = $obj->buscar($data);
 if (count($list) > 0){
     $arreglo_salida =  [];
