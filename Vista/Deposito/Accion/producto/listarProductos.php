@@ -13,7 +13,8 @@ if (count($list) > 0){
             "prodetalle" => $elem->getProDetalle(),
             "procantstock" => $elem->getProCantStock(),
             "precio" => $elem->getPrecio(),
-            "deshabilitado" => $elem->getProDeshabilitado()
+            "deshabilitado" => $elem->getProDeshabilitado(),
+            "imagen" => $elem->getImagen()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }

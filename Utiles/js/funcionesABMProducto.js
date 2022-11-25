@@ -26,10 +26,18 @@ function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaProductos > tbody').empty();
     // GENERAMOS EL FORM PARA AGREGAR EL PRODUCTO
-    $('#tablaProductos > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
+    $('#tablaProductos > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td><input class="form-control" type="text" placeholder="Imagen"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
     // AGREGAMOS LOS PRODUCTOS
     $.each(arreglo, function (index, producto) {
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a><a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i></button></a><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
+        if (producto.deshabilitado == null || producto.deshabilitado == "0000-00-00 00:00:00"){
+            var boton = '<a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i></button></a>';
+        } else {
+            var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check"></i></button></a>';
+
+        }
+
+
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="../img/'+producto.imagen+'" id='+producto.imagen+' class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>'+boton+'<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
@@ -41,13 +49,15 @@ $(document).on('click', '.agregar', function () {
     var detalle = row[2].value;
     var stock = row[3].value;
     var precio = row[4].value;
+    var imagen = row[5].value;
 
     arreglo = {
         'pronombre': nombre,
         'prodetalle': detalle,
         'procantstock': stock,
         'precio': precio,
-        'prodeshabilitado': null
+        'prodeshabilitado': null,
+        'imagen': imagen
     };
 
     var verificador = true;
@@ -109,12 +119,13 @@ function agregar(array) {
 $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
     document.getElementById('editarProducto').classList.remove('d-none');
     var fila = $(this).closest('tr');
+
     var idproducto = fila[0].children[0].innerHTML;
     var pronombre = fila[0].children[1].innerHTML;
     var prodetalle = fila[0].children[2].innerHTML;
     var procantstock = fila[0].children[3].innerHTML;
     var precio = fila[0].children[4].innerHTML;
-    var prodeshabilitado = fila[0].children[5].innerHTML;
+    var prodeshabilitado = fila[0].children[6].innerHTML;
 
     var form = document.getElementById('editarP');
 
@@ -127,6 +138,7 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     inputs[2].value = prodetalle;
     inputs[3].value = procantstock;
     inputs[4].value = precio;
+    inputs[6].value = null;
     inputs[5].value = prodeshabilitado;
 });
 
@@ -240,24 +252,12 @@ $(document).on('click', '.deshabilitar', function () {
     
     var idproducto = fila[0].children[0].innerHTML;
     var pronombre = fila[0].children[1].innerHTML;
-    var prodetalle = fila[0].children[2].innerHTML;
-    var procantstock = fila[0].children[3].innerHTML;
-    var precio = fila[0].children[4].innerHTML;
-
-    arreglo = {
-        idproducto: idproducto,
-        pronombre: pronombre,
-        prodetalle: prodetalle,
-        procantstock: procantstock,
-        precio: precio,
-        prodeshabilitado: null
-    }
-
+    
     // CARTEL LIBRERIA
     bootbox.confirm({
-        title: "Deshabilitar Producto?",
+        title: "Deshabilitar PRODUCTO?",
         closeButton: false,
-        message: "Estas seguro que quieres deshabilitar a <b>" + pronombre + "</b> con ID: <b>" + idproducto+'</b>',
+        message: "Estas seguro que quieres DESHABILITAR a <b>" + pronombre + "</b> con ID:<b>" + idproducto + "</b>",
         buttons: {
             cancel: {
                 className: 'btn btn-outline-danger',
@@ -270,21 +270,20 @@ $(document).on('click', '.deshabilitar', function () {
         },
         callback: function (result) {
             if (result) {
-                deshabilitar(arreglo);
+                deshabilitar(idproducto);
             }
         }
     });
 });
 
-function deshabilitar(arreglo) {
+function deshabilitar(idproducto) {
 
     $.ajax({
         type: "POST",
         url: './accion/producto/deshabilitarProducto.php',
-        data: arreglo,
+        data: { idproducto: idproducto },
         success: function (response) {
-            var response = jQuery.parseJSON(response);
-            console.log(response.respuesta);
+            console.log(response);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
@@ -300,7 +299,73 @@ function deshabilitar(arreglo) {
             } else {
                 // ALERT LIBRERIA
                 bootbox.alert({
-                    message: "No se pudo eliminar el producto!",
+                    message: "No se pudo deshabilitar el producto!",
+                    size: 'small',
+                    closeButton: false,
+                });
+            }
+        }
+    });
+};
+
+/*################################# HABILITAR PRODUCTO #################################*/
+
+$(document).on('click', '.habilitar', function () {
+
+    var fila = $(this).closest('tr');
+    
+    var idproducto = fila[0].children[0].innerHTML;
+    var pronombre = fila[0].children[1].innerHTML;
+
+    // CARTEL LIBRERIA
+    bootbox.confirm({
+        title: "Habilitar Producto?",
+        closeButton: false,
+        message: "Estas seguro que quieres habilitar a <b>" + pronombre + "</b> con ID: <b>" + idproducto+'</b>',
+        buttons: {
+            cancel: {
+                className: 'btn btn-outline-danger',
+                label: '<i class="fa fa-times"></i> Cancelar'
+            },
+            confirm: {
+                className: 'btn btn-outline-success',
+                label: '<i class="fa fa-check"></i> Confirmar'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                deshabilitar(idproducto);
+            }
+        }
+    });
+});
+
+function deshabilitar(arreglo) {
+
+    $.ajax({
+        type: "POST",
+        url: './accion/producto/habilitarProducto.php',
+        data: {idproducto: idproducto},
+        success: function (response) {
+            console.log(response)
+            var response = jQuery.parseJSON(response);
+            console.log(response.respuesta);
+            if (response.respuesta) {
+                // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Habilitando Producto...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        cargarProductos();
+                        bootbox.hideAll();
+                    }, 1500);
+                });
+            } else {
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo habilitar el producto!",
                     size: 'small',
                     closeButton: false,
                 });
