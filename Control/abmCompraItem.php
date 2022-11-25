@@ -46,7 +46,7 @@ class abmCompraItem
             $compra->setID($param['idcompra']);
             $compra->cargar();
 
-            $obj->setear($param['idcompra'], $producto, $compra, $param['cicantidad']);
+            $obj->setear($param['idcompraitem'], $producto, $compra, $param['cicantidad']);
         }
         return $obj;
         
@@ -164,8 +164,8 @@ class abmCompraItem
 
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            $objcompra = $this->cargarObjeto($param);
-            if ($objcompra!=null and $objcompra->modificar()) {
+            $objcompraitem = $this->cargarObjeto($param);
+            if ($objcompraitem!=null and $objcompraitem->modificar()) {
                 $resp = true;
             }
         }
