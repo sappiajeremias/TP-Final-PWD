@@ -176,13 +176,8 @@ class Session
     {
         // Retorna true si el usuario activo tiene permiso de administrador
         $resp = false;
-        $listaUsRoles = $this->getRoles();
-        foreach ($listaUsRoles as $usuarioRol) {
-            // idrol = 1, es Administrador
-            if ($usuarioRol->getID() == 1) {
-                $resp = true;
-                break;
-            }
+        if($_SESSION['rolactivodescripcion'] <> 'admin'){
+            $resp=true;
         }
         return $resp;
     }
@@ -191,13 +186,8 @@ class Session
     {
         // Retorna true si el usuario activo tiene permiso de depósito
         $resp = false;
-        $listaUsRoles = $this->getRoles();
-        foreach ($listaUsRoles as $usuarioRol) {
-            // idrol = 1, es Administrador
-            if ($usuarioRol->getID() == 2) {
-                $resp = true;
-                break;
-            }
+        if($_SESSION['rolactivodescripcion'] <> 'deposito'){
+            $resp=true;
         }
         return $resp;
     }
@@ -207,13 +197,8 @@ class Session
     {
         // Retorna true si el usuario activo tiene permiso de cliente
         $resp = false;
-        $listaUsRoles = $this->getRoles();
-        foreach ($listaUsRoles as $usuarioRol) {
-            // idrol = 1, es Administrador
-            if ($usuarioRol->getID() == 3) {
-                $resp = true;
-                break;
-            }
+        if($_SESSION['rolactivodescripcion'] <> 'cliente'){
+            $resp=true;
         }
         return $resp;
     }

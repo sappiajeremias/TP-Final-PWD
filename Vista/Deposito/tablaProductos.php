@@ -1,7 +1,7 @@
 <?php
 $Titulo = "Tabla Productos";
 include_once '../Estructura/cabecera.php';
-if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
+if ($sesion->esDeposito()) {
     $mensaje = "No tiene permiso de deposito para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
@@ -9,6 +9,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
     $listaProds = $objItems->buscar(null);
     if (count($listaProds) > 0) {
 ?>
+<div class="container my-2">
         <div class="table-responsive">
             <table class="table table-hover caption-top align-middle text-center" id="tablaProductos">
                 <caption>Productos</caption>
@@ -72,6 +73,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
             </div>
         </div>
         <script src="../../Utiles/js/funcionesABMProducto.js"></script>
+</div>
     <?php } else {
     ?>
         <div class="container p-2">
