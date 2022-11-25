@@ -19,6 +19,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <th>Detalle</th>
                         <th>Stock</th>
                         <th>Precio</th>
+                        <th>Imagen</th>
                         <th>Deshabilitado</th>
                         <th width="200">Acciones</th>
                     </tr>
@@ -58,6 +59,10 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     <div class="form-group col-md-6">
                         <label for="prodeshabilitado" class="form-label">Deshabilitado: </label>
                         <input type="text" class="form-control" id="prodeshabilitado" name="prodeshabilitado" autocomplete="off" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="imagen" class="form-label">Imagen del Producto: </label>
+                        <input type="text" class="form-control" id="imagen" placeholder="Ingrese nueva imagen" name="imagen" autocomplete="off">
                     </div>
                     <div class="col-md-12 text-center">
                         <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>

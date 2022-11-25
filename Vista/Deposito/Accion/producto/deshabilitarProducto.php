@@ -7,9 +7,7 @@ if (!empty($data)){
 
     $fecha = date('Y-m-d H:i:s');
 
-    $data['prodeshabilitado'] = $fecha;
-
-    $respuesta = $obj->modificacion($data);
+    $objPro = $obj->buscar(['idproducto'=>$data['idproducto']]);
 
     if (!$respuesta){
         $mensajeError = "No se pudo deshabilitar al producto";

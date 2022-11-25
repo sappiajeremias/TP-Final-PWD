@@ -37,10 +37,11 @@ class abmProducto
             array_key_exists('prodetalle', $param) &&
             array_key_exists('procantstock', $param) &&
             array_key_exists('precio', $param) &&
-            array_key_exists('prodeshabilitado', $param)
+            array_key_exists('prodeshabilitado', $param) &&
+            array_key_exists('imagen', $param)
         ) {
             $obj = new producto();
-            $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado']);
+            $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado'], $param['imagen']);
         }
         return $obj;
         
@@ -60,10 +61,11 @@ class abmProducto
             array_key_exists('prodetalle', $param) &&
             array_key_exists('procantstock', $param) &&
             array_key_exists('precio', $param) &&
-            array_key_exists('prodeshabilitado', $param)
+            array_key_exists('prodeshabilitado', $param) &&
+            array_key_exists('imagen', $param)
         ) {
             $obj = new producto();
-            $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado']);
+            $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado'], $param['imagen']);
         }
         return $obj;
         
@@ -80,7 +82,7 @@ class abmProducto
         $producto = null;
         if (isset($param['idproducto'])) {
             $producto = new producto();
-            $producto->setear($param['idproducto'], null, null, null, null, null);
+            $producto->setear($param['idproducto'], null, null, null, null, null, null);
         }
         return $producto;
     }
@@ -190,6 +192,9 @@ class abmProducto
             }
             if (isset($param['prodeshabilitado'])) {
                 $where.=" and prodeshabilitado ='".$param['prodeshabilitado']."'";
+            }
+            if (isset($param['imagen'])) {
+                $where.=" and imagen ='".$param['imagen']."'";
             }
         }
 

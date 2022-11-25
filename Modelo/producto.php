@@ -11,6 +11,7 @@ class producto extends BaseDatos
     private $procantstock;
     private $precio;
     private $prodeshabilitado;
+    private $imagen;
     private $mensajeoperacion;
 
     public function __construct()
@@ -22,10 +23,11 @@ class producto extends BaseDatos
         $this->procantstock="";
         $this->precio="";
         $this->prodeshabilitado="";
+        $this->imagen="";
         $this->mensajeOperacion="";
     }
 
-    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado)
+    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado, $imagen)
     {
         $this->setID($idproducto);
         $this->setProNombre($pronombre);
@@ -33,15 +35,17 @@ class producto extends BaseDatos
         $this->setProCantStock($procantstock);
         $this->setPrecio($precio);
         $this->setProDeshabilitado($prodeshabilitado);
+        $this->setImagen($imagen);
     }
 
-    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado)
+    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado, $imagen)
     {
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
         $this->setPrecio($precio);
         $this->setProDeshabilitado($prodeshabilitado);
+        $this->setImagen($imagen);
     }
 
 
@@ -57,7 +61,7 @@ class producto extends BaseDatos
             if ($res>-1) {
                 if ($res>0) {
                     $row = $this->Registro();
-                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado']);
+                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado'], $row['imagen']);
                 }
             }
         } else {
@@ -71,13 +75,14 @@ class producto extends BaseDatos
         $resp = false;
         
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock, precio, prodeshabilitado) 
+        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock, precio, prodeshabilitado, imagen) 
             VALUES('"
             .$this->getPronombre()."', '"
             .$this->getProdetalle()."', '"
             .$this->getProCantStock()."', '"
             .$this->getPrecio()."', '"
-            .$this->getProDeshabilitado()."'
+            .$this->getProDeshabilitado()."', '"
+            .$this->getImagen()."'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -103,6 +108,7 @@ class producto extends BaseDatos
         ."', procantstock='". $this->getProCantStock()
         ."', precio='". $this->getPrecio()
         ."', prodeshabilitado='". $this->getProDeshabilitado()
+        ."', imagen='". $this->getImagen()
         ."' WHERE idproducto='".$this->getID()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
@@ -146,7 +152,7 @@ class producto extends BaseDatos
             if ($res>0) {
                 while ($row = $this->Registro()) {
                     $producto = new producto();
-                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado']);
+                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado'], $row['imagen']);
                     array_push($arreglo, $producto);
                 }
             }
@@ -301,4 +307,24 @@ class producto extends BaseDatos
 
         return $this;
     }
+     /**
+     * Get the value of prodeshabilitado
+     */ 
+    public function getImagen()
+    {
+        return $this->imagen;
+    }
+
+    /**
+     * Set the value of prodeshabilitado
+     *
+     * @return  self
+     */ 
+    public function setImagen($imagen)
+    {
+        $this->imagen = $imagen;
+
+        return $this;
+    }
+
 }

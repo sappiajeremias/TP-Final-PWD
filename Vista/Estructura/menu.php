@@ -110,8 +110,13 @@ if (count($roles)>1){?>
   <ul class="dropdown-menu">
     <li><a class="dropdown-item" id="rolactivo" disabled="disabled"><i class="fa-solid fa-address-book me-2"></i>ROL: <?php echo strtoupper($rolActivo['rol']) ?></a></li>
     <hr class="dropdown-divider">
-    <li><a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen me-2"></i>Ver Perfil</a></li>
+    <?php 
+    if($rolActivo['rol'] === 'cliente') {?>
+    <li><a class="dropdown-item" href="../Cliente/modificarPerfil.php"><i class="fa-solid fa-user-pen me-2"></i>Ver Perfil</a></li>
     <hr class="dropdown-divider">
+    <?php
+    ;}
+    ?>
     <li><a class="dropdown-item" href="../Login/accion/cerrarSesion.php"><i class="fa-solid fa-power-off me-2"></i>Cerrar Sesión</a></li>
   </ul>
 </div>
