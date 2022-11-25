@@ -1,49 +1,59 @@
 <?php
 
-class Session{
-
-    public function __construct(){
-        if(!session_start()){
+class Session
+{
+    public function __construct()
+    {
+        if (!session_start()) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
-    public function iniciar($nombreUsuario,$pswUsuario){
+    public function iniciar($nombreUsuario, $pswUsuario)
+    {
         $resp=false;
-        if($this->activa() && $this->validar($nombreUsuario,$pswUsuario)){
-            $_SESSION['usnombre']=$nombreUsuario;
-            $user=$this->getUsuario();
-            $_SESSION['idusuario']=$user->getID();
-            $_SESSION['usmail']=$user->getUsMail();
-            $_SESSION['usdeshabilitado']=$user->getUsDeshabilitado();
-            $resp=true;
-        }
+        
+
+
+        
+            if ($this->activa() && $this->validar($nombreUsuario, $pswUsuario)) {
+                $_SESSION['usnombre']=$nombreUsuario;
+                $user=$this->getUsuario();
+                $_SESSION['idusuario']=$user->getID();
+                $_SESSION['usmail']=$user->getUsMail();
+                $_SESSION['usdeshabilitado']=$user->getUsDeshabilitado();
+
+                $resp=true;
+            }
+        
         return $resp;
     }
 
-    public function setearRolActivo(){
-        if ($this->esAdmin()){
+    public function setearRolActivo()
+    {
+        if ($this->esAdmin()) {
             $_SESSION['rolactivodescripcion'] = 'admin';
             $idRol = $this->buscarIdRol('admin');
             $_SESSION['rolactivoid'] = $idRol;
-        } else if ($this->esDeposito()){
+        } elseif ($this->esDeposito()) {
             $_SESSION['rolactivodescripcion'] = 'deposito';
             $idRol = $this->buscarIdRol('deposito');
             $_SESSION['rolactivoid'] = $idRol;
-        } else if ($this->esCliente()){
+        } elseif ($this->esCliente()) {
             $_SESSION['rolactivodescripcion'] = 'cliente';
             $idRol = $this->buscarIdRol('cliente');
             $_SESSION['rolactivoid'] = $idRol;
         }
     }
 
-    public function buscarIdRol($param){
+    public function buscarIdRol($param)
+    {
         $retorno = null;
         $roles = $this->getRoles();
-        foreach($roles as $rol){
-            if($rol->getRolDescripcion()===$param){
+        foreach ($roles as $rol) {
+            if ($rol->getRolDescripcion()===$param) {
                 $retorno = $rol->getID();
             }
         }
@@ -51,40 +61,40 @@ class Session{
         return $retorno;
     }
 
-    public function activa(){
-
-        if ( php_sapi_name() !== 'cli' ) {
-
-            if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+    public function activa()
+    {
+        if (php_sapi_name() !== 'cli') {
+            if (version_compare(phpversion(), '5.4.0', '>=')) {
                 //compara la version de php para ver si se puede usar el metodo session_status()
                 return session_status() === PHP_SESSION_ACTIVE ? true : false;
-    
             } else {
                 //si la version es menor se fija comparando el id de la session actual, para ver si esta seteada.
-    
+
                 return session_id() === '' ? false : true;
             }
         }
-    
+
         return false;
     }
 
-    public function sesionActiva(){
+    public function sesionActiva()
+    {
         $resp = false;
-        if ($this->getNombreUsuarioLogueado() <> null){
+        if ($this->getNombreUsuarioLogueado() <> null) {
             $resp = true;
         }
         return $resp;
     }
 
-    public function validar($usNombre, $usPsw){
+    public function validar($usNombre, $usPsw)
+    {
         //Viene por parametro el nombre de usuario y la contraseña encriptada
         $resp=false;
-        if($this->activa()){
+        if ($this->activa()) {
             $objAbmUsuario= new abmUsuario();
             $param=array("usnombre"=>$usNombre, 'uspass'=>$usPsw);
             $listaUsuario=$objAbmUsuario->buscar($param);
-            if(!empty($listaUsuario)){
+            if (!empty($listaUsuario)) {
                 $resp=true;
             }
         }
@@ -92,10 +102,11 @@ class Session{
     }
 
 
-    private function getUsuario(){
+    private function getUsuario()
+    {
         //Método privado para no devolver el usuario fuera de la clase Session
         $user=null;
-        if($this->activa() && isset($_SESSION['usnombre'])){
+        if ($this->activa() && isset($_SESSION['usnombre'])) {
             $objAbmUsuario= new AbmUsuario();
             $param['usnombre']= $_SESSION['usnombre'];
             $listaUsuario= $objAbmUsuario->buscar($param);
@@ -104,51 +115,65 @@ class Session{
         return $user;
     }
 
-    public function getRoles(){
+    public function obtenerDeshabilitado($fecha)
+    {
+        $retorno = false;
+        if ($fecha === null || $fecha === '0000-00-00 00:00:00') {
+            $retorno = true;
+        }
+        return $retorno;
+    }
+
+    public function getRoles()
+    {
         //Devuelve un arreglo con los objetos rol del user
         $roles=[];
         $user= $this->getUsuario();
-        if($user!=null){
+        if ($user!=null) {
             //Primero busco la instancia de UsuarioRol
             $objAbmUsuarioRol= new AbmUsuarioRol();
             //Creo el parametro con el id del usuario
             $parametroUser=array('idusuario'=>$user->getID());
             $listaUsuarioRol = $objAbmUsuarioRol->buscar($parametroUser);
-            foreach($listaUsuarioRol as $tupla){
+            foreach ($listaUsuarioRol as $tupla) {
                 array_push($roles, $tupla->getObjRol());
             }
         }
         return $roles;
     }
 
-    public function getNombreUsuarioLogueado(){
+    public function getNombreUsuarioLogueado()
+    {
         //retorna el nombre del usuario logueado
         $nombreUsuario=null;
-        if(isset($_SESSION['usnombre'])){
+        if (isset($_SESSION['usnombre'])) {
             $nombreUsuario=$_SESSION['usnombre'];
         }
         return $nombreUsuario;
     }
 
-    public function getIDUsuarioLogueado(){
+    public function getIDUsuarioLogueado()
+    {
         //retorna el id del usuario logueado
         $nombreUsuario=null;
-        if(isset($_SESSION['idusuario'])){
+        if (isset($_SESSION['idusuario'])) {
             $nombreUsuario=$_SESSION['idusuario'];
         }
         return $nombreUsuario;
     }
 
-    public function getMailUsuarioLogueado(){
+    public function getMailUsuarioLogueado()
+    {
         //retorna el mail del usuario logueado
         $nombreUsuario=null;
-        if(isset($_SESSION['usmail'])){
+        if (isset($_SESSION['usmail'])) {
             $nombreUsuario=$_SESSION['usmail'];
         }
         return $nombreUsuario;
     }
 
-    public function esAdmin() {
+    public function esAdmin()
+    {
         // Retorna true si el usuario activo tiene permiso de administrador
         $resp = false;
         $listaUsRoles = $this->getRoles();
@@ -162,7 +187,8 @@ class Session{
         return $resp;
     }
 
-    public function esDeposito() {
+    public function esDeposito()
+    {
         // Retorna true si el usuario activo tiene permiso de depósito
         $resp = false;
         $listaUsRoles = $this->getRoles();
@@ -177,7 +203,8 @@ class Session{
     }
 
 
-    public function esCliente() {
+    public function esCliente()
+    {
         // Retorna true si el usuario activo tiene permiso de cliente
         $resp = false;
         $listaUsRoles = $this->getRoles();
@@ -191,29 +218,31 @@ class Session{
         return $resp;
     }
 
-    public function cambiarRol($idRol){
+    public function cambiarRol($idRol)
+    {
         $_SESSION['rolactivoid'] = $idRol;
         $retorno = false;
-        if($_SESSION['rolactivoid']===$idRol){
-           switch($_SESSION['rolactivoid']){
-            case '1':
-                $_SESSION['rolactivodescripcion'] = 'admin';
-                break;
-            case '2':
-                $_SESSION['rolactivodescripcion'] = 'deposito';
-                break;
-            case '3':
-                $_SESSION['rolactivodescripcion'] = 'cliente';
-                break;
-           }
+        if ($_SESSION['rolactivoid']===$idRol) {
+            switch($_SESSION['rolactivoid']) {
+                case '1':
+                    $_SESSION['rolactivodescripcion'] = 'admin';
+                    break;
+                case '2':
+                    $_SESSION['rolactivodescripcion'] = 'deposito';
+                    break;
+                case '3':
+                    $_SESSION['rolactivodescripcion'] = 'cliente';
+                    break;
+            }
             $retorno = true;
         }
         return $retorno;
     }
 
-    public function getRolActivo(){
+    public function getRolActivo()
+    {
         $resp = [];
-        if(isset($_SESSION['rolactivodescripcion']) && isset($_SESSION['rolactivoid'])){
+        if (isset($_SESSION['rolactivodescripcion']) && isset($_SESSION['rolactivoid'])) {
             $resp = [
                 'rol'=>$_SESSION['rolactivodescripcion'],
                 'id'=>$_SESSION['rolactivoid']
@@ -223,9 +252,10 @@ class Session{
     }
 
 
-    public function cerrar(){
+    public function cerrar()
+    {
         //Primero me fijo si esta activa la session
-        if($this->activa()){
+        if ($this->activa()) {
             //elimino sus datos
             unset($_SESSION['idusuario']);
             unset($_SESSION['usnombre']);
@@ -237,6 +267,4 @@ class Session{
             session_destroy();
         }
     }
-
-
 }

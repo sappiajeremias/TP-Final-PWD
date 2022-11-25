@@ -274,6 +274,7 @@ $(document).on('click', '.deshabilitar', function () {
             }
         }
     });
+    deshabilitar(idproducto);
 });
 
 function deshabilitar(idproducto) {
@@ -296,6 +297,7 @@ function deshabilitar(idproducto) {
                         bootbox.hideAll();
                     }, 1500);
                 });
+                location.reload();
             } else {
                 // ALERT LIBRERIA
                 bootbox.alert({
