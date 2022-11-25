@@ -13,7 +13,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'admin') {
 ?>
         <div class="table-responsive">
             <table class="table table-hover caption-top align-middle text-center" id="tablaUsuarios">
-                <caption>Usuarios</caption>
+                
                 <thead class="table-dark">
                     <tr>
                         <th width="70">ID</th>
