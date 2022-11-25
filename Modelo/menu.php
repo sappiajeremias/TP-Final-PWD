@@ -28,6 +28,21 @@ public function setear($idmenu, $menombre, $medescripcion, $newObjpadre, $medesh
     $this->setMeDeshabilitado($medeshabilitado);
 }
 
+public function setearSinID( $menombre, $medescripcion, $newObjpadre, $medeshabilitado) {
+    $this->setMeNombre($menombre);
+    $this->setMeDescripcion($medescripcion);
+    $this->setObjMenuPadre($newObjpadre);
+    $this->setMeDeshabilitado($medeshabilitado);
+}
+
+public function setearSinPadre($menombre, $medescripcion){
+    $objPadre = new menu();
+    $this->setMeNombre($menombre);
+    $this->setMeDescripcion($medescripcion);
+    $this->setObjMenuPadre($objPadre);
+}
+
+
 public function cargar(){
     $resp = false;   
     $sql="SELECT * FROM menu WHERE idmenu = '".$this->getID()."'";
@@ -51,7 +66,8 @@ public function cargar(){
 
 public function insertar(){
     $resp = false;
-   
+    
+      
     // Si lleva ID Autoincrement, la consulta SQL no lleva id. Y viceversa:
     $sql="INSERT INTO menu(menombre, medescripcion, idpadre, medeshabilitado)
         VALUES('"
@@ -71,12 +87,32 @@ public function insertar(){
     return $resp;
 }
 
+public function insertarDos(){
+    $resp = false;
+      
+    // Si lleva ID Autoincrement, la consulta SQL no lleva id. Y viceversa:
+    $sql="INSERT INTO menu(menombre, medescripcion)
+        VALUES('"
+        .$this->getMeNombre()."', '"
+        .$this->getMeDescripcion()."');";
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
+            $resp = true;
+        } else {
+            $this->setMensajeOperacion("menu->insertar: ".$this->getError());
+        }
+    } else {
+        $this->setMensajeOperacion("menu->insertar: ".$this->getError());
+    }
+    return $resp;
+}
+
 public function modificar(){
     $resp = false;
    
-    $sql="UPDATE menu SET menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', 
-    idpadre='".$this->getObjMenuPadre()->getID()."', medeshabilitado='".$this->getMeDeshabilitado() . "' WHERE idmenu=".$this->getID()."";
-   
+    $sql="UPDATE menu SET menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', medeshabilitado='".$this->getMeDeshabilitado()."', idpadre=".( $this->getObjMenuPadre()->getID() <> 'null'? $this->getObjMenuPadre()->getID() : 'null') ." WHERE idmenu='".$this->getID()."'";
+
+    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;

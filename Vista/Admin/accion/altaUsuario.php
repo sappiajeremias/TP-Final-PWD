@@ -15,8 +15,6 @@ if (isset($data['usnombre'])){
         } else {
             $objUsu = new abmUsuario();
             $arregloUsu = $objUsu->buscar(['usnombre'=>$data['usnombre'], 'usmail' => $data['usmail']]);
-            print_r($data['idrol'] . "HOLAAAAAAAAAAAAAAAAAA");
-            print_r($arregloUsu[0]->getID(). "HOLAAAAAAAAAAAAAAAA");
             $objUsuRol = new abmUsuarioRol();
             $objUsuRol->alta(['idrol'=>$data['idrol'],'idusuario'=>$arregloUsu[0]->getID()]);
         }

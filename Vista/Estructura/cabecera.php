@@ -8,12 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- JQUERY -->
-    <script type="text/javascript" src="../../Utiles/jquery-3.6.1/jquery.min.js"></script>
+    <script type="text/javascript" src="..\..\Utiles\jquery-3.6.1\jquery.min.js"></script>
     <!-- BOOTSTRAP -->
-    <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../Utiles/bootstrap/css/bootstrapValidator.min.css">
-    <script src="..\..\Utiles\bootstrap\js\bootstrap.min.js"></script>
+    <link rel="stylesheet" href="..\..\Utiles\bootstrap\css\bootstrap.min.css">
     <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
+    <!-- BOOTSTRAP VALIDATOR -->
     <script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
     <script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
     <!-- BOOTBOXJS LIBRERIA NOTIFICACIONES -->
@@ -37,5 +36,3 @@
 </head>
 <?php include_once("../../Vista/Estructura/menu.php") ?>
 <!-- FIN CABECERA -->
-
-<body class="container my-3">

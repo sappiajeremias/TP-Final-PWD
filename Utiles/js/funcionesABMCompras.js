@@ -7,9 +7,10 @@ $(window).on("load", function () {
 function cargarCompras(){
     $.ajax({
         type: "POST",
-        url: './accion/listarCompras.php',
+        url: './accion/compras/listarCompras.php',
         data: null,
         success: function (response) {
+            console.log(response);
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, compraActual) {
@@ -62,7 +63,7 @@ function armarTabla(arreglo) {
                 estadoVista = "<span class='badge rounded-pill text-bg-danger'>Cancelada</span>";
                 break;
         }
-        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompraestado + '</td><th scope="row">' + compra.idcompra + '</th><td>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' + botones + '</tr>');
+        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompra + '</td><th scope="row">' + compra.idcompraestado + '</th><td>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' + botones + '</tr>');
     });
 }
 
@@ -71,13 +72,13 @@ function armarTabla(arreglo) {
 $(document).on('click', '.verProductos', function () {
 
     var fila = $(this).closest('tr');
-    var idcompra = fila[0].children[1].innerHTML;
+    var idcompra = fila[0].children[0].innerHTML;
     var pronombre = fila[0].children[2].innerHTML;
 
 
     $.ajax({
         type: "POST",
-        url: './accion/listarProdCompra.php',
+        url: './accion/compras/listarProdCompra.php',
         data: { idcompra: idcompra },
         success: function (response) {
             arreglo = [];
@@ -119,16 +120,18 @@ $(document).on('click', '#cerrar', function () {
 /*################################# CAMBIAR ESTADO COMPRA #################################*/
 
 function cambiarEstado(idcompraestadotipo, idboton) {
-    console.log('#' + idboton);
     var fila = $('#' + idboton + '').closest('tr');
-    var idcompraestado = fila[0].children[0].innerHTML;
-    var idcompra = fila[0].children[1].innerHTML;
+    var idcompra = fila[0].children[0].innerHTML;
+    var idcompraestado = fila[0].children[1].innerHTML;
+
+    console.log(idcompraestado+' - '+idcompra);
 
     $.ajax({
         type: "POST",
-        url: './accion/modificarEstadoCompra.php',
+        url: './accion/compras/modificarEstadoCompra.php',
         data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD

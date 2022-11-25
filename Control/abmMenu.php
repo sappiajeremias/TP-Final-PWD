@@ -3,26 +3,27 @@
 class abmMenu
 {
 
-    public function abm($datos){
-        $resp=false;
-        if($datos['action']== 'eliminar'){
-            if($this->baja($datos)){
-                $resp=true;
+    public function abm($datos)
+    {
+        $resp = false;
+        if ($datos['action'] == 'eliminar') {
+            if ($this->baja($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'modificar'){
-            if($this->modificacion($datos)){
-                $resp=true;
+        if ($datos['action'] == 'modificar') {
+            if ($this->modificacion($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'alta'){
-            if($this->alta($datos)){
-                $resp=true;
+        if ($datos['action'] == 'alta') {
+            if ($this->alta($datos)) {
+                $resp = true;
             }
         }
         return $resp;
     }
-    
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
@@ -31,18 +32,42 @@ class abmMenu
      */
     private function cargarObjeto($param)
     {
-        $obj = null;
-        if (array_key_exists('idmenu', $param) &&
+        $menu = null;
+        if (
+
+            array_key_exists('idmenu', $param) &&
             array_key_exists('menombre', $param) &&
             array_key_exists('medescripcion', $param) &&
             array_key_exists('idpadre', $param) &&
             array_key_exists('medeshabilitado', $param)
         ) {
+
             $menu = new menu();
-            $menuPadre=new menu();
+            $menuPadre = new menu();
+
+            if ($param['idpadre'] !== null || $param['idpadre'] !== "") {
+                $menuPadre->setID($param['idpadre']);
+                $menuPadre->cargar();
+            }
+
+            $menu->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $menuPadre, $param['medeshabilitado']);
+        } elseif (
+            array_key_exists('menombre', $param) &&
+            array_key_exists('medescripcion', $param) &&
+            array_key_exists('idpadre', $param)
+        ) {
+
+
+            $menu = new menu();
+            $menuPadre = new menu();
             $menuPadre->setID($param['idpadre']);
             $menuPadre->cargar();
-            $menu->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $menuPadre, $param['medeshabilitado']);
+            $menu->setearSinID($param['menombre'], $param['medescripcion'], $menuPadre, null);
+        } else {
+
+
+            $menu = new menu();
+            $menu->setearSinPadre($param['menombre'], $param['medescripcion']);
         }
         return $menu;
     }
@@ -72,6 +97,7 @@ class abmMenu
     {
         $resp = false;
         if (isset($param['idmenu'])) {
+
             $resp = true;
         }
         return $resp;
@@ -87,8 +113,14 @@ class abmMenu
         // $param['idrol'] =null;
         $objMenu = $this->cargarObjeto($param);
         // verEstructura($Objrol);
-        if ($objMenu!=null and $objMenu->insertar()) {
-            $resp = true;
+        if (array_key_exists('idpadre', $param)) {
+            if ($objMenu != null and $objMenu->insertar()) {
+                $resp = true;
+            }
+        } else {
+            if ($objMenu != null and $objMenu->insertarDos()) {
+                $resp = true;
+            }
         }
         return $resp;
     }
@@ -103,7 +135,7 @@ class abmMenu
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objMenu = $this->cargarObjetoConClave($param);
-            if ($objMenu!=null and $objMenu->eliminar()) {
+            if ($objMenu != null and $objMenu->eliminar()) {
                 $resp = true;
             }
         }
@@ -121,7 +153,7 @@ class abmMenu
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objMenu = $this->cargarObjeto($param);
-            if ($objMenu!=null and $objMenu->modificar()) {
+            if ($objMenu != null and $objMenu->modificar()) {
                 $resp = true;
             }
         }
@@ -136,21 +168,21 @@ class abmMenu
     public function buscar($param)
     {
         $where = " true ";
-        if ($param<>null) {
+        if ($param <> null) {
             if (isset($param['idmenu'])) {
-                $where.=" and idmenu ='".$param['idmenu']."'";
+                $where .= " and idmenu ='" . $param['idmenu'] . "'";
             }
             if (isset($param['menombre'])) {
-                $where.=" and menombre ='".$param['menombre']."'";
+                $where .= " and menombre ='" . $param['menombre'] . "'";
             }
             if (isset($param['medescripcion'])) {
-                $where.=" and medescripcion ='".$param['medescripcion']."'";
+                $where .= " and medescripcion ='" . $param['medescripcion'] . "'";
             }
             if (isset($param['idpadre'])) {
-                $where.=" and idpadre ='".$param['idpadre']."'";
+                $where .= " and idpadre ='" . $param['idpadre'] . "'";
             }
             if (isset($param['medeshabilitado'])) {
-                $where.=" and medeshabilitado ='".$param['medeshabilitado']."'";
+                $where .= " and medeshabilitado ='" . $param['medeshabilitado'] . "'";
             }
         }
 
@@ -160,31 +192,31 @@ class abmMenu
     }
 
 
-    public function ObtenerMenu($param = ""){
+    public function ObtenerMenu($param = "")
+    {
         $where = " true ";
-        if($param!=""){
+        if ($param != "") {
 
-            if(isset($param['idrol'])){
-                $where .= " and idrol = '". $param['idrol']. "'";
+            if (isset($param['idrol'])) {
+                $where .= " and idrol = '" . $param['idrol'] . "'";
             }
-            if(isset($param['idmenu'])){
-                $where .= " and idmenu = '".$param['idmenu']."'";
+            if (isset($param['idmenu'])) {
+                $where .= " and idmenu = '" . $param['idmenu'] . "'";
             }
         }
         $objMenu = new menu();
         $arreglo = $objMenu->listar($where);
         return $arreglo;
-
     }
 
-    public function tieneHijos($idPadre){
-        $idArreglo = ['idpadre'=>$idPadre];
+    public function tieneHijos($idPadre)
+    {
+        $idArreglo = ['idpadre' => $idPadre];
         $arreglo = $this->buscar($idArreglo);
         $retorno = null;
-        if(count($arreglo)<>0){
+        if (count($arreglo) <> 0) {
             $retorno = $arreglo;
         }
         return $retorno;
     }
-        
 }

@@ -1,7 +1,7 @@
 <?php 
-include_once "../../../configuracion.php";
+include_once "../../../../configuracion.php";
 $data = data_submitted();
-$obj = new abmProducto();
+$obj = new abmCompraItem();
 $respuesta=false;
 $list = $obj->buscar($data);
 if (count($list) > 0){
@@ -9,11 +9,10 @@ if (count($list) > 0){
     foreach ($list as $elem){
         
         $nuevoElem = [
-            "idproducto" => $elem->getID(),
-            "pronombre" => $elem->getProNombre(),
-            "prodetalle" => $elem->getProDetalle(),
-            "procantstock" => $elem->getProCantStock(),
-            "precio" => $elem->getPrecio()
+            "pronombre" => $elem->getObjProducto()->getProNombre(),
+            "prodetalle" => $elem->getObjProducto()->getProDetalle(),
+            "precio" => $elem->getObjProducto()->getPrecio(),
+            "procantstock" => $elem->getCicantidad()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }

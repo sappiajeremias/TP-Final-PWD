@@ -13,9 +13,9 @@ if ($sesion->sesionActiva()) {
 
 
 <!-- NAVBAR INICIO -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary border rounded">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <!-- INCIO MENÚ PÚBLICO -->
-    <div class="container-fluid">
+    <div class="container-fluid m-3">
         <a class="navbar-brand" href="#">Nombre Sitio</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -66,7 +66,7 @@ if ($sesion->sesionActiva()) {
                         $retorno = $abmMenu->tieneHijos($idMenuActual);  // SI TIENE HIJOS RETORNA ARREGLO, SINO NULL
                         if ($retorno <> null) { // VERIFICAMOS
                 ?>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown me-2">
                                 <!-- INICIO PERMISOS DROPDOWN -->
                                 <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <?php echo $objMenuActual->getMeNombre() ?>
@@ -90,7 +90,7 @@ if ($sesion->sesionActiva()) {
     <!-- INICIO CAMBIAR ROLES --><?php
                                                     } 
 if (count($roles)>1){?>
-<ul class="navbar-nav d-flex">
+<ul class="navbar-nav d-flex me-2">
     <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user-gear me-1"></i>Cambiar Roles</a>
         <div class="dropdown-menu dropdown-menu-end">
@@ -103,16 +103,18 @@ if (count($roles)>1){?>
 <!-- FIN CAMBIAR ROLES -->
 <?php } ?>
 <!-- INICIO USUARIO ACTIVO DATOS -->
-<ul class="navbar-nav d-flex text-center">
-    <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa-solid fa-user me-2"></i><?php echo $nombreUsuario; ?></a>
-    <div class="dropdown-menu dropdown-menu-end">
-        <a class="dropdown-item" id="rolactivo" disabled="disabled"><i class="fa-solid fa-address-book me-2"></i>ROL: <?php echo strtoupper($_SESSION['rolactivodescripcion']) ?></a>
-        <hr class="dropdown-divider">
-        <a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen me-2"></i>Ver Perfil</a>
-        <hr class="dropdown-divider">
-        <a class="dropdown-item" href="../Accion/cerrarSesion.php"><i class="fa-solid fa-power-off me-2"></i>Cerrar Sesión</a>
-    </div>
-</ul>
+<div class="dropdown-center">
+  <button class="btn btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fa-solid fa-user me-2"></i><?php echo $nombreUsuario ?>
+  </button>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" id="rolactivo" disabled="disabled"><i class="fa-solid fa-address-book me-2"></i>ROL: <?php echo strtoupper($rolActivo['rol']) ?></a></li>
+    <hr class="dropdown-divider">
+    <li><a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen me-2"></i>Ver Perfil</a></li>
+    <hr class="dropdown-divider">
+    <li><a class="dropdown-item" href="../Accion/cerrarSesion.php"><i class="fa-solid fa-power-off me-2"></i>Cerrar Sesión</a></li>
+  </ul>
+</div>
 <!-- FIN MENÚ USUARIO LOGEADO -->
 <?php } ?>
     </div>
