@@ -9,6 +9,7 @@ if ($sesion->esDeposito()) {
     $listaProds = $objItems->buscar(null);
     if (count($listaProds) > 0) {
 ?>
+<div class="container my-2">
         <div class="table-responsive">
             <table class="table table-hover caption-top align-middle text-center" id="tablaProductos">
                 <caption>Productos</caption>
@@ -72,6 +73,7 @@ if ($sesion->esDeposito()) {
             </div>
         </div>
         <script src="../../Utiles/js/funcionesABMProducto.js"></script>
+</div>
     <?php } else {
     ?>
         <div class="container p-2">
