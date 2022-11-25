@@ -10,7 +10,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
     if (count($listaProds) > 0) {
 ?>
         <div class="table-responsive">
-            <table class="table table-hover caption-top" id="tablaProductos">
+            <table class="table table-hover caption-top align-middle text-center" id="tablaProductos">
                 <caption>Productos</caption>
                 <thead class="table-dark">
                     <tr>
@@ -19,8 +19,8 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                         <th>Detalle</th>
                         <th>Stock</th>
                         <th>Precio</th>
-                        <th width="50">Editar</th>
-                        <th width="50">Eliminar</th>
+                        <th>Deshabilitado</th>
+                        <th width="200">Acciones</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -54,6 +54,10 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     <div class="form-group col-md-6">
                         <label for="precio" class="form-label">Precio: </label>
                         <input type="number" class="form-control" id="precio" name="precio" autocomplete="off">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="prodeshabilitado" class="form-label">Deshabilitado: </label>
+                        <input type="text" class="form-control" id="prodeshabilitado" name="prodeshabilitado" autocomplete="off" readonly>
                     </div>
                     <div class="col-md-12 text-center">
                         <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>

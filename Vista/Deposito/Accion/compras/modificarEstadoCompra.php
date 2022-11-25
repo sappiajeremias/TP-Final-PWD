@@ -1,5 +1,5 @@
 <?php
-include_once "../../../configuracion.php";
+include_once "../../../../configuracion.php";
 $data = data_submitted();
 $objCE = new abmCompraEstado();
 $list = $objCE->buscar(['idcompraestado' => $data['idcompraestado']]);

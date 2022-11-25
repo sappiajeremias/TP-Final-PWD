@@ -1,5 +1,5 @@
 <?php 
-include_once "../../../configuracion.php";
+include_once "../../../../configuracion.php";
 $data = data_submitted();
 $obj = new abmProducto();
 $list = $obj->buscar($data);
@@ -12,7 +12,8 @@ if (count($list) > 0){
             "pronombre" => $elem->getProNombre(),
             "prodetalle" => $elem->getProDetalle(),
             "procantstock" => $elem->getProCantStock(),
-            "precio" => $elem->getPrecio()
+            "precio" => $elem->getPrecio(),
+            "deshabilitado" => $elem->getProDeshabilitado()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }

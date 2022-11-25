@@ -6,10 +6,9 @@ $(window).on("load", function () {
 function cargarProductos(){
     $.ajax({
         type: "POST",
-        url: './accion/listarProductos.php',
+        url: './accion/producto/listarProductos.php',
         data: null,
         success: function (response) {
-            console.log(response)
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, productoActual) {
@@ -27,10 +26,10 @@ function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaProductos > tbody').empty();
     // GENERAMOS EL FORM PARA AGREGAR EL PRODUCTO
-    $('#tablaProductos > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
+    $('#tablaProductos > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
     // AGREGAMOS LOS PRODUCTOS
     $.each(arreglo, function (index, producto) {
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a><a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i></button></a><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
@@ -47,7 +46,8 @@ $(document).on('click', '.agregar', function () {
         'pronombre': nombre,
         'prodetalle': detalle,
         'procantstock': stock,
-        'precio': precio
+        'precio': precio,
+        'prodeshabilitado': null
     };
 
     var verificador = true;
@@ -75,9 +75,10 @@ $(document).on('click', '.agregar', function () {
 function agregar(array) {
     $.ajax({
         type: "POST",
-        url: './accion/altaProd.php',
+        url: './accion/producto/altaProd.php',
         data: array,
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
@@ -113,6 +114,7 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     var prodetalle = fila[0].children[2].innerHTML;
     var procantstock = fila[0].children[3].innerHTML;
     var precio = fila[0].children[4].innerHTML;
+    var prodeshabilitado = fila[0].children[5].innerHTML;
 
     var form = document.getElementById('editarP');
 
@@ -125,6 +127,7 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     inputs[2].value = prodetalle;
     inputs[3].value = procantstock;
     inputs[4].value = precio;
+    inputs[5].value = prodeshabilitado;
 });
 
 //CIERRA EL FORMULARIO
@@ -139,7 +142,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: './accion/editarProd.php',
+            url: './accion/producto/editarProd.php',
             data: $(this).serialize(),
             success: function (response) {
                 var response = jQuery.parseJSON(response);
@@ -199,7 +202,7 @@ function eliminar(idproducto) {
 
     $.ajax({
         type: "POST",
-        url: './accion/eliminarProducto.php',
+        url: './accion/producto/eliminarProducto.php',
         data: { idproducto: idproducto },
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -208,6 +211,84 @@ function eliminar(idproducto) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Borrando Producto...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        cargarProductos();
+                        bootbox.hideAll();
+                    }, 1500);
+                });
+            } else {
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo eliminar el producto!",
+                    size: 'small',
+                    closeButton: false,
+                });
+            }
+        }
+    });
+};
+
+
+/*################################# DESHABILITAR PRODUCTO #################################*/
+
+$(document).on('click', '.deshabilitar', function () {
+
+    var fila = $(this).closest('tr');
+    
+    var idproducto = fila[0].children[0].innerHTML;
+    var pronombre = fila[0].children[1].innerHTML;
+    var prodetalle = fila[0].children[2].innerHTML;
+    var procantstock = fila[0].children[3].innerHTML;
+    var precio = fila[0].children[4].innerHTML;
+
+    arreglo = {
+        idproducto: idproducto,
+        pronombre: pronombre,
+        prodetalle: prodetalle,
+        procantstock: procantstock,
+        precio: precio,
+        prodeshabilitado: null
+    }
+
+    // CARTEL LIBRERIA
+    bootbox.confirm({
+        title: "Deshabilitar Producto?",
+        closeButton: false,
+        message: "Estas seguro que quieres deshabilitar a <b>" + pronombre + "</b> con ID: <b>" + idproducto+'</b>',
+        buttons: {
+            cancel: {
+                className: 'btn btn-outline-danger',
+                label: '<i class="fa fa-times"></i> Cancelar'
+            },
+            confirm: {
+                className: 'btn btn-outline-success',
+                label: '<i class="fa fa-check"></i> Confirmar'
+            }
+        },
+        callback: function (result) {
+            if (result) {
+                deshabilitar(arreglo);
+            }
+        }
+    });
+});
+
+function deshabilitar(arreglo) {
+
+    $.ajax({
+        type: "POST",
+        url: './accion/producto/deshabilitarProducto.php',
+        data: arreglo,
+        success: function (response) {
+            var response = jQuery.parseJSON(response);
+            console.log(response.respuesta);
+            if (response.respuesta) {
+                // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Deshabilitando Producto...</div>',
                     closeButton: false
                 });
                 dialog.init(function () {

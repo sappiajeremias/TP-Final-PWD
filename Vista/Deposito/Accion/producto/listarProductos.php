@@ -1,18 +1,19 @@
 <?php 
-include_once "../../../configuracion.php";
+include_once "../../../../configuracion.php";
 $data = data_submitted();
-$obj = new abmCompraItem();
-$respuesta=false;
+$obj = new abmProducto();
 $list = $obj->buscar($data);
 if (count($list) > 0){
     $arreglo_salida =  [];
     foreach ($list as $elem){
         
         $nuevoElem = [
-            "pronombre" => $elem->getObjProducto()->getProNombre(),
-            "prodetalle" => $elem->getObjProducto()->getProDetalle(),
-            "precio" => $elem->getObjProducto()->getPrecio(),
-            "procantstock" => $elem->getCicantidad()
+            "idproducto" => $elem->getID(),
+            "pronombre" => $elem->getProNombre(),
+            "prodetalle" => $elem->getProDetalle(),
+            "procantstock" => $elem->getProCantStock(),
+            "precio" => $elem->getPrecio(),
+            "deshabilitado" => $elem->getProDeshabilitado()
         ];
         array_push($arreglo_salida,$nuevoElem);
     }

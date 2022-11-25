@@ -10,6 +10,7 @@ class producto extends BaseDatos
     private $prodetalle;
     private $procantstock;
     private $precio;
+    private $prodeshabilitado;
     private $mensajeoperacion;
 
     public function __construct()
@@ -20,24 +21,27 @@ class producto extends BaseDatos
         $this->prodetalle="";
         $this->procantstock="";
         $this->precio="";
+        $this->prodeshabilitado="";
         $this->mensajeOperacion="";
     }
 
-    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio)
+    public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado)
     {
         $this->setID($idproducto);
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
         $this->setPrecio($precio);
+        $this->setProDeshabilitado($prodeshabilitado);
     }
 
-    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio)
+    public function setearSinID($pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado)
     {
         $this->setProNombre($pronombre);
         $this->setProDetalle($prodetalle);
         $this->setProCantStock($procantstock);
         $this->setPrecio($precio);
+        $this->setProDeshabilitado($prodeshabilitado);
     }
 
 
@@ -53,7 +57,7 @@ class producto extends BaseDatos
             if ($res>-1) {
                 if ($res>0) {
                     $row = $this->Registro();
-                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio']);
+                    $this->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado']);
                 }
             }
         } else {
@@ -67,12 +71,13 @@ class producto extends BaseDatos
         $resp = false;
         
         // Si lleva ID Autoincrement, la consulta SQL no lleva dicho ID
-        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock, precio) 
+        $sql="INSERT INTO producto(pronombre, prodetalle, procantstock, precio, prodeshabilitado) 
             VALUES('"
             .$this->getPronombre()."', '"
             .$this->getProdetalle()."', '"
             .$this->getProCantStock()."', '"
-            .$this->getPrecio()."'
+            .$this->getPrecio()."', '"
+            .$this->getProDeshabilitado()."'
         );";
         if ($this->Iniciar()) {
             if ($esteid = $this->Ejecutar($sql)) {
@@ -97,6 +102,7 @@ class producto extends BaseDatos
         ."', prodetalle='".$this->getProDetalle()
         ."', procantstock='". $this->getProCantStock()
         ."', precio='". $this->getPrecio()
+        ."', prodeshabilitado='". $this->getProDeshabilitado()
         ."' WHERE idproducto='".$this->getID()."'";
         if ($this->Iniciar()) {
             if ($this->Ejecutar($sql)) {
@@ -140,7 +146,7 @@ class producto extends BaseDatos
             if ($res>0) {
                 while ($row = $this->Registro()) {
                     $producto = new producto();
-                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio']);
+                    $producto->setear($row['idproducto'], $row['pronombre'], $row['prodetalle'], $row['procantstock'], $row['precio'], $row['prodeshabilitado']);
                     array_push($arreglo, $producto);
                 }
             }
@@ -257,7 +263,7 @@ class producto extends BaseDatos
     }
 
     /**
-     * Get the value of procantstock
+     * Get the value of precio
      */ 
     public function getPrecio()
     {
@@ -265,13 +271,33 @@ class producto extends BaseDatos
     }
 
     /**
-     * Set the value of procantstock
+     * Set the value of precio
      *
      * @return  self
      */ 
     public function setPrecio($precio)
     {
         $this->precio = $precio;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of prodeshabilitado
+     */ 
+    public function getProDeshabilitado()
+    {
+        return $this->prodeshabilitado;
+    }
+
+    /**
+     * Set the value of prodeshabilitado
+     *
+     * @return  self
+     */ 
+    public function setProDeshabilitado($prodeshabilitado)
+    {
+        $this->prodeshabilitado = $prodeshabilitado;
 
         return $this;
     }
