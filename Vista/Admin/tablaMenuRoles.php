@@ -2,7 +2,7 @@
 $Titulo = "Tabla Menu Roles";
 include_once '../Estructura/cabecera.php';
 
-if ($sesion->esAdmin()) {
+if ($sesion->esAdmin()){
     $mensaje = "No tiene permiso de administrador para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {

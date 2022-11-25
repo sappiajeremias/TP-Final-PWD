@@ -151,7 +151,7 @@ class Session{
     public function esAdmin() {
         // Retorna true si el usuario activo tiene permiso de administrador
         $resp = false;
-        if($_SESSION['rolactivodescripcion'] <> 'cliente'){
+        if($_SESSION['rolactivodescripcion'] <> 'admin'){
             $resp=true;
         }
         return $resp;
