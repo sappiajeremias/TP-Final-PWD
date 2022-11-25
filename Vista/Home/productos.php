@@ -28,7 +28,7 @@ $listaProductos = $abmProductos->buscarConStock();
                             $rolActivo = $sesion->getRolActivo();
                             if ($rolActivo['rol'] === 'cliente') { ?>
                                 <div class="d-grid gap-2 d-md-block m-auto mb-2">
-                                    <button class="carrito"type="button" onclick=agregarACarrito(<?php echo $productoActual->getID(); ?>) class="agregarACarrito btn btn-primary btn-sm">Añadir al carrito</button>
+                                    <button class="carrito btn btn-outline-success" type="button" onclick=agregarACarrito(<?php echo $productoActual->getID(); ?>) class="agregarACarrito btn btn-primary btn-sm">Añadir al carrito</button>
                                 </div>
                                 <script src="../../Utiles/js/funcionesCarrito.js"></script>
                                  
