@@ -1,5 +1,5 @@
 <?php
-include_once '../../configuracion.php';
+include_once '../../../configuracion.php';
 
 $respuesta = false;
 $data = data_submitted();
@@ -22,4 +22,4 @@ if (!empty($data)) {
     //Si no hay datos ingresados muestra el cartel y redirecciona
     $mensaje = "Datos de usuario y contraseña no recibidos";
 }
-echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
+echo "<script> window.location.href='../../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";

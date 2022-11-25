@@ -112,7 +112,7 @@ if (count($roles)>1){?>
     <hr class="dropdown-divider">
     <li><a class="dropdown-item" href="../Login/verPerfilUsuario.php"><i class="fa-solid fa-user-pen me-2"></i>Ver Perfil</a></li>
     <hr class="dropdown-divider">
-    <li><a class="dropdown-item" href="../Accion/cerrarSesion.php"><i class="fa-solid fa-power-off me-2"></i>Cerrar Sesión</a></li>
+    <li><a class="dropdown-item" href="../Login/accion/cerrarSesion.php"><i class="fa-solid fa-power-off me-2"></i>Cerrar Sesión</a></li>
   </ul>
 </div>
 <!-- FIN MENÚ USUARIO LOGEADO -->
