@@ -196,6 +196,26 @@ class abmCompraItem
         return $arreglo;
     }
 
+<<<<<<< HEAD
+    public function modificarCantidad($idCompra){
+        $list = $this->buscar($idCompra);
+        foreach($list as $objCI){
+            $nuevaCantidad = $objCI->getObjProducto()->getProCantStock() - $objCI->getCiCantidad();
+
+
+            $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
+            $objCI->getObjProducto()->modificar();
+            /*$producto = new producto();
+            $producto->cargar($objCI->getObjProducto()->getID());
+            echo "ID CI: ".$objCI->getObjProducto()->getID();
+            echo "ID PRODUCTO: ".$producto->getID();
+            echo "CANTIDAD ACTUAL: ".$producto->getProCantStock();
+            $producto->setProCantStock($nuevaCantidad);
+            $producto->modificar();*/
+            
+        }
+    }
+=======
     public function modificarCantidad($idCompra)
     {
         $list = $this->buscar($idCompra);
@@ -204,5 +224,6 @@ class abmCompraItem
             $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
             $objCI->getObjProducto()->modificar();
         }
+>>>>>>> 9a7dd421f3bd699b042833216984345dc3516762
     }
 }

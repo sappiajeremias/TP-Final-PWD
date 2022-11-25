@@ -31,16 +31,30 @@ class abmRol{
  */
 private function cargarObjeto($param){
     $obj = null;
-    echo var_dump($param);
+    
     if( array_key_exists('idrol',$param) &&
-        array_key_exists('roldescripcion',$param)
+        array_key_exists('rodescripcion',$param)
     ){
         $obj = new rol();
-        $obj->setear($param['idrol'], $param['roldescripcion']);
+        $obj->setear($param['idrol'], $param['rodescripcion']);
 
     }
     return $obj;
 }
+
+private function cargarObjetoSinId($param){
+    $obj = null;
+   
+    if(
+        array_key_exists('rodescripcion',$param)
+    ){
+        $obj = new rol();
+        $obj->setearSinId($param['rodescripcion']);
+
+    }
+    return $obj;
+}
+
 
 /**
  * Espera como parametro un arreglo asociativo donde las claves coinciden 
@@ -85,6 +99,18 @@ public function alta($param){
     return $resp;
 }
 
+public function altaSinId($param){
+    $resp = false;
+    // $param['idrol'] =null;
+    $Objrol = $this->cargarObjetoSinId($param);
+
+    // verEstructura($Objrol);
+    if ($Objrol!=null and $Objrol->insertar()){
+        $resp = true;
+    }
+    return $resp;
+}
+
 /**
  * permite eliminar un objeto 
  * @param array $param
@@ -109,7 +135,7 @@ public function baja($param){
  */
 public function modificacion($param){
     // echo "<i>**Realizando la modificación**</i>";
-    /* var_dump($param); */
+
     $resp = false;
     if ($this->seteadosCamposClaves($param)){
         $Objrol = $this->cargarObjeto($param);

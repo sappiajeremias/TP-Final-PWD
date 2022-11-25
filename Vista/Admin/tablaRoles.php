@@ -1,57 +1,77 @@
 <?php
-// Gestionar los rooles, añadir roles, eliminar roles
 $Titulo = "Tabla Roles";
 include_once '../Estructura/cabecera.php';
-if($_SESSION['rolactivodescripcion']<> 'admin'){
-    $mensaje="No tiene permiso de administrador para acceder a este sitio.";
-    echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";
-}else{
-    $objControl = new abmRol();
-    $listaRoles = $objControl->buscar(null);
-    $combo = '<select class="easyui-combobox"  id="idrol"  name="idrol" label="Rol:" labelPosition="top" style="width:90%;">
-    <option></option>';
-    foreach ($listaRoles as $objRol){
-        $combo .='<option value="'.$objRol->getID().'">'.$objRol->getRolDescripcion().'</option>';
-        }
-
-    $combo .='</select>';
-    ?>
-    <table id="dg" title="Administrador de roles" class="easyui-datagrid" style="width:700px;height:250px"
-    url="accion/listarRoles.php" toolbar="#toolbar" pagination="true"rownumbers="true" fitColumns="true" singleSelect="true">
-            <thead>
-            <tr>
-            <th field="idrol" width="50">ID</th>
-            <th field="rodescripcion" width="50">Nombre</th>
-            </tr>
-            </thead>
-            </table>
-            <div id="toolbar">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="nuevoRol()">Nuevo Rol </a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editarRol()">Editar Rol</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="eliminarRol()">Baja Rol</a>
-            </div>
-            
-            <div id="dlg" class="easyui-dialog" style="width:600px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">
-            <form id="fm" method="post" novalidate style="margin:0;padding:20px 50px">
-            <h3>Usuario Informacion</h3>
-            <div style="margin-bottom:10px">
-            <input  name="idrol" id="idrol"  class="easyui-textbox" required="true" label="ID-Rol:" style="width:100%">
-            </div>       
-            <input name="rodescripcion" id="rodescripcion"  class="easyui-textbox" required="true" label="Rol-Descripcion:" style="width:100%">
-            </div>
-            <div style="margin-bottom:10px">
-            <?php 
-                echo $combo;
-            ?>
-            </div>
-            <div id="dlg-buttons">
-            <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" onclick="guardarRol()" style="width:90px">Aceptar</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:90px">Cancelar</a>
-            </div>
-<?php
-
-}
-
+if ($_SESSION['rolactivodescripcion'] <> 'admin') {
+    $mensaje = "No tiene permiso de admin para acceder a este sitio.";
+    echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
+} else {
+    $objRoles = new abmRol();
+    $listaRoles = $objRoles->buscar(null);
+    
+    if (count($listaRoles) > 0) {
 ?>
+        <div class="table-responsive">
+            <table class="table table-hover caption-top" id="tablaRoles">
+                
+                <thead class="table-dark">
+                    <tr>
+                        <th width="70">ID</th>
+                        <th>Descripcion</th>
+                        <th width="50">Editar</th>
+                        <th width="50">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr  class="table-success">
+                        <td><input class="form-control" type="number" placeholder="#" readonly></td>
+                        <td><input class="form-control" type="text" placeholder="Descripcion"></td>
+                        <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
+                    </tr>
+                    <?php
+                    foreach ($listaRoles as $objR) {
+                    ?>
+                        <tr>
+                            <td><?php echo $objR->getID() ?></td>
+                            <td><?php echo $objR->getRolDescripcion() ?></td>
+                            
+                            <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
+                            <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
 
-<?php include_once '../Estructura/pie.php'; ?>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarRol'>
+                <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Editar rol</h5>
+                <hr>
+                <form action="./accion/editarRol.php" method="post" name="editarR" id="editarR" accept-charset="utf-8" class="mb-3">
+                    <div class="form-group mb-3">
+                        <div class="col-lg-7 col-12" id='mostrarId'></div>
+                        <label for="idrol" class="form-label">ID: </label>
+                        <input type="number" class="form-control" id="idrol" name="idrol" readonly>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="descripcion" class="form-label">Descripción: </label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" autocomplete="off">
+                    </div>
+                   
+                    <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>
+                    <button class="btn btn-outline-danger mx-2" name="cancelar" type="button" id="cancelar">Cancelar</button>
+                </form>
+            </div>
+        </div>
+       
+        <script src="../../Utiles/funcionesABMRol.js"></script>
+    <?php } else {
+    ?>
+        <div class="container p-2">
+            <div class="alert alert-info" role="alert">
+                No hay usuarios cargados
+            </div>
+        </div>
+<?php
+    }
+    include_once '../Estructura/pie.php';
+} ?>
