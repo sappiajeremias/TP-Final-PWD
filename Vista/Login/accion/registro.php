@@ -1,5 +1,5 @@
 <?php
-include_once "../../configuracion.php";
+include_once '../../../configuracion.php';
 
 $datos = data_submitted();
 
@@ -20,4 +20,4 @@ if (!empty($datos)){
     }
 }
 
-echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";
+echo "<script> window.location.href='../../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";
