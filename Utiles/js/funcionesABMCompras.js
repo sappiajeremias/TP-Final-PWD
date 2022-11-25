@@ -10,6 +10,7 @@ function cargarCompras(){
         url: './accion/compras/listarCompras.php',
         data: null,
         success: function (response) {
+            console.log(response);
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 $.each(value, function (index, compraActual) {
