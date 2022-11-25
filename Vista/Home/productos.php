@@ -19,7 +19,7 @@ $listaProductos = $abmProductos->buscarConStock();
                 <div class="col-sm-3 pb-3">
                     <div class="card">
                         <div class="card-body text-center">
-                            <h4  class="card-title idproducto"><?php echo $productoActual->getID(); ?></h4>
+                            
                             <h5 class="card-title"><?php echo $productoActual->getProNombre(); ?></h5>
                             <p class="card-text"><?php echo $productoActual->getProDetalle(); ?></p>
                             <p class="card-text"><b>Stock Actual:</b> <?php echo $productoActual->getProCantStock(); ?></p>
@@ -28,9 +28,10 @@ $listaProductos = $abmProductos->buscarConStock();
                             $rolActivo = $sesion->getRolActivo();
                             if ($rolActivo['rol'] === 'cliente') { ?>
                                 <div class="d-grid gap-2 d-md-block m-auto mb-2">
-                                    <button type="button" class="agregarACarrito btn btn-primary btn-sm">Añadir al carrito</button>
+                                    <button class="carrito"type="button" onclick=agregarACarrito(<?php echo $productoActual->getID(); ?>) class="agregarACarrito btn btn-primary btn-sm">Añadir al carrito</button>
                                 </div>
-                                <script src="../../Utiles/js/funcionesCarrito.js"></script> 
+                                <script src="../../Utiles/js/funcionesCarrito.js"></script>
+                                 
                         <?php }
                         } ?>
                     </div>
