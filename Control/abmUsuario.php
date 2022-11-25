@@ -273,7 +273,7 @@ class abmUsuario
                 $listaCompraEstados = $objCompraEstado->listar("idcompra=' " . $listaCompras[$j]->getID() . "'");
                 $i = 0;
                 do {
-                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && $listaCompraEstados[$i]->getCeFechaFin() == null) {
+                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && $listaCompraEstados[$i]->getCeFechaFin() == '0000-00-00 00:00:00') {
                         $compraEstadoEncontrada = $listaCompraEstados[$i];
                         $encontrado = true;
                     } else {
