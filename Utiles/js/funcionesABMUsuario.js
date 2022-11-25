@@ -105,7 +105,7 @@ function agregar(arreglo) {
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
-                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Cargando Usuario...</div>',
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando Usuario...</div>',
                     closeButton: false
                 });
                 dialog.init(function () {

@@ -24,6 +24,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
+                    <!-- AQUI SE LISTAN LOS PRODUCTOS -->
                 </tbody>
             </table>
         </div>

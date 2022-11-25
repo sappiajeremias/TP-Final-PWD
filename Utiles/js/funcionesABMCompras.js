@@ -120,8 +120,8 @@ $(document).on('click', '#cerrar', function () {
 
 function cambiarEstado(idcompraestadotipo, idboton) {
     var fila = $('#' + idboton + '').closest('tr');
-    var idcompraestado = fila[0].children[1].innerHTML;
     var idcompra = fila[0].children[0].innerHTML;
+    var idcompraestado = fila[0].children[1].innerHTML;
 
     console.log(idcompraestado+' - '+idcompra);
 

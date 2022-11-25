@@ -81,43 +81,6 @@ $(document).ready(function() {
     });
 });
 
-// FORMULARIO MODIFICAR PRODUCTO
-
-$(document).ready(function() {
-    $('#editarP').bootstrapValidator({
-        message: 'Este valor no es valido',
-        feedbackIcons: {
-            valid: 'fas fa-check',
-            invalid: 'fas fa-times',
-            validating: 'fas fa-refresh'
-        },
-        fields: {
-            pronombre: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debe ingresar un nombre para el producto'
-                    }
-                }
-            },
-            prodetalle: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debe ingresar una descripción detallada. '
-                    }
-                }
-            },
-            procantstock: {
-                validators: {
-                    notEmpty: {
-                        message: 'Debe ingresar el stock. '
-                    }
-                }
-            }
-        }
-    });
-});
-
-
 
 //
 //  ⢀⡴⠑⡄⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ 
