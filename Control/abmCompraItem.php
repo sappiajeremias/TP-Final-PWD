@@ -3,26 +3,27 @@
 class abmCompraItem
 {
 
-    public function abm($datos){
-        $resp=false;
-        if($datos['action']== 'eliminar'){
-            if($this->baja($datos)){
-                $resp=true;
+    public function abm($datos)
+    {
+        $resp = false;
+        if ($datos['action'] == 'eliminar') {
+            if ($this->baja($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'modificar'){
-            if($this->modificacion($datos)){
-                $resp=true;
+        if ($datos['action'] == 'modificar') {
+            if ($this->modificacion($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'alta'){
-            if($this->alta($datos)){
-                $resp=true;
+        if ($datos['action'] == 'alta') {
+            if ($this->alta($datos)) {
+                $resp = true;
             }
         }
         return $resp;
     }
-    
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
@@ -32,14 +33,15 @@ class abmCompraItem
     private function cargarObjeto($param)
     {
         $obj = null;
-        if (array_key_exists('idcompraitem', $param) &&
-            array_key_exists('idproducto', $param)&&
-            array_key_exists('idcompra', $param)&&
+        if (
+            array_key_exists('idcompraitem', $param) &&
+            array_key_exists('idproducto', $param) &&
+            array_key_exists('idcompra', $param) &&
             array_key_exists('cicantidad', $param)
         ) {
             $obj = new compraItem();
-            $producto=new producto();
-            $compra=new compra();
+            $producto = new producto();
+            $compra = new compra();
 
             $producto->setID($param['idproducto']);
             $producto->cargar();
@@ -49,7 +51,6 @@ class abmCompraItem
             $obj->setear($param['idcompra'], $producto, $compra, $param['cicantidad']);
         }
         return $obj;
-        
     }
 
     private function cargarObjetoSinID($param)
@@ -61,18 +62,17 @@ class abmCompraItem
             array_key_exists('cicantidad', $param)
         ) {
             $obj = new compraItem();
-            $producto=new producto();
-            $compra=new compra();
+            $producto = new producto();
+            $compra = new compra();
 
             $producto->setID($param['idproducto']);
             $producto->cargar();
             $compra->setID($param['idcompra']);
             $compra->cargar();
 
-            $obj->setearSinID($producto,$compra, $param['cicantidad']);
+            $obj->setearSinID($producto, $compra, $param['cicantidad']);
         }
         return $obj;
-        
     }
 
     /**
@@ -86,10 +86,9 @@ class abmCompraItem
         $obj = null;
         if (isset($param['idcompraitem'])) {
             $obj = new compraItem();
-            $obj->setear($param['idcompraitem'], null, null,null);
+            $obj->setear($param['idcompraitem'], null, null, null);
         }
         return $obj;
-       
     }
 
     /**
@@ -104,7 +103,6 @@ class abmCompraItem
             $resp = true;
         }
         return $resp;
-        
     }
 
     /**
@@ -117,7 +115,7 @@ class abmCompraItem
         // $param['idrol'] =null;
         $objcompra = $this->cargarObjeto($param);
         // verEstructura($Objrol);
-        if ($objcompra!=null and $objcompra->insertar()) {
+        if ($objcompra != null and $objcompra->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -126,9 +124,9 @@ class abmCompraItem
     public function altaSinID($param)
     {
         $resp = false;
-       
+
         $objProducto = $this->cargarObjetoSinID($param);
-        if ($objProducto!=null and $objProducto->insertar()) {
+        if ($objProducto != null and $objProducto->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -144,13 +142,12 @@ class abmCompraItem
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompra = $this->cargarObjetoConClave($param);
-            if ($objcompra!=null and $objcompra->eliminar()) {
+            if ($objcompra != null and $objcompra->eliminar()) {
                 $resp = true;
             }
         }
 
         return $resp;
-       
     }
 
     /**
@@ -165,12 +162,11 @@ class abmCompraItem
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompra = $this->cargarObjeto($param);
-            if ($objcompra!=null and $objcompra->modificar()) {
+            if ($objcompra != null and $objcompra->modificar()) {
                 $resp = true;
             }
         }
         return $resp;
-        
     }
 
     /**
@@ -181,18 +177,18 @@ class abmCompraItem
     public function buscar($param)
     {
         $where = " true ";
-        if ($param<>null) {
+        if ($param <> null) {
             if (isset($param['idcompraitem'])) {
-                $where.=" and idcompraitem ='".$param['idcompraitem']."'";
+                $where .= " and idcompraitem ='" . $param['idcompraitem'] . "'";
             }
             if (isset($param['idproducto'])) {
-                $where.=" and idproducto ='".$param['idproducto']."'";
+                $where .= " and idproducto ='" . $param['idproducto'] . "'";
             }
             if (isset($param['idcompra'])) {
-                $where.=" and idcompra ='".$param['idcompra']."'";
+                $where .= " and idcompra ='" . $param['idcompra'] . "'";
             }
             if (isset($param['cicantidad'])) {
-                $where.=" and cicantidad ='".$param['cicantidad']."'";
+                $where .= " and cicantidad ='" . $param['cicantidad'] . "'";
             }
         }
         $objCI = new compraItem();
@@ -200,6 +196,7 @@ class abmCompraItem
         return $arreglo;
     }
 
+<<<<<<< HEAD
     public function modificarCantidad($idCompra){
         $list = $this->buscar($idCompra);
         foreach($list as $objCI){
@@ -218,4 +215,15 @@ class abmCompraItem
             
         }
     }
+=======
+    public function modificarCantidad($idCompra)
+    {
+        $list = $this->buscar($idCompra);
+        foreach ($list as $objCI) {
+            $nuevaCantidad = $objCI->getObjProducto()->getProCantStock() - $objCI->getCiCantidad();
+            $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
+            $objCI->getObjProducto()->modificar();
+        }
+>>>>>>> 9a7dd421f3bd699b042833216984345dc3516762
     }
+}

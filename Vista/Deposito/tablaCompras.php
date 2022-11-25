@@ -36,7 +36,7 @@ if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
 
         <!-- AQUI SE LISTAN LOS PRODUCTOS -->
         <div class="position-absolute top-50 start-50 translate-middle">
-            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" id='oculto'>
+            <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light shadow-lg p-3 mb-5 d-none" id='oculto'>
                 <h5 id="usnombre" class="text-center"></h5>
                 <hr>
                 <div class="overflow-auto" style="height: 300px;">
