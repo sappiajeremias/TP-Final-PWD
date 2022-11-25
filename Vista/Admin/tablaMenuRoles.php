@@ -2,7 +2,7 @@
 $Titulo = "Tabla Menu Roles";
 include_once '../Estructura/cabecera.php';
 
-if ($sesion->esAdmin()){
+if ($sesion->esAdmin()) {
     $mensaje = "No tiene permiso de administrador para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
@@ -12,17 +12,16 @@ if ($sesion->esAdmin()){
     if (count($arrayMenu) > 0) { ?>
         <div class="container my-2">
             <div class="table-responsive">
-                <table class="table table-hover caption-top" id="tablaMenu">
+                <table class="table table-hover caption-top align-middle text-center" id="tablaMenu">
 
                     <thead class="table-dark">
                         <tr>
                             <th width="70">ID</th>
                             <th>Nombre</th>
                             <th>Detalle</th>
-                            <th>ID Padre</th>
+                            <th width="120">ID Padre</th>
                             <th>Deshabilitado</th>
-                            <th width="50">Editar</th>
-                            <th width="50">Eliminar</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
@@ -30,7 +29,8 @@ if ($sesion->esAdmin()){
                             <td><input class="form-control" type="number" placeholder="#" readonly></td>
                             <td><input class="form-control" type="text" placeholder="Nombre"></td>
                             <td><input class="form-control" type="text" placeholder="Detalle"></td>
-                            <td><input class="form-control" type="numebr" min=0 placeholder="ID Menu Padre"></td>
+                            <td><input class="form-control" type="number" min=0 placeholder="ID Menu Padre"></td>
+                            <td><input class="form-control" type="text" placeholder="Deshabilitado" onlyread></td>
                             <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                         </tr>
                         <?php
@@ -42,8 +42,10 @@ if ($sesion->esAdmin()){
                                     <td><?php echo $objMenu->getMeDescripcion() ?></td>
                                     <td><?php echo "" ?></td>
                                     <td><?php echo $objMenu->getMeDeshabilitado() ?></td>
-                                    <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
-                                    <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
+                                    <td>
+                                        <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                        <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                                    </td>
                                 </tr>
                                 <?php }
 
@@ -57,8 +59,10 @@ if ($sesion->esAdmin()){
                                         <td><?php echo $value->getMeDescripcion() ?></td>
                                         <td><?php echo $objMenu->getID() ?></td>
                                         <td><?php echo $value->getMeDeshabilitado() ?></td>
-                                        <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
-                                        <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
+                                        <td>
+                                            <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                            <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                                        </td>
                                     </tr>
                         <?php
                                 }
@@ -71,7 +75,7 @@ if ($sesion->esAdmin()){
             </div>
 
             <div class="position-absolute top-50 start-50 translate-middle">
-                <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" d-none style="width: 350px;" id='editarMenu'>
+                <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light shadow-lg p-3 mb-5 d-none" d-none style="width: 350px;" id='editarMenu'>
                     <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Actualizar Producto</h5>
                     <hr>
                     <form action="../accion/editarMenu.php" method="post" name="editarP" id="editarM" accept-charset="utf-8" class="mb-3">
@@ -115,6 +119,7 @@ if ($sesion->esAdmin()){
 <?php  }
 }
 include_once '../Estructura/pie.php'; ?>
+<?php
 
 // Relacionar cada menu con un rol, modificar la relacion menurol
 

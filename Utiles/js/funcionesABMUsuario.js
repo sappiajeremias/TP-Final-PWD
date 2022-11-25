@@ -234,8 +234,12 @@ $(document).on('click', '.eliminarRol', function () {
             }
         ],
         callback: function (result) {
-            let arreglo = { 'idusuario': idusuario, 'idrol': result };
-            editarEliminar(arreglo);
+            if(result){
+                let arreglo = { 'idusuario': idusuario, 'idrol': result };
+                editarEliminar(arreglo);
+            } else {
+                bootbox.hideAll();
+            }
         }
     });
 });
@@ -306,6 +310,8 @@ $(document).on('click', '.deshabilitarUs', function () {
         callback: function (result) {
             if (result) {
                 eliminar(idusuario);
+            } else {
+                bootbox.hideAll();
             }
         }
     });

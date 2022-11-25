@@ -12,21 +12,20 @@ if ($sesion->esAdmin()) {
 ?>
         <div class="container my-2">
             <div class="table-responsive">
-                <table class="table table-hover caption-top" id="tablaRoles">
+                <table class="table table-hover caption-top align-middle text-center" id="tablaRoles">
 
                     <thead class="table-dark">
                         <tr>
                             <th width="70">ID</th>
                             <th>Descripcion</th>
-                            <th width="50">Editar</th>
-                            <th width="50">Eliminar</th>
+                            <th width="150">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <tr class="table-success">
                             <td><input class="form-control" type="number" placeholder="#" readonly></td>
                             <td><input class="form-control" type="text" placeholder="Descripcion"></td>
-                            <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
+                            <td><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                         </tr>
                         <?php
                         foreach ($listaRoles as $objR) {
@@ -34,9 +33,10 @@ if ($sesion->esAdmin()) {
                             <tr>
                                 <td><?php echo $objR->getID() ?></td>
                                 <td><?php echo $objR->getRolDescripcion() ?></td>
-
-                                <td><a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a></td>
-                                <td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td>
+                                <td>
+                                    <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                    <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -44,7 +44,7 @@ if ($sesion->esAdmin()) {
             </div>
 
             <div class="position-absolute top-50 start-50 translate-middle">
-                <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light d-none" style="width: 350px;" id='editarRol'>
+                <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light bg-light shadow-lg p-3 mb-5 d-none" style="width: 350px;" id='editarRol'>
                     <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Editar rol</h5>
                     <hr>
                     <form action="./accion/editarRol.php" method="post" name="editarR" id="editarR" accept-charset="utf-8" class="mb-3">
