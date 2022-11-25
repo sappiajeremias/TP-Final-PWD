@@ -173,8 +173,8 @@ class abmCompra
             if (isset($param['cofecha'])) {
                 $where.=" and cofecha ='".$param['cofecha']."'";
             }
-            if (isset($param['objusuario'])) {
-                $where.=" and objusuario ='".$param['objusuario']."'";
+            if (isset($param['idusuario'])) {
+                $where.=" and idusuario ='".$param['idusuario']."'";
             }
         }
         $objC =  new compra();
