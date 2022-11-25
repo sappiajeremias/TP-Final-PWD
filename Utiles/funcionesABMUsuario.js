@@ -4,13 +4,12 @@ $(document).on('click', '.agregar', function () {
     
     var row = $(this).closest('tr').find(".form-control");
 
-
     var nombre = row[1].value;
     var mail = row[2].value;
     var rol = row[3].value;
 
     var verificador = true;
-console.log(rol);
+
     
 
     if (verificador) {
@@ -59,10 +58,21 @@ function agregar(arreglo) {
         url: './accion/altaUsuario.php',
         data: arreglo,
         success: function (response) {
-            console.log(response);
+            
             var response = jQuery.parseJSON(response);
+            
             if (response.respuesta) {
-                location.reload();
+                // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando Usuario...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        location.reload();
+                        bootbox.hideAll();
+                    }, 1500);
+                });
             } else {
                 bootbox.alert({
                     message: "Respuesta: " + response.respuesta,
@@ -115,12 +125,7 @@ $(document).ready(function () {
     $('form').submit(function (e) {
         e.preventDefault();
 
-        /*$.post("./accion/editarProd.php",{ data: $(this).serialize() },
-            function(response) {
-                var response = jQuery.parseJSON(response);
-                console.log(response.respuesta);
-            }
-        );*/});});
+        });});
 function editarAgregar(arreglo){
         $.ajax({
             type: "POST",
@@ -130,7 +135,18 @@ function editarAgregar(arreglo){
                 
                 var response = jQuery.parseJSON(response);
                 if (response.respuesta) {
-                    location.reload();
+                    // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                    var dialog = bootbox.dialog({
+                        message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Rol de Usuario...</div>',
+                        closeButton: false
+                    });
+                    dialog.init(function () {
+                        setTimeout(function () {
+                            
+                            location.reload();
+                            bootbox.hideAll();
+                        }, 1500);
+                    });
                 } else {
                     console.log(response.respuesta);
                 }
@@ -194,7 +210,18 @@ function editarEliminar(arreglo){
                 var response = jQuery.parseJSON(response);
                 
                 if (response.respuesta) {
-                    location.reload();
+                    // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                    var dialog = bootbox.dialog({
+                        message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Eliminando Rol de Usuario...</div>',
+                        closeButton: false
+                    });
+                    dialog.init(function () {
+                        setTimeout(function () {
+                            
+                            location.reload();
+                            bootbox.hideAll();
+                        }, 1500);
+                    });
                 } else {
                     console.log(response.respuesta);
                 }
@@ -245,7 +272,18 @@ function eliminar(idusuario) {
         success: function (response) {
             var response = jQuery.parseJSON(response);
             if (response.respuesta) {
-                location.reload();
+                // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Deshabilitando Usuario...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        
+                        location.reload();
+                        bootbox.hideAll();
+                    }, 1500);
+                });
             } else {
                 console.log(response.respuesta);
             }

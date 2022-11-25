@@ -27,7 +27,7 @@ class abmUsuarioRol
             $objRol->cargar();
             $obj->setear($objUs, $objRol);
         }
-        print_r($obj);
+        
         return $obj;
     }
 

@@ -199,5 +199,23 @@ class abmCompraItem
         $arreglo = $objCI->listar($where);
         return $arreglo;
     }
-        
+
+    public function modificarCantidad($idCompra){
+        $list = $this->buscar($idCompra);
+        foreach($list as $objCI){
+            $nuevaCantidad = $objCI->getObjProducto()->getProCantStock() - $objCI->getCiCantidad();
+
+
+            $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
+            $objCI->getObjProducto()->modificar();
+            /*$producto = new producto();
+            $producto->cargar($objCI->getObjProducto()->getID());
+            echo "ID CI: ".$objCI->getObjProducto()->getID();
+            echo "ID PRODUCTO: ".$producto->getID();
+            echo "CANTIDAD ACTUAL: ".$producto->getProCantStock();
+            $producto->setProCantStock($nuevaCantidad);
+            $producto->modificar();*/
+            
+        }
+    }
     }

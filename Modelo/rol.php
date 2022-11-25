@@ -21,6 +21,11 @@ class rol extends BaseDatos
         $this->setRolDescripcion($rolDescripcion);
     }
 
+    public function setearSinId( $rolDescripcion)
+    {
+        $this->setRolDescripcion($rolDescripcion);
+    }
+
     //MÉTODOS PROPIOS DE LA CLASE
 
     public function cargar()
