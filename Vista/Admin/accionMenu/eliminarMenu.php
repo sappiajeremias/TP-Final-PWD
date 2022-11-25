@@ -7,7 +7,7 @@ $respuesta['respuesta'] = false;
 if (isset($data['idmenu'])){
     $objMenu_abm = new abmMenu();
     $objMenu = $objMenu_abm->buscar($data);
-    $fecha = date('Y-m-d');
+    $fecha = date("Y-m-d H:i:s");
    
     
     
