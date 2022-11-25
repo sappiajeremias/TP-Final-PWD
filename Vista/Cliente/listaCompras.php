@@ -1,7 +1,7 @@
 <?php
 $Titulo = "Tabla Compras";
 include_once '../Estructura/cabecera.php';
-if ($_SESSION['rolactivodescripcion'] <> 'cliente') {
+if ($sesion->esCliente()) {
     $mensaje = "No tiene permiso de cliente para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {

@@ -1,7 +1,7 @@
 <?php
 $Titulo = "Carrito";
 include_once '../Estructura/cabecera.php';
-if ($_SESSION['rolactivodescripcion'] <> 'cliente') { //CHEQUEO USER LOGUEADO
+if ($sesion->esCliente()) { //CHEQUEO USER LOGUEADO
     $mensaje = "No tiene permiso de cliente para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
     //FIN USER CHEQUEADO

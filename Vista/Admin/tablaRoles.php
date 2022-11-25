@@ -1,7 +1,7 @@
 <?php
 $Titulo = "Tabla Roles";
 include_once '../Estructura/cabecera.php';
-if ($_SESSION['rolactivodescripcion'] <> 'admin') {
+if ($sesion->esAdmin()) {
     $mensaje = "No tiene permiso de admin para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
