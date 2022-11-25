@@ -187,7 +187,6 @@ class abmUsuario
      */
     public function modificacion($param)
     {
-        echo "<i>**Realizando la modificación**</i>";
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $Objusuario = $this->cargarObjeto($param);
