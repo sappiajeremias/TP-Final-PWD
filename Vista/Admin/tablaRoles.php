@@ -65,7 +65,7 @@ if ($sesion->esAdmin()) {
             </div>
         </div>
 
-        <script src="../../Utiles/funcionesABMRol.js"></script>
+        <script src="../../Utiles/js/funcionesABMRol.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">
