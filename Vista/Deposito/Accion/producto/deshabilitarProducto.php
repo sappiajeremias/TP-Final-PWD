@@ -1,26 +1,26 @@
 <?php
 include_once "../../../../configuracion.php";
 $data = data_submitted();
-$respuesta=false;
-if (!empty($data)){
+$respuesta = false;
+if (!empty($data)) {
     $obj = new abmProducto();
+    $objPro = $obj->buscar(['idproducto' => $data['idproducto']]);
 
-    $fecha = date('Y-m-d H:i:s');
+    $fecha = null;
+    if ($data['accion'] == "deshabilitar") {
+        $fecha = date('Y-m-d H:i:s');
+    }
+    $objPro[0]->setProDeshabilitado($fecha);
+    $respuesta = $objPro[0]->modificar();
 
-    $objPro = $obj->buscar(['idproducto'=>$data['idproducto']]);
-    $objPro->setProDeshabilitado($fecha);
-    $objPro->modificacion();
-
-    if (!$respuesta){
+    if (!$respuesta) {
         $mensajeError = "No se pudo deshabilitar al producto";
     }
 }
 
 $retorno['respuesta'] = $respuesta;
-if (isset($mensajeError)){
-   
-    $retorno['mensajeError']=$mensajeError;
+if (isset($mensajeError)) {
 
+    $retorno['mensajeError'] = $mensajeError;
 }
 echo json_encode($retorno);
-?>

@@ -255,8 +255,8 @@ $(document).on('click', '.deshabilitar', function () {
     
     // CARTEL LIBRERIA
     bootbox.confirm({
-        title: "Deshabilitar PRODUCTO?",
         closeButton: false,
+        title: "DESHABILITAR PRODUCTO?",
         message: "Estas seguro que quieres DESHABILITAR a <b>" + pronombre + "</b> con ID:<b>" + idproducto + "</b>",
         buttons: {
             cancel: {
@@ -264,8 +264,8 @@ $(document).on('click', '.deshabilitar', function () {
                 label: '<i class="fa fa-times"></i> Cancelar'
             },
             confirm: {
-                className: 'btn btn-outline-success',
-                label: '<i class="fa fa-check"></i> Confirmar'
+                className: 'btn btn-outline-secondary',
+                label: '<i class="fa-solid fa-ban"></i> Deshabilitar'
             }
         },
         callback: function (result) {
@@ -274,17 +274,17 @@ $(document).on('click', '.deshabilitar', function () {
             }
         }
     });
-    deshabilitar(idproducto);
 });
 
 function deshabilitar(idproducto) {
-
     $.ajax({
         type: "POST",
         url: './accion/producto/deshabilitarProducto.php',
-        data: { idproducto: idproducto },
+        data: { idproducto: idproducto, accion: 'deshabilitar'},
         success: function (response) {
-            console.log(response);
+            console.log(response)
+            var response = jQuery.parseJSON(response);
+            console.log(response.respuesta);
             if (response.respuesta) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
@@ -297,7 +297,6 @@ function deshabilitar(idproducto) {
                         bootbox.hideAll();
                     }, 1500);
                 });
-                location.reload();
             } else {
                 // ALERT LIBRERIA
                 bootbox.alert({
@@ -321,9 +320,9 @@ $(document).on('click', '.habilitar', function () {
 
     // CARTEL LIBRERIA
     bootbox.confirm({
-        title: "Habilitar Producto?",
+        title: "HABILITAR PRODUCTO?",
         closeButton: false,
-        message: "Estas seguro que quieres habilitar a <b>" + pronombre + "</b> con ID: <b>" + idproducto+'</b>',
+        message: "Estas seguro que quieres HABILITAR a <b>" + pronombre + "</b> con ID: <b>" + idproducto+'</b>',
         buttons: {
             cancel: {
                 className: 'btn btn-outline-danger',
@@ -331,25 +330,25 @@ $(document).on('click', '.habilitar', function () {
             },
             confirm: {
                 className: 'btn btn-outline-success',
-                label: '<i class="fa fa-check"></i> Confirmar'
+                label: '<i class="fa-solid fa-square-check"></i> Habilitar'
             }
         },
         callback: function (result) {
             if (result) {
-                deshabilitar(idproducto);
+                habilitar(idproducto);
             }
         }
     });
 });
 
-function deshabilitar(arreglo) {
+function habilitar(idproducto) {
 
     $.ajax({
         type: "POST",
-        url: './accion/producto/habilitarProducto.php',
-        data: {idproducto: idproducto},
+        url: './accion/producto/deshabilitarProducto.php',
+        data: {idproducto: idproducto, accion: 'habilitar'},
         success: function (response) {
-            console.log(response)
+            console.log(response);
             var response = jQuery.parseJSON(response);
             console.log(response.respuesta);
             if (response.respuesta) {
