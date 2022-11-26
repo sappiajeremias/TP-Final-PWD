@@ -123,5 +123,4 @@ include_once '../Estructura/pie.php'; ?>
 
 // Relacionar cada menu con un rol, modificar la relacion menurol
 
-echo "Tabla Menu Roles";
 ?>
