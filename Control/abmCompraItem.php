@@ -198,7 +198,7 @@ class abmCompraItem
 
     public function modificarCantidad($idCompra)
     {
-        $list = $this->buscar($idCompra);
+        $list = $this->buscar(['idcompra' => $idCompra]);
         foreach ($list as $objCI) {
             $nuevaCantidad = $objCI->getObjProducto()->getProCantStock() - $objCI->getCiCantidad();
             $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
