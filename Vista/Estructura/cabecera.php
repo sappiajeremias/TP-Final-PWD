@@ -21,7 +21,7 @@
     <script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
 
     <!-- ICON -->
-    <link rel="icon" type="image/x-icon" href="./img/icon.ico">
+    <link rel="icon" type="image/x-icon" href="../img/icon.ico">
     <!-- VALIDACIONES ESTILOS -->
     <link rel="stylesheet" href="../../Utiles/validaciones.css">
     <!--VALIDADOR -->
