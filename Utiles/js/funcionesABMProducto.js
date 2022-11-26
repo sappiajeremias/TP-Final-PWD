@@ -37,7 +37,7 @@ function armarTabla(arreglo) {
         }
 
 
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="../img/'+producto.imagen+'" id='+producto.imagen+' class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>'+boton+'<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td hidden>'+producto.imagen+'</td><td><img src="../img/'+producto.imagen+'" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>'+boton+'<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
@@ -125,7 +125,8 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     var prodetalle = fila[0].children[2].innerHTML;
     var procantstock = fila[0].children[3].innerHTML;
     var precio = fila[0].children[4].innerHTML;
-    var prodeshabilitado = fila[0].children[6].innerHTML;
+    var imagen = fila[0].children[5].innerHTML;
+    var prodeshabilitado = fila[0].children[7].innerHTML;
 
     var form = document.getElementById('editarP');
 
@@ -138,8 +139,8 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     inputs[2].value = prodetalle;
     inputs[3].value = procantstock;
     inputs[4].value = precio;
-    inputs[6].value = null;
     inputs[5].value = prodeshabilitado;
+    inputs[6].value = imagen;
 });
 
 //CIERRA EL FORMULARIO
