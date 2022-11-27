@@ -43,7 +43,7 @@ if ($sesion->esAdmin()) {
                 </table>
             </div>
 
-            <div class="position-absolute top-50 start-50 translate-middle">
+            <div class="position-fixed top-50 start-50 translate-middle">
                 <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light bg-light shadow-lg p-3 mb-5 d-none" style="width: 350px;" id='editarRol'>
                     <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Editar rol</h5>
                     <hr>
@@ -70,7 +70,7 @@ if ($sesion->esAdmin()) {
     ?>
         <div class="container p-2">
             <div class="alert alert-info" role="alert">
-                No hay usuarios cargados
+                No hay roles cargados
             </div>
         </div>
 <?php

@@ -31,7 +31,7 @@ if ($sesion->esDeposito()) {
             </table>
         </div>
 
-        <div class="position-absolute top-50 start-50 translate-middle">
+        <div class="position-fixed top-50 start-50 translate-middle">
             <div class="container-fluid p-4 mt-5 border border-2 rounded-2 bg-light bg-light shadow-lg p-3 mb-5 d-none" id='editarProducto'>
                 <h5 class="text-center"><i class="fa-solid fa-file-pen me-2"></i>Actualizar Producto</h5>
                 <hr>
