@@ -28,7 +28,6 @@
     <script src="..\..\Utiles\validaciones.js"></script>
     <!--ENCRIPTACION -->
     <script src="..\..\Utiles\md5.js"></script>
-    <script src="..\..\Utiles\Carrito.js"></script>
     <?php
     include_once '../../configuracion.php';
     $sesion = new Session();

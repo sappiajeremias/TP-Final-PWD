@@ -6,26 +6,62 @@ $respuesta = false;
 $data = data_submitted();
 
 if (!empty($data)) {
-    //Se fija si hay datos ingresados
     $sesion = new Session();
     $usuario = new abmUsuario();
 
-    $psw =  md5($data['uspass']);
-    $objUsuario = $usuario->buscar(['usnombre' => $data['usnombre'], 'uspass'=>$psw]);
-    $objUsuario[0]->cargar();
-    if ($objUsuario[0]->getUsDeshabilitado()===null ||$objUsuario[0]->getUsDeshabilitado()==='0000-00-00 00:00:00') {
-        if (!$sesion->sesionActiva() && (compararPsw($data['usnombre'], $psw))) {
-            $respuesta = $sesion->iniciar($data['usnombre'], $psw);
+    $psw =  md5($data['uspass']); // CIFRAMOS LA CONTRASEÑA RECIBIDA
+
+    $objUsuario = $usuario->buscar(['usnombre' => $data['usnombre']]); //BUSCAMOS AL USUARIO
+
+    if ($objUsuario <> null) { // SI LO ENCUENTRA
+
+        $objUsuario[0]->cargar(); //LO CARGAMOS
+
+        if ($objUsuario[0]->getUsDeshabilitado() === null || $objUsuario[0]->getUsDeshabilitado() === '0000-00-00 00:00:00') { //VERIFICAMOS SI EL USUARIO ESTA HABILITADO
+
+            if (!$sesion->sesionActiva() && (compararPsw($data['usnombre'], $psw))) { //VERIFICAMOS QUE LA CONTRASEÑA HAYA SIDO INGRESADA CORRECTAMENTE
+                $respuesta = $sesion->iniciar($data['usnombre'], $psw); //INICAMOS SESIÓN
+            } else {
+                $mensajePass = "Contraseña Incorrecta!";
+            }
+        } else {
+            $mensajeUsDes = "Usuario Deshabilitado!";
         }
-    }
-    if ($respuesta) {
-        $sesion->setearRolActivo();
-        $mensaje = "Se inició sesión exitosamente!";
+
+        if ($respuesta) {
+            $sesion->setearRolActivo();
+        } else {
+            $mensajeSesion = "Algo salió mal en el inicio de sesión :(";
+        }
     } else {
-        $mensaje = "Algo salió mal en el inicio de sesión :(";
+        $mensajeUsExist = "El usuario no existe";
     }
 } else {
-    //Si no hay datos ingresados muestra el cartel y redirecciona
-    $mensaje = "Datos de usuario y contraseña no recibidos";
+    $mensajeDatos = "Datos de usuario y contraseña no recibidos";
 }
-echo "<script> window.location.href='../../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
+
+
+$retorno['respuesta'] = true;
+
+// AGREGAMOS MENSAJE DE ERRORES SI HUBIERON
+if (isset($mensajeDatos)) {
+    $retorno['mensajeDatos'] = $mensajeDatos;
+}
+if (isset($mensajePass)) {
+    $retorno['mensajePass'] = $mensajePass;
+}
+if (isset($mensajeUsDes)) {
+    $retorno['mensajeUsDes'] = $mensajeUsDes;
+}
+if (isset($mensajeSesion)) {
+    $retorno['mensajeSesion'] = $mensajeSesion;
+}
+if (isset($mensajeUsExist)) {
+    $retorno['mensajeUsExist'] = $mensajeUsExist;
+}
+if (count($retorno) > 1) {
+    $retorno['respuesta'] = false;
+}
+
+
+echo json_encode($retorno);

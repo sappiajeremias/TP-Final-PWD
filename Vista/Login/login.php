@@ -6,7 +6,7 @@ include_once '../Estructura/cabecera.php';
     <h5 class="text-center"><i class="fa-solid fa-person-arrow-up-from-line me-2"></i>Iniciar Sesion</h5>
     <hr>
     <!-- INICIO FORMULARIO INICIAR SESIÓN -->
-    <form action="./accion/ingresar.php" method="post" name="login" id="login" accept-charset="utf-8" class="mb-3">
+    <form action="" method="post" name="login" id="login" accept-charset="utf-8" class="mb-3">
         <div class="form-group mb-3" >
             <label for="usnombre" class="form-label">Nombre de Usuario: </label>
             <input type="text" class="form-control" id="usnombre" name="usnombre" autocomplete="off">
@@ -24,5 +24,6 @@ include_once '../Estructura/cabecera.php';
     </div>
 </div>
 
+<script src="../../Utiles/js/funcionesLogin.js"></script>
 
 <?php include_once '../Estructura/pie.php'; ?>
