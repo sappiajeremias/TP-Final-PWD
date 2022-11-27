@@ -24,6 +24,6 @@ include_once '../Estructura/cabecera.php';
     </div>
 </div>
 
-<script src="../../Utiles/js/funcionesLogin.js"></script>
+<script src="../../Utiles/js/login.js"></script>
 
 <?php include_once '../Estructura/pie.php'; ?>

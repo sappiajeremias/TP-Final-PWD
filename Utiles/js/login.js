@@ -1,4 +1,4 @@
-//ENVIA LOS DATOS
+/*################################# FORMULARIO DE INICIO SESIÓN #################################*/
 $('#login').submit(function (e) {
     e.preventDefault();
     e.stopImmediatePropagation();
@@ -11,8 +11,6 @@ $('#login').submit(function (e) {
             console.log(response.respuesta);
             // SI SE PUDO INICAR SESIÓN O NO, REDIRIGIMOS HACIA INDEX CON UN MENSAJE
             if (response.respuesta) {
-                console.log("hola");
-                // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Iniciando...</div>',
                     closeButton: false
