@@ -27,6 +27,7 @@
         </div>
         <!-- FIN MENÚ PÚBLICO -->
         <ul class="navbar-nav d-flex">
+            <div id="sinLogin"></div>
             <div id="listaPermisos"></div>
             <ul class="navbar-nav d-flex me-2" id="listaCambioRol"></ul>
             <div class="dropdown-center" id="listaUs"></div>
