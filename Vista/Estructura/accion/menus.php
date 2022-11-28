@@ -83,7 +83,7 @@ function traerCambiosRol($roles)
         <div class='dropdown-menu dropdown-menu-end'>";
         $rolsito = "";
         foreach ($roles as $rolActual) {
-            $rolsito .= "<a class='dropdown-item' href='../../Control/controlCambiarRol.php?nuevorol=" . $rolActual->getRolDescripcion() . "'>" . strtoupper($rolActual->getRolDescripcion()) . "</a>";
+            $rolsito .= "<button class='cambiarRol dropdown-item'>" . strtoupper($rolActual->getRolDescripcion()) . "</button>";
         }
 
         $cambiosRol .= $rolsito;

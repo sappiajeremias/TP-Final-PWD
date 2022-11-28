@@ -32,3 +32,37 @@ function armarMenuLogin(listaPermisos, listaCambios, listaUsuario){
     $('#listaCambioRol').append(listaCambios);
     $('#listaUs').append(listaUsuario);
 }
+
+$(document).on('click', '.cambiarRol', function () {
+
+    var descripcion = $(this).text();
+
+    $.ajax({
+        type: "POST",
+        url: '../../Control/controlCambiarRol.php',
+        data: {nuevorol: descripcion.toLowerCase()},
+        success: function (response) {
+            var response = jQuery.parseJSON(response);
+            if (response.respuesta) {
+                cargarMenu();
+            } else {
+                // CARTEL SI LOS DATOS NO SE ENVIARON
+                if (typeof (response.mensajeErrorRol) != "undefined" && response.mensajeErrorRol !== null) {
+                    bootbox.alert({
+                        message: "" + response.mensajeErrorRol,
+                        size: 'small',
+                        closeButton: false,
+                    });
+                }
+                // CARTEL SI EL USUARIO NO EXISTE
+                if (typeof (response.mensajeRolYaActivo) != "undefined" && response.mensajeRolYaActivo !== null) {
+                    bootbox.alert({
+                        message: "" + response.mensajeRolYaActivo,
+                        size: 'small',
+                        closeButton: false,
+                    });
+                }
+            }
+        }
+    });
+});
