@@ -100,7 +100,7 @@ function traerDatosUs($sesion, $rolActivo){
             <button class='btn btn-outline-dark dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
                 <i class='fa-solid fa-user me-2'></i>".$nombreUsuario."</button>
             <ul class='dropdown-menu'>
-            <li><a class='dropdown-item' id='rolactivo' disabled='disabled'><i class='fa-solid fa-address-book me-2'></i>ROL:".strtoupper($rolActivo['rol'])."</a></li>
+            <li><a class='dropdown-item' id='rolactivo' disabled='disabled'><i class='fa-solid fa-address-book me-2'></i>ROL: ".strtoupper($rolActivo['rol'])."</a></li>
             <hr class='dropdown-divider'>";
 
             $clienteActivo = "";
