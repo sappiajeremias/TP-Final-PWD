@@ -19,7 +19,8 @@ if ($carrito <> null) {
     }else{
         $mensajeError="Este producto no tiene mas stock!";
     }
-} else if ($carrito == null) {//si el carrito no existe lo creo 
+} else {//si el carrito no existe lo creo
+    echo "HOLA";
     $carritoNuevo = crearCarrito($idUserLogueado);
     if ($carritoNuevo <> null) {
         //y agrego el producto
@@ -37,7 +38,8 @@ if (isset($mensajeError)){
     $retorno['errorMsg']=$mensajeError;
    
 }
- echo json_encode($retorno);
+
+echo json_encode($retorno);
 
 function agregarProductoCarrito($objCompraCarrito, $data)
 {

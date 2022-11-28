@@ -263,26 +263,17 @@ class abmUsuario
         $encontrado = false;
         $objCompra = new abmCompra();
         $compraEncontrada = null;
-        $j = 0;
-        $compraEstadoEncontrada = null;
         $listaCompras = $objCompra->buscar(['idusuario' => $idUsuario]);
         if (count($listaCompras) > 0) { //CHEQUEO QUE TENGA COMPRAS
-            $objCompraEstado = new abmCompraEstado();
-            while (!$encontrado && $j < (count($listaCompras))) { 
-                $listaCompraEstados = $objCompraEstado->buscar(['idcompra' => $listaCompras[$j]->getID()]);
-                $i = 0;
-                do {
-                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && ($listaCompraEstados[$i]->getCeFechaFin() == '0000-00-00 00:00:00' || $listaCompraEstados[$i]->getCeFechaFin() == null)) {
-                        $compraEstadoEncontrada = $listaCompraEstados[$i];
-                        $encontrado = true;
-                    } else {
-                        $i++;
+            foreach($listaCompras as $compraActual){
+                $objCompraEstado = new abmCompraEstado();
+                $listaCompraEstados = $objCompraEstado->buscar(['idcompra' => $compraActual->getID()]);
+
+                foreach($listaCompraEstados as $elem){
+                    if ($elem->getObjCompraEstadoTipo()->getID() == 5 && ($elem->getCeFechaFin() == '0000-00-00 00:00:00' || $elem->getCeFechaFin() == null)) {
+                        $compraEncontrada = $elem->getObjCompra();
                     }
-                } while (!$encontrado && $i < (count($listaCompraEstados)));
-                $j++;
-            }
-            if ($compraEstadoEncontrada <> null) {
-                $compraEncontrada= $compraEstadoEncontrada->getObjCompra();
+                }
             }
         }
         return $compraEncontrada;

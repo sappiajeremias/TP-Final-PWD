@@ -41,7 +41,7 @@ echo json_encode($retorno);
         $param= array(
             'idcompra'=>$idCompra,
             'idcompraestadotipo'=>5,
-            'cefechafin'=>'0000-00-00 00:00:00'
+            'cefechafin'=>null
         );
         $listaCompraEstado = $objAbmCompraEstado->buscar($param);
         if (count($listaCompraEstado) > 0) {

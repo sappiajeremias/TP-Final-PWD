@@ -6,7 +6,7 @@ if ($sesion->esCliente()) {
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $objItems = new abmCompra();
-    $listaCompras = $objItems->buscar(['idusuario' => $_SESSION['idusuario']]);
+    $listaCompras = $objItems->buscar(['idusuario' => $sesion->getIDUsuarioLogueado()]);
 
     if (count($listaCompras) > 0) {
 ?>
