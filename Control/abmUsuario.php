@@ -261,18 +261,18 @@ class abmUsuario
     { //parametro es $sesion->getIDUsuarioLogueado()
         //Devuelve los compraItem del carrito.
         $encontrado = false;
-        $objCompra = new compra();
+        $objCompra = new abmCompra();
         $compraEncontrada = null;
         $j = 0;
         $compraEstadoEncontrada = null;
-        $listaCompras = $objCompra->listar("idusuario=' " . $idUsuario . "'");
+        $listaCompras = $objCompra->buscar(['idusuario' => $idUsuario]);
         if (count($listaCompras) > 0) { //CHEQUEO QUE TENGA COMPRAS
-            $objCompraEstado = new compraEstado();
+            $objCompraEstado = new abmCompraEstado();
             while (!$encontrado && $j < (count($listaCompras))) { 
-                $listaCompraEstados = $objCompraEstado->listar("idcompra=' " . $listaCompras[$j]->getID() . "'");
+                $listaCompraEstados = $objCompraEstado->buscar(['idcompra' => $listaCompras[$j]->getID()]);
                 $i = 0;
                 do {
-                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && $listaCompraEstados[$i]->getCeFechaFin() == '0000-00-00 00:00:00') {
+                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && ($listaCompraEstados[$i]->getCeFechaFin() == '0000-00-00 00:00:00' || $listaCompraEstados[$i]->getCeFechaFin() == null)) {
                         $compraEstadoEncontrada = $listaCompraEstados[$i];
                         $encontrado = true;
                     } else {
