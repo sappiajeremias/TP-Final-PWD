@@ -6,6 +6,7 @@ $(window).on("load", function () {
 });
 
 function cargarProductosCarrito(){
+    console.log("carrito");
     $.ajax({
         type: "POST",
         url: './accion/listadoProdCarrito.php',
@@ -41,7 +42,7 @@ function armarTablaCarrito(arreglo) {
 
     total=total+compraItem.subtotal;
 
-    $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td><img src="../img/>' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>'+ compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max='+compraItem.procantstock+' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value='+compraItem.cicantidad+'></td><td><p class="text-danger"><strong> $ ' +compraItem.subtotal +' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
+    $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td><img src="../img/' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>'+ compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max='+compraItem.procantstock+' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value='+compraItem.cicantidad+'></td><td><p class="text-danger"><strong> $ ' +compraItem.subtotal +' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
     });
     
     $('#totalPagar').append('Total a pagar: '+total+'<hr><a class="pagar" href="#"><button class="btn btn-outline-successcol-11">Pagar</button></a>')
