@@ -164,19 +164,12 @@ class abmUsuario
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            // Me lo compliqué pero funciona: Busca el usuario, carga los valores en arreglo $param
-            // y luego modifica el usuario con la fecha actual de usdeshabilitado
-            $usuario = $this->buscar($param);
-            $param['usnombre'] = $usuario[0]->getusnombre();
-            $param['uspass'] = $usuario[0]->getuspass();
-            $param['usmail'] = $usuario[0]->getusmail();
-            $param['usdeshabilitado'] = date("Y-m-d H:i:s");
-            //echo "<br>Fecha y hora: " . $param['usdeshabilitado'];
-            $Objusuario = $this->cargarObjeto($param);
-            if ($Objusuario != null and $Objusuario->modificar()) {
+            $objUsuario = $this->cargarObjetoConClave($param);
+            if ($objUsuario!=null and $objUsuario->eliminar()) {
                 $resp = true;
             }
         }
+
         return $resp;
     }
 
