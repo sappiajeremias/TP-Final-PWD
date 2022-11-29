@@ -52,9 +52,9 @@ if ($sesion->esDeposito()) {
         </div>
     <?php } else {
     ?>
-        <div class="container p-2">
+        <div class="container py-4">
             <div class="alert alert-info" role="alert">
-                No hay productos cargados
+                No hay compras registradas
             </div>
         </div>
 <?php

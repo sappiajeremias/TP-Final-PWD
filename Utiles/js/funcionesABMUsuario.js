@@ -31,9 +31,9 @@ function armarTabla(arreglo) {
     $.each(arreglo, function (index, usuario) {
 //console.log(usuario);
         if (usuario.usdeshabilitado == null || usuario.usdeshabilitado == "0000-00-00 00:00:00"){
-            var boton = '<a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban"></i>Deshabilitar</button></a>';
+            var boton = '<a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban me-2"></i>Deshabilitar</button></a>';
         } else {
-            var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check"></i>Habilitar</button></a>';
+            var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check me-2"></i>Habilitar</button></a>';
         }
 
         $('#tablaUsuarios > tbody:last-child').append('<tr><td>' + usuario.idusuario + '</td><td>' + usuario.usnombre + '</td><td>' + usuario.usmail + '</td><td>' + usuario.usdeshabilitado + '</td><td>' + usuario.roles + '</td><td><a href="#" class="eliminarRol"><button class="btn btn-outline-danger"><i class="fa-solid fa-book-skull me-2"></i>Quitar Rol</button></a><a href="#" class="agregarRol"><button class="btn btn-outline-warning"><i class="fa-solid fa-book-medical me-2"></i>Agregar Rol</button></a>'+boton+'</td>');

@@ -48,7 +48,7 @@ if ($sesion->esCliente()) {
     ?>
         <div class="container p-2">
             <div class="alert alert-info" role="alert">
-                No hay productos cargados
+                No tienes compras registradas :(
             </div>
         </div>
 <?php
