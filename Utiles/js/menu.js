@@ -44,7 +44,7 @@ $(document).on('click', '.cambiarRol', function () {
         success: function (response) {
             var response = jQuery.parseJSON(response);
             if (response.respuesta) {
-                cargarMenu();
+                window.location.href="../Home/index.php";
             } else {
                 // CARTEL SI LOS DATOS NO SE ENVIARON
                 if (typeof (response.mensajeErrorRol) != "undefined" && response.mensajeErrorRol !== null) {
