@@ -257,4 +257,12 @@ class Session
             session_destroy();
         }
     }
+
+    public function setIdRolActivo($param){
+        $_SESSION['rolactivoid'] = $param;
+    }
+
+    public function setDescripcionRolActivo($param){
+        $_SESSION['rolactivodescripcion'] = $param;
+    }
 }

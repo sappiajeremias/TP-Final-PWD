@@ -39,7 +39,7 @@ if ($sesion->esAdmin()) {
     ?>
         <div class="container p-2">
             <div class="alert alert-info" role="alert">
-                No hay usuarios cargados
+                No hay usuarios cargados!
             </div>
         </div>
 <?php

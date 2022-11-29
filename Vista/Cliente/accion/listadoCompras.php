@@ -1,22 +1,18 @@
 <?php
 include_once "../../../configuracion.php";
 $data = data_submitted();
-$objCE = new abmCompraEstado;
+
 $respuesta = false;
 $session = new Session();
 $objItems = new abmCompra();
-$listaCompras = $objItems->buscar(['idusuario'=>$_SESSION['idusuario']]);
-
-
-$listaCE = $objCE->buscar(['idcompra'=>$listaCompras[0]->getID()]);
-if (count($listaCE) > 0) {
+$listaCompras = $objItems->buscar(['idusuario' => $session->getIDUsuarioLogueado()]);
+if (count($listaCompras) > 0) {
     $arreglo_salida =  [];
-
-    //RECORREMOS EL LISTADO DE COMPRAS ESTADO
-    foreach ($listaCE as $compraActual) {
-
-        // SI NO ES UN CARRITO LO SUMAMOS AL ARREGLO
-        if (!($compraActual->getObjCompraEstadoTipo()->getCetDescripcion() === "carrito")) {
+    foreach ($listaCompras as $elem) {
+        $objCE = new abmCompraEstado;
+        $listaCE = $objCE->buscar(['idcompra' => $elem->getID()]);
+        //RECORREMOS EL LISTADO DE COMPRAS ESTADO
+        foreach ($listaCE as $compraActual) {
 
             $nuevoElem = [
                 "idcompra" => $compraActual->getObjCompra()->getID(),

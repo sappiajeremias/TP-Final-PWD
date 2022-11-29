@@ -164,19 +164,12 @@ class abmUsuario
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
-            // Me lo compliqué pero funciona: Busca el usuario, carga los valores en arreglo $param
-            // y luego modifica el usuario con la fecha actual de usdeshabilitado
-            $usuario = $this->buscar($param);
-            $param['usnombre'] = $usuario[0]->getusnombre();
-            $param['uspass'] = $usuario[0]->getuspass();
-            $param['usmail'] = $usuario[0]->getusmail();
-            $param['usdeshabilitado'] = date("Y-m-d H:i:s");
-            //echo "<br>Fecha y hora: " . $param['usdeshabilitado'];
-            $Objusuario = $this->cargarObjeto($param);
-            if ($Objusuario != null and $Objusuario->modificar()) {
+            $objUsuario = $this->cargarObjetoConClave($param);
+            if ($objUsuario!=null and $objUsuario->eliminar()) {
                 $resp = true;
             }
         }
+
         return $resp;
     }
 
@@ -261,28 +254,19 @@ class abmUsuario
     { //parametro es $sesion->getIDUsuarioLogueado()
         //Devuelve los compraItem del carrito.
         $encontrado = false;
-        $objCompra = new compra();
+        $objCompra = new abmCompra();
         $compraEncontrada = null;
-        $j = 0;
-        $compraEstadoEncontrada = null;
-        $listaCompras = $objCompra->listar("idusuario=' " . $idUsuario . "'");
+        $listaCompras = $objCompra->buscar(['idusuario' => $idUsuario]);
         if (count($listaCompras) > 0) { //CHEQUEO QUE TENGA COMPRAS
-            $objCompraEstado = new compraEstado();
-            while (!$encontrado && $j < (count($listaCompras))) { 
-                $listaCompraEstados = $objCompraEstado->listar("idcompra=' " . $listaCompras[$j]->getID() . "'");
-                $i = 0;
-                do {
-                    if ($listaCompraEstados[$i]->getObjCompraEstadoTipo()->getID() == 5 && $listaCompraEstados[$i]->getCeFechaFin() == '0000-00-00 00:00:00') {
-                        $compraEstadoEncontrada = $listaCompraEstados[$i];
-                        $encontrado = true;
-                    } else {
-                        $i++;
+            foreach($listaCompras as $compraActual){
+                $objCompraEstado = new abmCompraEstado();
+                $listaCompraEstados = $objCompraEstado->buscar(['idcompra' => $compraActual->getID()]);
+
+                foreach($listaCompraEstados as $elem){
+                    if ($elem->getObjCompraEstadoTipo()->getID() == 5 && ($elem->getCeFechaFin() == '0000-00-00 00:00:00' || $elem->getCeFechaFin() == null)) {
+                        $compraEncontrada = $elem->getObjCompra();
                     }
-                } while (!$encontrado && $i < (count($listaCompraEstados)));
-                $j++;
-            }
-            if ($compraEstadoEncontrada <> null) {
-                $compraEncontrada= $compraEstadoEncontrada->getObjCompra();
+                }
             }
         }
         return $compraEncontrada;
