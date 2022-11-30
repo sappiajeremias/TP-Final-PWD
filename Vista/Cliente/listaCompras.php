@@ -16,12 +16,13 @@ if ($sesion->esCliente()) {
 
                     <thead class="table-dark">
                         <tr>
-                            <th>ID CE</th>
-                            <th>Usuario</th>
+                            <th>ID Transaccion</th>
+                            <!--<th>Usuario</th>-->
                             <th>Productos lista</th>
                             <th>Estado</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
+                            <th>Fecha inicio transaccion</th>
+                            <th>Ultima fecha modificacion</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
@@ -47,8 +48,17 @@ if ($sesion->esCliente()) {
     <?php } else {
     ?>
         <div class="container p-2">
-            <div class="alert alert-info" role="alert">
-                No tienes compras registradas :(
+            <div class=" card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4"><img src="../img/plantaTriste.PNG" class="img-fluid rounded-start" alt="..."></div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h4 class="card-title">A&uacute;n no has realizado ninguna compra</h4>
+                            <p class="card-text"> Ingresa al cat&aacutelogo de productos para seleccionar los que mas te gusten.</p>
+                            <p class="card-text"><a href="../Home/productos.php"><button class="btn btn-outline-success col-11">Cat&aacutelogo de productos</button></a></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 <?php

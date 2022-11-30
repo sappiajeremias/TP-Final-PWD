@@ -37,14 +37,14 @@ function armarTablaCarrito(arreglo) {
         var idcompra=arreglo[0].idcompra;
         //console.log(idcompra);
         
-    $('#tablaCarrito').append('<thead class=""><tr><th hidden >'+idcompra+'</th><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th><a href="#" class="vaciarCarrito"><button class="btn btn-outline-danger">Vaciar Carrito</button></a></th></tr></thead><tbody class="table-group-divider"></tbody>');
+    $('#tablaCarrito').append('<thead class=""><tr><th hidden >'+idcompra+'</th><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th><th width=150><a href="#" class="vaciarCarrito"><button class="btn btn-outline-danger">Vaciar Carrito</button></a></th></tr></thead><tbody class="table-group-divider"></tbody>');
     
     var total=0;
     $.each(arreglo, function (index, compraItem) {
 
     total=total+compraItem.subtotal;
 
-    $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td><img src="../img/' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>'+ compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max='+compraItem.procantstock+' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value='+compraItem.cicantidad+'></td><td><p class="text-danger"><strong> $ ' +compraItem.subtotal +' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
+    $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td hidden>'+compraItem.procantstock+'</td><td><img src="../img/' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>'+ compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max='+compraItem.procantstock+' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value='+compraItem.cicantidad+'></td><td><p class="text-danger"><strong> $ ' +compraItem.subtotal +' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
     });
     
     $('#totalPagar').append('<div class="card text-center" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Total a pagar:</h5><hr><p class="card-text"> $ '+total+' ARS</p><a href="#" class="pagar btn btn-primary">Pagar</a><br><br><a href="../Home/productos.php" class="pagar btn btn-success">Ver mas productos</a></div></div>')
@@ -194,7 +194,7 @@ $(document).on('click', '.eliminar', function () {
 
     var fila = $(this).closest('tr');
     var idcompraitem = fila[0].children[0].innerHTML;
-    var pronombre = fila[0].children[3].innerHTML;
+    var pronombre = fila[0].children[4].innerHTML;
 
     // CARTEL LIBRERIA
     bootbox.confirm({

@@ -27,6 +27,7 @@ $obj = new abmCompraItem();
 $objProducto = new abmProducto();
 $listaProd = $objProducto->buscar(['idproducto' => $datos['idproducto']]);
 if (count($listaProd)>0) {
+    
     $cantStockPro = $listaProd[0]->getProCantStock();
     if ($datos['cicantidad'] > $cantStockPro) {
         $mensajeError = "El stock de este producto es " . $cantStockPro . ".Proba ingresando un valor valido";
