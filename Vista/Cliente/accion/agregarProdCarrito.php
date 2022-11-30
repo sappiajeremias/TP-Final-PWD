@@ -77,6 +77,7 @@ function agregarProductoCarrito($objCompraCarrito, $data)
 }
 
  function crearCarrito($idUser){
+    date_default_timezone_set('America/Argentina/Buenos_Aires');
     $carrito=null;
     $objAbmCompra = new abmCompra();
     $param= array(

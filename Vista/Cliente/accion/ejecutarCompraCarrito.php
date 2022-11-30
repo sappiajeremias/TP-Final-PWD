@@ -26,6 +26,7 @@ echo json_encode($retorno);
 
  function iniciarCompra($carrito){
     //modificar fechafin del carrito y crear nueva instancia de compraestado, con idcompraestadotipo =1, unido a la compra.
+    date_default_timezone_set('America/Argentina/Buenos_Aires');
     $objAbmCompraEstado= new abmCompraEstado();
     $idCompra=$carrito->getID();
     $paramCompra= array(
@@ -36,7 +37,7 @@ echo json_encode($retorno);
     );
 
     $respuesta=$objAbmCompraEstado->altaSinID($paramCompra);
-
+    
     if ($respuesta) {
         $param= array(
             'idcompra'=>$idCompra,
@@ -60,32 +61,4 @@ echo json_encode($retorno);
     return $respuesta;
  }
 
-/*
- function actualizarStockProd($carrito){
-    //modificar el stock actual de los productos del carrito a stockactual-cantcompra
-    $objAbmCompraItem= new abmCompraItem();
-    $paramCompra['idcompra']=$carrito->getID();
-    $listaCompraItem= $objAbmCompraItem->buscar($paramCompra);
-    foreach($listaCompraItem as $compraItem){
-        $objAbmProducto= new abmProducto();
-        $idProd=$compraItem->getObjProducto()->getID();
-        $paramProd['idproducto']=$idProd;
-        $listaProductos=$objAbmProducto->buscar($paramProd);
-        $cantProducto=$listaProductos[0]->getProCantStock();
-        $cantCompra=$compraItem->getCiCantidad();
-        $nuevaCantPro=$cantProducto-$cantCompra;
-        $param=array(
-            'idproducto'=>$idProd,
-            'procantstock'=>$nuevaCantPro
-        );
-        $objAbmProducto->modificacion($param);
-    }
 
- }
-
-
- function validarStockProductos($carrito){
-    $respuesta=false;
-
- }
- */

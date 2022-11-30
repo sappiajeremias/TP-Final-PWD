@@ -13,7 +13,8 @@ if (count($listaCompras) > 0) {
         $listaCE = $objCE->buscar(['idcompra' => $elem->getID()]);
         //RECORREMOS EL LISTADO DE COMPRAS ESTADO
         foreach ($listaCE as $compraActual) {
-
+            //SI ES CARRITO NO LO MOSTRAMOS
+            if (!($compraActual->getObjCompraEstadoTipo()->getCetDescripcion() === "carrito")) {
             $nuevoElem = [
                 "idcompra" => $compraActual->getObjCompra()->getID(),
                 "cofecha" => $compraActual->getCeFechaIni(),
@@ -24,6 +25,7 @@ if (count($listaCompras) > 0) {
             ];
             array_push($arreglo_salida, $nuevoElem);
         }
+    }
     }
     $respuesta['respuesta'] = $arreglo_salida;
 } else {

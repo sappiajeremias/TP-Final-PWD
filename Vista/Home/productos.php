@@ -20,6 +20,7 @@ $listaProductos = $abmProductos->buscarConStock();
                     <div class="card">
                         <div class="card-body text-center">
                             
+                            <img src="../img/"<?php echo $productoActual->getImagen();?>>
                             <h5 class="card-title"><?php echo $productoActual->getProNombre(); ?></h5>
                             <p class="card-text"><?php echo $productoActual->getProDetalle(); ?></p>
                             <p class="card-text"><b>Stock Actual:</b> <?php echo $productoActual->getProCantStock(); ?></p>
