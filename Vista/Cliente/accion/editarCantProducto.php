@@ -1,5 +1,5 @@
 <?php
-/*
+
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $respuesta=false;
@@ -17,9 +17,9 @@ if (isset($mensajeError)){
 
 }
     echo json_encode($retorno);
-*/
 
-    
+
+    /*
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $respuesta = true;
@@ -51,4 +51,5 @@ if (isset($mensajeError)) {
     $retorno['mensajeError'] = $mensajeError;
 }
 echo json_encode($retorno); 
+*/
 ?>
