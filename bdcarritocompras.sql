@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2022 a las 03:30:38
+-- Tiempo de generación: 01-12-2022 a las 19:53:44
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -109,7 +109,7 @@ INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabi
 (13, 'Cliente Permisos', '#', NULL, NULL),
 (14, 'Ver Carrito', '../Cliente/carrito.php', 13, NULL),
 (15, 'Listado de Compras', '../Cliente/listaCompras.php', 13, NULL),
-(16, 'Deposito Permisos', '#', NULL, NULL),
+(16, 'Deposito Permisos', '#', NULL, '0000-00-00 00:00:00'),
 (17, 'Ver Compras', '../Deposito/tablaCompras.php', 16, NULL),
 (18, 'Ver Productos', '../Deposito/tablaProductos.php', 16, NULL);
 
@@ -154,11 +154,11 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idproducto`, `pronombre`, `prodetalle`, `procantstock`, `precio`, `prodeshabilitado`, `imagen`) VALUES
-(7, 'Serrucho', 'a', 100, 39967, '0000-00-00 00:00:00', 'sierra.png'),
-(8, 'Nivel', 'a', 98, 2000, '0000-00-00 00:00:00', 'nose.png'),
-(76, 'Pala', 'a', 100, 30050, '0000-00-00 00:00:00', 'pala.png'),
-(77, 'Caja de Herramientas', 'a', 100, 400, '0000-00-00 00:00:00', 'cajaHerramientas.png'),
-(91, 'Pinza', 'a', 100, 30000, '0000-00-00 00:00:00', 'pinza.png');
+(7, 'Planta 1', 'detalle', 100, 4000, '0000-00-00 00:00:00', 'planta1.png'),
+(8, 'Planta 2', 'detalle', 100, 2000, NULL, 'planta2.png'),
+(76, 'Planta 3', 'detalle', 100, 4000, NULL, 'planta3.png'),
+(77, 'Planta 4', 'detalle', 100, 5000, NULL, 'planta4.png'),
+(91, 'Planta 5', 'detalle', 100, 30000, '0000-00-00 00:00:00', 'planta5.png');
 
 -- --------------------------------------------------------
 
@@ -315,31 +315,31 @@ ALTER TABLE `usuariorol`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `compraestado`
 --
 ALTER TABLE `compraestado`
-  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT de la tabla `compraitem`
 --
 ALTER TABLE `compraitem`
-  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

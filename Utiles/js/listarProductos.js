@@ -36,7 +36,7 @@ function armarTablaProductos(arreglo) {
 
         if((producto.prodeshabilitado == null || producto.prodeshabilitado == '0000-00-00 00:00:00') && producto.procantstock>0){
 
-            $('#filaProductos').append('<div class="col-sm-3 pb-3" ><div  class="card" id="listaProductos"><div class="card-body text-center"><div class="card-body text-center"><img src="../img/'+producto.imagen+'" width="200"><h5 class="card-title">'+producto.pronombre+'</h5><p class="card-text">'+producto.prodetalle+'</p><p class="card-text"><b>Precio:</b> '+producto.precio+'</p><p class="card-text"><b>Stock Actual: </b>'+producto.procantstock+'</p><div id="agregarBoton'+producto.idproducto+'" class="d-grid gap-2 d-md-block m-auto mb-2"></div></div></div></div></div>');
+            $('#filaProductos').append('<div class="col-sm-3 pb-3" ><div  class="card" id="listaProductos"><div class="card-body text-center"><div class="card-body text-center"><img src="../img/'+producto.imagen+'"class="rounded float-start" width="200" height="200"><h5 class="card-title">'+producto.pronombre+'</h5><p class="card-text">'+producto.prodetalle+'</p><p class="card-text"><b>Precio:</b> '+producto.precio+'</p><p class="card-text"><b>Stock Actual: </b>'+producto.procantstock+'</p><div id="agregarBoton'+producto.idproducto+'" class="d-grid gap-2 d-md-block m-auto mb-2"></div></div></div></div></div>');
         }
 
         if(producto.rol !=null && producto.rol=="cliente"){

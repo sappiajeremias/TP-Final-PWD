@@ -20,9 +20,6 @@ if (!empty($datos['mensaje'])) {
 <?php } ?>
 <div class="container">
     <div class="container p-2">
-        <div class="alert alert-info" role="alert">
-            Orden Estados de Compra
-        </div>
 
         <img src="../img/papito.jpg" class="d-block w-100" alt="...">
     </div>
