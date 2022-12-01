@@ -20,7 +20,6 @@ if ($carrito <> null) {
         $mensajeError="Este producto no tiene mas stock!";
     }
 } else {//si el carrito no existe lo creo
-    echo "HOLA";
     $carritoNuevo = crearCarrito($idUserLogueado);
     if ($carritoNuevo <> null) {
         //y agrego el producto

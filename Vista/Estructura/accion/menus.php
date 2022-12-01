@@ -9,7 +9,14 @@ if ($sesion->sesionActiva()) {
         $abmMenuRol = new abmMenuRol();
         $menuRoles = $abmMenuRol->buscar(['idrol' => $rolActivo['id']]); // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
 
-        $menuPermisos = traerPermisos($menuRoles);
+        $menuPermisos = "";
+        if (count($menuRoles) > 1){
+            foreach ($menuRoles as $permisoActual) {
+                $menuPermisos .= traerPermisos($permisoActual);
+            }
+        } elseif(count($menuRoles) === 1){
+            $menuPermisos .= traerPermisos($menuRoles[0]);
+        }
         $menuCambioRoles = traerCambiosRol($roles);
         $menuDatosUsActivo = traerDatosUs($sesion, $rolActivo);
     } else { // SI NO TIENE NINGÚN ROL
@@ -42,33 +49,32 @@ if (isset($menuSinLogin)) {
 
 echo json_encode($retorno);
 
-function traerPermisos($menuRoles)
+function traerPermisos($menuRol)
 {
     $abmMenu = new abmMenu();
+    $permisos = "";
+    $objMenuActual = $menuRol->getObjMenu(); // TRAEMOS EL OBJ MENU
+    if (!empty($objMenuActual->getObjMenuPadre())) { //VERIFICA SI ES RAIZ OSEA IDPADRE=NULL
+        $idMenuActual = $objMenuActual->getID(); //TOMA EL ID DE LA RAIZ
+        $retorno = $abmMenu->tieneHijos($idMenuActual);  // SI TIENE HIJOS RETORNA ARREGLO, SINO NULL
+        if ($retorno <> null) { // VERIFICAMOS
 
-    foreach ($menuRoles as $menuRolActual) {
-        $objMenuActual = $menuRolActual->getObjMenu(); // TRAEMOS EL OBJ MENU
-        if (!empty($objMenuActual->getObjMenuPadre())) { //VERIFICA SI ES RAIZ OSEA IDPADRE=NULL
-            $idMenuActual = $objMenuActual->getID(); //TOMA EL ID DE LA RAIZ
-            $retorno = $abmMenu->tieneHijos($idMenuActual);  // SI TIENE HIJOS RETORNA ARREGLO, SINO NULL
-            if ($retorno <> null) { // VERIFICAMOS
-
-                $padreConHijos = "<!-- INICIO PERMISOS DROPDOWN --><li class='nav-item dropdown me-2'>
+            $padreConHijos = "<!-- INICIO PERMISOS DROPDOWN --><li class='nav-item dropdown me-2'>
                 <a class='nav-link dropdown-toggle text-white' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>" . $objMenuActual->getMeNombre() . "</a>
                 <div class='dropdown-menu dropdown-menu-end'>";
 
-                $hijos = "";
-                foreach ($retorno as $menuRolHijo) { // RECORREMOS LOS HIJOS
-                    $hijos .= "<a class='dropdown-item' href=" . $menuRolHijo->getMeDescripcion() . ">" . $menuRolHijo->getMeNombre() . "</a>";
-                }
-
-                $padreConHijos .= $hijos;
-                $padreConHijos .= "</div></li><!-- FIN PERMISOS DROPDOWN -->";
+            $hijos = "";
+            foreach ($retorno as $menuRolHijo) { // RECORREMOS LOS HIJOS
+                $hijos .= "<a class='dropdown-item' href=" . $menuRolHijo->getMeDescripcion() . ">" . $menuRolHijo->getMeNombre() . "</a>";
             }
-        } else {
-            $padreSinHijos = "<a class='dropdown-item' href=" . $objMenuActual->getMeDescripcion() . ">" . $objMenuActual->getMeNombre() . "</a>";
+
+            $padreConHijos .= $hijos;
+            $permisos .= $padreConHijos . "</div></li><!-- FIN PERMISOS DROPDOWN -->";
         }
+    } else {
+        $padreSinHijos = "<a class='dropdown-item' href=" . $objMenuActual->getMeDescripcion() . ">" . $objMenuActual->getMeNombre() . "</a>";
     }
+
 
     if (isset($padreConHijos)) {
         $permisos = $padreConHijos;
@@ -128,11 +134,11 @@ function traerDatosUs($sesion, $rolActivo)
             <ul class='dropdown-menu'><li><a class='dropdown-item' id='rolactivo' disabled='disabled'>
             <i class='fa-solid fa-address-book me-2'></i>";
 
-            if ($rolActivo['rol'] === null){
-                $cartel = "ROL: NO";
-            } else {
-                $cartel = "ROL: " . strtoupper($rolActivo['rol']);
-            }
+    if ($rolActivo['rol'] === null) {
+        $cartel = "ROL: NO";
+    } else {
+        $cartel = "ROL: " . strtoupper($rolActivo['rol']);
+    }
     $menuUs .= $cartel;
     $menuUs .= "</a></li><hr class='dropdown-divider'>";
 
