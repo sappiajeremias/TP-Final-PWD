@@ -111,7 +111,7 @@ function listaProductos(arreglo, nombre) {
 
 //CIERRA LA LISTA
 $(document).on('click', '#cerrar', function () {
-    $('h5').empty();
+    $('#usnombre').empty();
     $("#listaProductos").empty();
     document.getElementById('oculto').classList.add('d-none');
 });
