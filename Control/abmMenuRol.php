@@ -46,7 +46,7 @@ class abmMenuRol
 
             $objMenuRol->setear($menu, $rol);
         }
-        return $menu;
+        return $objMenuRol;
     }
 
     /**
@@ -70,7 +70,7 @@ class abmMenuRol
 
             $objMenuRol->setear($menu, $rol);
         }
-        return $menu;
+        return $objMenuRol;
         
     }
 
@@ -82,7 +82,7 @@ class abmMenuRol
     private function seteadosCamposClaves($param)
     {
         $resp = false;
-        if (isset($param['idmenu']) && isset($param['idrol'])) {
+        if (isset($param['idmenu'])) {
             $resp = true;
         }
         return $resp;

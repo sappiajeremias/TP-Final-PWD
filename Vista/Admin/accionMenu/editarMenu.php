@@ -4,41 +4,49 @@ include_once('../../../configuracion.php');
 
 $data = data_submitted();
 
+if (isset($data['idrol']) && isset($data['idmenu'])) {
 
+    $objMenuRol = new abmMenuRol();
 
-    $objAbmMenu = new abmMenu();
-    $objMenuRol= new abmMenuRol();
+    $busqueda = $objMenuRol->buscar(['idmenu'=>$data['idmenu']]);
 
-    $respuesta=$objMenuRol->modificacion(['idrol'=>$data['idrol'], 'idmenu'=>$data['idmenu']]);
-    if($respuesta){
+    $idRol = $busqueda[0]->getObjRol()->getID();
 
-  
+    $bajaMR = $objMenuRol->baja(['idmenu'=>$data['idmenu'], 'idrol'=>$idRol]);
 
-    /* $objMenu = $objAbmMenu->buscar(['idmenu'=>$data['idmenu']]); */
-
-    $arraOBJ =[
-        'idmenu'=>$data['idmenu'],
-        'menombre'=>$data['menombre'],
-        'medescripcion'=>$data['medescripcion'],
-        'medeshabilitado'=>$data['medeshabilitado'],
-        'idpadre'=>$data['idpadre']
-    ];
-
-    $respuesta = $objAbmMenu->modificacion($arraOBJ);
-    if (!$respuesta) {
-        $sms_error = " La modificacion no pudo concretarse";
+    if ($bajaMR){
+        $altaMR = $objMenuRol->alta(['idmenu'=>$data['idmenu'], 'idrol'=>$data['idrol']]);
+    } else {
+        $altaMR = false;
     }
-}else{
-    $sms_error = "La relacion con rol no pudo concretarse.";
+
+    if ($altaMR) {
+        $arraOBJ = [
+            'idmenu' => $data['idmenu'],
+            'menombre' => $data['menombre'],
+            'medescripcion' => $data['medescripcion'],
+            'medeshabilitado' => $data['medeshabilitado'],
+            'idpadre' => $data['idpadre']
+        ];
+
+        $objAbmMenu = new abmMenu();
+        $respuesta = $objAbmMenu->modificacion($arraOBJ);
+        if (!$respuesta) {
+            $sms_error = " La modificacion no pudo concretarse";
+        }
+    } else {
+        $sms_error = "La relacion con rol no pudo concretarse.";
+    }
+} else {
+    $sms_error = "No llegaron datos";
 }
 
-   
+
 
 
 $retorno['respuesta'] = $respuesta;
 if (isset($sms_error)) {
-
     $retorno['errorMsg'] = $sms_error;
 }
 
- echo json_encode($retorno);
+echo json_encode($retorno);

@@ -28,10 +28,6 @@ function armarTabla(arreglo) {
 
     $('#tablaCompras > tbody:last-child').empty();
 
-    if(arreglo.lenght>0){
-
-   
-
     $.each(arreglo, function (index, compra) {
         var estadoVista = null;
         var botones= null;
@@ -66,10 +62,8 @@ function armarTabla(arreglo) {
         }
         $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompra + '</td><th scope="row">' + compra.idcompraestado + '</th><td hidden>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' +botones+ '</tr>');
     });
-}else{
-    
 }
-}
+
 
 /*################################# VER PRODUCTOS DE COMPRA #################################*/
 

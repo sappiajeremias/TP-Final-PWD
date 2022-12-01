@@ -68,12 +68,7 @@ public function insertar(){
 
 public function modificar(){
     $resp = false;
-    
-   
     $sql="UPDATE menurol SET idrol=".$this->getObjRol()->getID(). " WHERE idmenu=".$this->getObjMenu()->getID()."";
-   
-    echo $sql;
-    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;
@@ -90,7 +85,7 @@ public function modificar(){
 public function eliminar(){
     $resp = false;
     
-    $sql="DELETE FROM menurol WHERE idmenu=".$this->getObjMenu()->getID()."";
+    $sql="DELETE FROM menurol WHERE idmenu=".$this->getObjMenu()->getID()." AND idrol=".$this->getObjRol()->getID()."";
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;
