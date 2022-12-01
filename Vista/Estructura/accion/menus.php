@@ -76,7 +76,7 @@ function traerPermisos($menuRoles)
 function traerCambiosRol($roles)
 {
 
-    if (count($roles) > 1) {
+    if (count($roles) > 1) { //SI TIENE MAS DE UN ROL
         $cambiosRol = "<!-- INICIO CAMBIAR ROLES --><li class='nav-item dropdown'>
         <a class='nav-link dropdown-toggle text-white' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
             <i class='fa-solid fa-user-gear me-1'></i>Cambiar Roles</a>
@@ -88,28 +88,47 @@ function traerCambiosRol($roles)
 
         $cambiosRol .= $rolsito;
         $cambiosRol .= "</div></li><!-- FIN CAMBIAR ROLES -->";
+    } elseif(count($roles) == 1) { //SI TIENE UN SOLO ROL
+        switch ($roles[0]->getRolDescripcion()) {
+            case 'cliente':
+                $cambiosRol = "<li class='nav-item'>
+                <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-tie me-2'></i>Cliente</a></li>";
+                break;
+            case 'deposito':
+                $cambiosRol = "<li class='nav-item'>
+                <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-ninja me-2'></i>Deposito</a></li>";
+                break;
+            case 'admin':
+                $cambiosRol = "<li class='nav-item'>
+                <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-astronaut me-2'></i>Admin</a></li>";
+                break;
+            }
+    } else { // SI NO TIENE ROLES
+        $cambiosRol = "<li class='nav-item'>
+        <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-skull'></i>No tienes Permisos</a></li>";
     }
 
     return $cambiosRol;
 }
 
-function traerDatosUs($sesion, $rolActivo){
+function traerDatosUs($sesion, $rolActivo)
+{
     $nombreUsuario = $sesion->getNombreUsuarioLogueado();
 
     $menuUs = "<!-- INICIO USUARIO ACTIVO DATOS -->
             <button class='btn btn-outline-dark dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                <i class='fa-solid fa-user me-2'></i>".$nombreUsuario."</button>
+                <i class='fa-solid fa-user me-2'></i>" . $nombreUsuario . "</button>
             <ul class='dropdown-menu'>
-            <li><a class='dropdown-item' id='rolactivo' disabled='disabled'><i class='fa-solid fa-address-book me-2'></i>ROL: ".strtoupper($rolActivo['rol'])."</a></li>
+            <li><a class='dropdown-item' id='rolactivo' disabled='disabled'><i class='fa-solid fa-address-book me-2'></i>ROL: " . strtoupper($rolActivo['rol']) . "</a></li>
             <hr class='dropdown-divider'>";
 
-            $clienteActivo = "";
-            if($rolActivo['rol'] === 'cliente') {
-                $clienteActivo = "<li><a class='dropdown-item' href='../Cliente/modificarPerfil.php'><i class='fa-solid fa-user-pen me-2'></i>Ver Perfil</a></li>
+    $clienteActivo = "";
+    if ($rolActivo['rol'] === 'cliente') {
+        $clienteActivo = "<li><a class='dropdown-item' href='../Cliente/modificarPerfil.php'><i class='fa-solid fa-user-pen me-2'></i>Ver Perfil</a></li>
                 <hr class='dropdown-divider'>";
-            }
+    }
     $menuUs .= $clienteActivo;
-    $menuUs .="<li><a class='dropdown-item' href='../Login/accion/cerrarSesion.php'><i class='fa-solid fa-power-off me-2'></i>Cerrar Sesión</a></li></ul><!-- FIN MENÚ USUARIO LOGEADO -->";
+    $menuUs .= "<li><a class='dropdown-item' href='../Login/accion/cerrarSesion.php'><i class='fa-solid fa-power-off me-2'></i>Cerrar Sesión</a></li></ul><!-- FIN MENÚ USUARIO LOGEADO -->";
 
     return $menuUs;
 }

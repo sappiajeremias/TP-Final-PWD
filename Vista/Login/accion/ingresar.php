@@ -29,7 +29,12 @@ if (!empty($data)) {
         }
 
         if ($respuesta) {
-            $sesion->setearRolActivo();
+            $rolesUs = $sesion->getRoles();
+            if (count($rolesUs) > 0) {
+                $sesion->setearRolActivo();
+            } else {
+                $mensajeNoRoles = "No tienes roles";
+            }
         } else {
             $mensajeSesion = "Algo salió mal en el inicio de sesión :(";
         }
@@ -49,6 +54,9 @@ if (isset($mensajeDatos)) {
 }
 if (isset($mensajePass)) {
     $retorno['mensajePass'] = $mensajePass;
+}
+if (isset($mensajeNoRoles)) {
+    $retorno['mensajeNoRoles'] = $mensajeNoRoles;
 }
 if (isset($mensajeUsDes)) {
     $retorno['mensajeUsDes'] = $mensajeUsDes;
