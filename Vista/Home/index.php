@@ -21,7 +21,7 @@ if (!empty($datos['mensaje'])) {
 <div class="container">
     <div class="container p-2">
 
-        <img src="../img/papito.jpg" class="d-block w-100" alt="...">
+        <img src="../img/invernadero.png" class="d-block w-100" alt="...">
     </div>
 </div>
 
