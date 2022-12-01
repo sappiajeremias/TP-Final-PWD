@@ -25,7 +25,7 @@ function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaUsuarios > tbody').empty();
     // GENERAMOS EL FORM PARA AGREGAR UN USUARIO
-    $('#tablaUsuarios > tbody').append('<tr class="table-success"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Mail"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td><select class="form-control"><option value=1>Admin</option><option value=3>Deposito</option><option value=3>Cliente</option></select></td><td><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus me-2"></i>Agregar</button></a></td></tr>');
+    $('#tablaUsuarios > tbody').append('<tr class="table-active"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Mail"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td><select class="form-control"><option value=1>Admin</option><option value=3>Deposito</option><option value=3>Cliente</option></select></td><td><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus me-2"></i>Agregar</button></a></td></tr>');
     // LISTAMOS LOS USUARIOS
 
     $.each(arreglo, function (index, usuario) {

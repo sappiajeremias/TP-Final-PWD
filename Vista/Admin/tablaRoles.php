@@ -22,7 +22,7 @@ if ($sesion->esAdmin()) {
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr class="table-success">
+                        <tr class="table-active">
                             <td><input class="form-control" type="number" placeholder="#" readonly></td>
                             <td><input class="form-control" type="text" placeholder="Descripcion"></td>
                             <td><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td>

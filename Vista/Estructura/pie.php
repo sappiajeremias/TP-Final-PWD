@@ -1,25 +1,25 @@
 <!-- INICIO PIE -->
-<section class="mt-4" style="user-select: none;">
-    <footer class="text-center text-white" style="background-color: #0a4275;">
+<section class="mt-5" style="user-select: none;">
+    <footer class="text-center text-white bg-secondary">
         <div class="container p-4 pb-2">
             <div class="row text-center">
                 <div class="col">
-                    <a href="https://github.com/LaureanoLuna" class="text-white"><h5><i class="fa-brands fa-github"></i></h5></a>
+                    <a href="https://github.com/LaureanoLuna"><h5><i class="fa-brands fa-github"></i></h5></a>
                     <h5>Laureano Luna</h5>
                     <p>FAI - 3543</p>
                 </div> |
                 <div class="col">
-                    <a href="https://github.com/sappiajeremias" class="text-white"><h5><i class="fa-brands fa-github"></i></h5></a>
+                    <a href="https://github.com/sappiajeremias"><h5><i class="fa-brands fa-github"></i></h5></a>
                     <h5>Jeremias Sappia</h5>
                     <p>FAI - 2532</p>
                 </div> |
                 <div class="col">
-                    <a href="https://github.com/BraianCenturion2001" class="text-white"><h5><i class="fa-brands fa-github"></i></h5></a>
+                    <a href="https://github.com/BraianCenturion2001"><h5><i class="fa-brands fa-github"></i></h5></a>
                     <h5>Braian Centurión</h5>
                     <p>FAI - 3001</p>
                 </div> |
                 <div class="col">
-                    <a href="https://github.com/RoniBroilo" class="text-white"><h5><i class="fa-brands fa-github"></i></h5></a>
+                    <a href="https://github.com/RoniBroilo"><h5><i class="fa-brands fa-github"></i></h5></a>
                     <h5>Roni Broilo</h5>
                     <p>FAI - 1107</p>
                 </div>

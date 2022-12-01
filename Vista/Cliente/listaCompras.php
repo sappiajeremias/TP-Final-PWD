@@ -47,7 +47,7 @@ if ($sesion->esCliente()) {
         </div>
     <?php } else {
     ?>
-        <div class="container p-2">
+        <div class="container py-5 text-center">
             <div class=" card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4"><img src="../img/plantaTriste.PNG" class="img-fluid rounded-start" alt="..."></div>
