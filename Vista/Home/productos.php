@@ -3,7 +3,7 @@ $Titulo = "Productos";
 include_once '../Estructura/cabecera.php';
 ?>
 
-<div class="container p-2" id="contenedorProductos">
+<div class="container py-4" id="contenedorProductos">
         <div class="row" id="filaProductos"></div>
 </div>
 

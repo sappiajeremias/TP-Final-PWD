@@ -6,7 +6,7 @@ if ($sesion->esCliente()) {
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
 ?>
-    <div class="container">
+    <div class="container py-4">
 
         <div class="row align-items-start">
 
