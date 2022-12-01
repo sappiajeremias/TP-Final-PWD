@@ -3,15 +3,20 @@ include_once '../../../configuracion.php';
 $sesion = new Session();
 
 if ($sesion->sesionActiva()) {
-    $rolActivo = $sesion->getRolActivo(); // ARREGLO CON ID Y DESCRIPCION DEL ROL ACTIVO
     $roles = $sesion->getRoles(); // TODOS LOS OBJ ROLES DEL USUARIO ACTIVO
+    if (count($roles) > 0) { // SI TIENE AL MENOS UN ROL
+        $rolActivo = $sesion->getRolActivo(); // ARREGLO CON ID Y DESCRIPCION DEL ROL ACTIVO
+        $abmMenuRol = new abmMenuRol();
+        $menuRoles = $abmMenuRol->buscar(['idrol' => $rolActivo['id']]); // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
 
-    $abmMenuRol = new abmMenuRol();
-    $menuRoles = $abmMenuRol->buscar(['idrol' => $rolActivo['id']]); // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
-
-    $menuPermisos = traerPermisos($menuRoles);
-    $menuCambioRoles = traerCambiosRol($roles);
-    $menuDatosUsActivo = traerDatosUs($sesion, $rolActivo);
+        $menuPermisos = traerPermisos($menuRoles);
+        $menuCambioRoles = traerCambiosRol($roles);
+        $menuDatosUsActivo = traerDatosUs($sesion, $rolActivo);
+    } else { // SI NO TIENE NINGÚN ROL
+        $menuPermisos = "";
+        $menuCambioRoles = traerCambiosRol($roles);
+        $menuDatosUsActivo = traerDatosUs($sesion, ['rol' => null]);
+    }
 } else {
     $menuSinLogin = "<!-- MENÚ NO LOGIN -->
         <li class='nav-item dropdown'>
@@ -26,6 +31,7 @@ if ($sesion->sesionActiva()) {
         </li>";
 }
 
+
 if (isset($menuSinLogin)) {
     $retorno['menuSinLogin'] = $menuSinLogin;
 } else {
@@ -33,6 +39,7 @@ if (isset($menuSinLogin)) {
     $retorno['menuCambioRoles'] = $menuCambioRoles;
     $retorno['menuDatosUsActivo'] = $menuDatosUsActivo;
 }
+
 echo json_encode($retorno);
 
 function traerPermisos($menuRoles)
@@ -88,7 +95,7 @@ function traerCambiosRol($roles)
 
         $cambiosRol .= $rolsito;
         $cambiosRol .= "</div></li><!-- FIN CAMBIAR ROLES -->";
-    } elseif(count($roles) == 1) { //SI TIENE UN SOLO ROL
+    } elseif (count($roles) === 1) { //SI TIENE UN SOLO ROL
         switch ($roles[0]->getRolDescripcion()) {
             case 'cliente':
                 $cambiosRol = "<li class='nav-item'>
@@ -102,10 +109,10 @@ function traerCambiosRol($roles)
                 $cambiosRol = "<li class='nav-item'>
                 <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-astronaut me-2'></i>Admin</a></li>";
                 break;
-            }
+        }
     } else { // SI NO TIENE ROLES
         $cambiosRol = "<li class='nav-item'>
-        <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-skull'></i>No tienes Permisos</a></li>";
+        <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-skull me-2'></i>No tienes Permisos</a></li>";
     }
 
     return $cambiosRol;
@@ -118,12 +125,20 @@ function traerDatosUs($sesion, $rolActivo)
     $menuUs = "<!-- INICIO USUARIO ACTIVO DATOS -->
             <button class='btn btn-outline-dark dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
                 <i class='fa-solid fa-user me-2'></i>" . $nombreUsuario . "</button>
-            <ul class='dropdown-menu'>
-            <li><a class='dropdown-item' id='rolactivo' disabled='disabled'><i class='fa-solid fa-address-book me-2'></i>ROL: " . strtoupper($rolActivo['rol']) . "</a></li>
-            <hr class='dropdown-divider'>";
+            <ul class='dropdown-menu'><li><a class='dropdown-item' id='rolactivo' disabled='disabled'>
+            <i class='fa-solid fa-address-book me-2'></i>";
+
+            if ($rolActivo['rol'] === null){
+                $cartel = "ROL: NO";
+            } else {
+                $cartel = "ROL: " . strtoupper($rolActivo['rol']);
+            }
+    $menuUs .= $cartel;
+    $menuUs .= "</a></li><hr class='dropdown-divider'>";
 
     $clienteActivo = "";
-    if ($rolActivo['rol'] === 'cliente') {
+
+    if ($rolActivo['rol'] === 'cliente' || $rolActivo['rol'] === null) {
         $clienteActivo = "<li><a class='dropdown-item' href='../Cliente/modificarPerfil.php'><i class='fa-solid fa-user-pen me-2'></i>Ver Perfil</a></li>
                 <hr class='dropdown-divider'>";
     }

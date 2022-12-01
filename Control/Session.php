@@ -30,27 +30,32 @@ class Session
     {
         $rolesUs = $this->getRoles(); // TRAEMOS EL ARREGLO DE OBJETOS
 
-        $i = 0;
-        $verificador = false;
-        do {
-            if ($rolesUs[$i]->getRolDescripcion() == "admin") {
-                $_SESSION['rolactivodescripcion'] = 'admin';
-                $idRol = $this->buscarIdRol('admin');
-                $_SESSION['rolactivoid'] = $idRol;
-                $verificador = true;
-            } elseif ($rolesUs[$i]->getRolDescripcion() == "deposito") {
-                $_SESSION['rolactivodescripcion'] = 'deposito';
-                $idRol = $this->buscarIdRol('deposito');
-                $_SESSION['rolactivoid'] = $idRol;
-                $verificador = true;
-            } elseif ($rolesUs[$i]->getRolDescripcion() == "cliente") {
-                $_SESSION['rolactivodescripcion'] = 'cliente';
-                $idRol = $this->buscarIdRol('cliente');
-                $_SESSION['rolactivoid'] = $idRol;
-                $verificador = true;
-            }
-            $i++;
-        } while (!$verificador);
+        if (count($rolesUs) > 0) {
+            $i = 0;
+            $verificador = false;
+            do {
+                if ($rolesUs[$i]->getRolDescripcion() == "admin") {
+                    $_SESSION['rolactivodescripcion'] = 'admin';
+                    $idRol = $this->buscarIdRol('admin');
+                    $_SESSION['rolactivoid'] = $idRol;
+                    $verificador = true;
+                } elseif ($rolesUs[$i]->getRolDescripcion() == "deposito") {
+                    $_SESSION['rolactivodescripcion'] = 'deposito';
+                    $idRol = $this->buscarIdRol('deposito');
+                    $_SESSION['rolactivoid'] = $idRol;
+                    $verificador = true;
+                } elseif ($rolesUs[$i]->getRolDescripcion() == "cliente") {
+                    $_SESSION['rolactivodescripcion'] = 'cliente';
+                    $idRol = $this->buscarIdRol('cliente');
+                    $_SESSION['rolactivoid'] = $idRol;
+                    $verificador = true;
+                }
+                $i++;
+            } while (!$verificador);
+        } else {
+            $_SESSION['rolactivodescripcion'] = null;
+            $_SESSION['rolactivoid'] = null;
+        }
     }
 
     public function buscarIdRol($param)
@@ -258,11 +263,13 @@ class Session
         }
     }
 
-    public function setIdRolActivo($param){
+    public function setIdRolActivo($param)
+    {
         $_SESSION['rolactivoid'] = $param;
     }
 
-    public function setDescripcionRolActivo($param){
+    public function setDescripcionRolActivo($param)
+    {
         $_SESSION['rolactivodescripcion'] = $param;
     }
 }

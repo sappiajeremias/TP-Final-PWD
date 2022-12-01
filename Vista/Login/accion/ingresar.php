@@ -32,8 +32,6 @@ if (!empty($data)) {
             $rolesUs = $sesion->getRoles();
             if (count($rolesUs) > 0) {
                 $sesion->setearRolActivo();
-            } else {
-                $mensajeNoRoles = "No tienes roles";
             }
         } else {
             $mensajeSesion = "Algo salió mal en el inicio de sesión :(";
