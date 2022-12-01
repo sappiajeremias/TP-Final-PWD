@@ -2,7 +2,7 @@
 $Titulo = "Iniciar Sesion";
 include_once '../Estructura/cabecera.php';
 ?>
-<div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
+<div class="container p-4 mt-5 border border-secondary border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <h5 class="text-center"><i class="fa-solid fa-person-arrow-up-from-line me-2"></i>Iniciar Sesion</h5>
     <hr>
     <!-- INICIO FORMULARIO INICIAR SESIÓN -->
@@ -15,7 +15,7 @@ include_once '../Estructura/cabecera.php';
             <label for="uspass" class="form-label">Contraseña: </label>
             <input type="password" class="form-control" id="uspass" name="uspass" autocomplete="off">
         </div>
-        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <button type="submit" class="btn btn-outline-primary">Ingresar</button>
     </form>
     <!-- FIN FORMULARIO INICIAR SESIÓN -->
     <div class="p3">

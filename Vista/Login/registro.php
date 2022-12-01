@@ -2,7 +2,7 @@
 $Titulo = "Registrarse";
 include_once '../Estructura/cabecera.php';
 ?>
-<div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
+<div class="container p-4 mt-5 border border-warning border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <h5 class="text-center"><i class="fa-solid fa-user-plus me-2"></i>Registro</h5>
     <hr>
     <!-- INICIO FORMULARIO DE REGISTRO -->
@@ -19,7 +19,7 @@ include_once '../Estructura/cabecera.php';
             <label for="uspass" class="form-label">Contraseña: </label>
             <input type="password" class="form-control" id="uspass" name="uspass" autocomplete="off">
         </div>
-        <button type="submit" class="btn btn-success">Registrarse</button>
+        <button type="submit" class="btn btn-outline-success">Registrarse</button>
     </form>
     <!-- FIN FORMULARIO DE REGISTRO -->
 </div>
