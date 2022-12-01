@@ -4,7 +4,7 @@ $data = data_submitted();
 
 $session = new Session();
 $objItems = new abmCompra();
-$listaCompras = $objItems->buscar(['idusuario'=>$_SESSION['idusuario']]);
+$listaCompras = $objItems->buscar(['idusuario'=>$session->getIDUsuarioLogueado()]);
 $objAbmCI = new abmCompraItem();
 
 $abmUser= new abmUsuario();
