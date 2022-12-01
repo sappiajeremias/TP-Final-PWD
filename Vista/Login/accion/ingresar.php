@@ -22,7 +22,7 @@ if (!empty($data)) {
             if (!$sesion->sesionActiva() && (compararPsw($data['usnombre'], $psw))) { //VERIFICAMOS QUE LA CONTRASEÑA HAYA SIDO INGRESADA CORRECTAMENTE
                 $respuesta = $sesion->iniciar($data['usnombre'], $psw); //INICAMOS SESIÓN
             } else {
-                $mensajePass = "Usuario o contraseña incorrecta!";
+                $mensajePass = "Contraseña incorrecta!";
             }
         } else {
             $mensajeUsDes = "Usuario Deshabilitado!";
