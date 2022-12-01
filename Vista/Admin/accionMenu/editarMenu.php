@@ -4,9 +4,15 @@ include_once('../../../configuracion.php');
 
 $data = data_submitted();
 
-if (isset ($data['idmenu'])){
+
 
     $objAbmMenu = new abmMenu();
+    $objMenuRol= new abmMenuRol();
+
+    $respuesta=$objMenuRol->modificacion(['idrol'=>$data['idrol'], 'idmenu'=>$data['idmenu']]);
+    if($respuesta){
+
+  
 
     /* $objMenu = $objAbmMenu->buscar(['idmenu'=>$data['idmenu']]); */
 
@@ -22,17 +28,17 @@ if (isset ($data['idmenu'])){
     if (!$respuesta) {
         $sms_error = " La modificacion no pudo concretarse";
     }
+}else{
+    $sms_error = "La relacion con rol no pudo concretarse.";
+}
 
    
-}
+
+
 $retorno['respuesta'] = $respuesta;
-if (isset($mensaje)) {
+if (isset($sms_error)) {
 
     $retorno['errorMsg'] = $sms_error;
 }
+
  echo json_encode($retorno);
-
-?>
-
-
-

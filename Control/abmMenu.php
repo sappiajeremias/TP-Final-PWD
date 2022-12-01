@@ -51,6 +51,7 @@ class abmMenu
             }
 
             $menu->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $menuPadre, $param['medeshabilitado']);
+            
         } elseif (
             array_key_exists('menombre', $param) &&
             array_key_exists('medescripcion', $param) &&

@@ -70,8 +70,10 @@ public function modificar(){
     $resp = false;
     
    
-    $sql="UPDATE menurol SET idrol='".$this->getObjRol()->getID(). "' WHERE idmenu=".$this->getObjMenu()->getID()."";
+    $sql="UPDATE menurol SET idrol=".$this->getObjRol()->getID(). " WHERE idmenu=".$this->getObjMenu()->getID()."";
    
+    echo $sql;
+    
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;

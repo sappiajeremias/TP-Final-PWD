@@ -159,6 +159,7 @@ $(document).on('click','.editar', function () {
   idpadre = fila[0].children[3].innerHTML;
   medeshabilitado = fila[0].children[4].innerHTML;
   
+  
 
   
   var form = document.getElementById('editarM');
@@ -192,7 +193,7 @@ $(document).ready(function () {
       data: $(this).serialize() ,
 
       success: function (response) {
-        
+        console.log(response);
         var response = jQuery.parseJSON(response);  
         
         if(response.respuesta){

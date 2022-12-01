@@ -87,6 +87,7 @@ public function insertar(){
     return $resp;
 }
 
+
 public function insertarDos(){
     $resp = false;
       
@@ -152,7 +153,9 @@ public function listar($parametro=""){
     if($res>-1){
         if($res>0){
             while ($row = $this->Registro()){
+                $obj= new menu();
                 $padre= new menu();
+                
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
 

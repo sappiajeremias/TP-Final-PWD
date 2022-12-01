@@ -35,7 +35,26 @@ if ($sesion->esAdmin()) {
                         </tr>
                         <?php
                         foreach ($arrayMenu as $objMenu) {
-                            if ($objMenu->getMeDescripcion() === "#") { ?>
+                            $arregloHijos = $obj_ABM_Menu->tieneHijos($objMenu->getID());
+                            if ($arregloHijos <> null) {
+
+                                foreach ($arregloHijos as $hijo) { ?>
+                                    <tr>
+                                        <td><?php echo $hijo->getID() ?></td>
+                                        <td><?php echo $hijo->getMeNombre() ?></td>
+                                        <td><?php echo $hijo->getMeDescripcion() ?></td>
+                                        <td><?php echo $hijo->getObjMenuPadre()->getID() ?></td>
+                                        <td><?php echo $hijo->getMeDeshabilitado() ?></td>
+                                        <td>
+                                            <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                            <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+
+
+                                ?>
                                 <tr>
                                     <td><?php echo $objMenu->getID() ?></td>
                                     <td><?php echo $objMenu->getMeNombre() ?></td>
@@ -47,25 +66,9 @@ if ($sesion->esAdmin()) {
                                         <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
                                     </td>
                                 </tr>
-                                <?php }
-
-                            $objHijos_Menu = $obj_ABM_Menu->tieneHijos($objMenu->getID());
-                            if ($objHijos_Menu <> null) {
-
-                                foreach ($objHijos_Menu as $value) { ?>
-                                    <tr>
-                                        <td><?php echo $value->getID() ?></td>
-                                        <td><?php echo $value->getMeNombre() ?></td>
-                                        <td><?php echo $value->getMeDescripcion() ?></td>
-                                        <td><?php echo $objMenu->getID() ?></td>
-                                        <td><?php echo $value->getMeDeshabilitado() ?></td>
-                                        <td>
-                                            <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
-                                            <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
-                                        </td>
-                                    </tr>
                         <?php
-                                }
+
+
                             } else {
                             }
                         }
@@ -102,6 +105,16 @@ if ($sesion->esAdmin()) {
                             <label for="idpadre" class="form-label">Menu Padre </label>
                             <input type="text" class="form-control" id="idpadre" name="idpadre" autocomplete="off">
 
+                        </div>
+                        <div class="form-group mb-3 ">
+
+                            <label for="idrol" class="form-label">Menu Padre </label>
+                            <select class="form-select" id="idrol" name="idrol" aria-label="Default select example">
+                                <option selected disabled>Elija un rol</option>
+                                <option value="1">Administrador</option>
+                                <option value="2">Deposito</option>
+                                <option value="3">Cliente</option>
+                            </select>
                         </div>
                         <button class="btn btn-outline-warning" type="submit" name="boton_enviar" id="boton_enviar">Modificar</button>
                         <button class="btn btn-outline-danger mx-2" name="cancelar" type="button" id="cancelar">Cancelar</button>

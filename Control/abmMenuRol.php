@@ -82,7 +82,7 @@ class abmMenuRol
     private function seteadosCamposClaves($param)
     {
         $resp = false;
-        if (isset($param['idmenu'])) {
+        if (isset($param['idmenu']) && isset($param['idrol'])) {
             $resp = true;
         }
         return $resp;
