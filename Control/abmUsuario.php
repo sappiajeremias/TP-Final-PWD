@@ -2,8 +2,6 @@
 
 class abmUsuario
 {
-
-
     public function abm($datos)
     {
         $resp = false;
@@ -51,7 +49,7 @@ class abmUsuario
                     $param['usmail'],
                     $param['usdeshabilitado']
                 );
-            } else if (array_key_exists('idusuario', $param)) {
+            } elseif (array_key_exists('idusuario', $param)) {
                 $obj->setear(
                     $param['idusuario'],
                     $param['usnombre'],
@@ -132,7 +130,6 @@ class abmUsuario
         $resp = false;
         $Objusuario = $this->cargarObjeto($param);
         if ($Objusuario != null and $Objusuario->insertar()) {
-
             $resp = true;
         }
         return $resp;
@@ -258,11 +255,11 @@ class abmUsuario
         $compraEncontrada = null;
         $listaCompras = $objCompra->buscar(['idusuario' => $idUsuario]);
         if (count($listaCompras) > 0) { //CHEQUEO QUE TENGA COMPRAS
-            foreach($listaCompras as $compraActual){
+            foreach ($listaCompras as $compraActual) {
                 $objCompraEstado = new abmCompraEstado();
                 $listaCompraEstados = $objCompraEstado->buscar(['idcompra' => $compraActual->getID()]);
 
-                foreach($listaCompraEstados as $elem){
+                foreach ($listaCompraEstados as $elem) {
                     if ($elem->getObjCompraEstadoTipo()->getID() == 5 && ($elem->getCeFechaFin() == '0000-00-00 00:00:00' || $elem->getCeFechaFin() == null)) {
                         $compraEncontrada = $elem->getObjCompra();
                     }
@@ -270,5 +267,76 @@ class abmUsuario
             }
         }
         return $compraEncontrada;
+    }
+
+
+    public function listarUsuarios($datos)
+    {
+        $arregloUsuarios = [];
+        $listaUsuarios = $this->buscar($datos);
+        if ($listaUsuarios > 0) {
+            foreach ($listaUsuarios as $elem) {
+                $objUR = new abmUsuarioRol();
+                $rolesUs = $objUR->buscar(['idusuario'=>$elem->getID()]);
+                $roles = '';
+
+                foreach ($rolesUs as $rolActual) {
+                    switch ($rolActual->getObjRol()->getRolDescripcion()) {
+                        case 'admin':
+                            $roles .= 'admin ';
+                            break;
+                        case 'deposito':
+                            $roles .= 'deposito ';
+                            break;
+                        case 'cliente':
+                            $roles .= 'cliente';
+                            break;
+                    }
+                }
+
+                $nuevoElem = [
+                    'idusuario' => $elem->getID(),
+                    'usnombre' => $elem->getUsNombre(),
+                    'usmail' => $elem->getUsMail(),
+                    'usdeshabilitado' => $elem->getUsDeshabilitado(),
+                    'roles' => $roles
+                ];
+
+                array_push($arregloUsuarios, $nuevoElem);
+            }
+
+            return $arregloUsuarios;
+        }
+    }
+
+    public function habilitarUsuario($data)
+    {
+        $respuesta =false;
+        if (!empty($data)) {
+            $objUs = $this->buscar(['idusuario' => $data['idusuario']]);
+            $fecha = null;
+            if ($data['accion'] == "deshabilitar") {
+                $fecha = date('Y-m-d H:i:s');
+            }
+            $objUs[0]->setUsdeshabilitado($fecha);
+            $respuesta = $objUs[0]->modificar();
+        }
+        return $respuesta;
+    }
+
+    public function crearUsuario($data)
+    {
+        $respuesta = false;
+        if (isset($data['usnombre'])) {
+            $data['uspass']= md5($data['uspass']);
+            $respuesta = $this->altaSinID($data);
+
+            if ($respuesta) {
+                $arregloUsu = $this->buscar(['usnombre'=>$data['usnombre'], 'usmail' => $data['usmail']]);
+                $objUsuRol = new abmUsuarioRol();
+                $objUsuRol->alta(['idrol'=>$data['idrol'],'idusuario'=>$arregloUsu[0]->getID()]);
+            }
+        }
+        return ( $respuesta);
     }
 }

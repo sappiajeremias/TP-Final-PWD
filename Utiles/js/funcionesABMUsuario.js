@@ -12,9 +12,9 @@ function cargarUsuarios() {
             console.log(response)
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, compraActual) {
-                    arreglo.push(compraActual);
-                });
+                
+                    arreglo.push(value);
+                
             });
             armarTabla(arreglo);
         }
@@ -29,7 +29,7 @@ function armarTabla(arreglo) {
     // LISTAMOS LOS USUARIOS
 
     $.each(arreglo, function (index, usuario) {
-//console.log(usuario);
+
         if (usuario.usdeshabilitado == null || usuario.usdeshabilitado == "0000-00-00 00:00:00"){
             var boton = '<a href="#" class="deshabilitar me-2"><button class="btn btn-outline-secondary"><i class="fa-solid fa-ban me-2"></i>Deshabilitar</button></a>';
         } else {
@@ -110,7 +110,7 @@ function agregar(arreglo) {
         success: function (response) {
             console.log(response);
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando Usuario...</div>',
@@ -124,7 +124,7 @@ function agregar(arreglo) {
                 });
             } else {
                 bootbox.alert({
-                    message: "Respuesta: " + response.respuesta,
+                    message: "Respuesta: " + response,
                     size: 'small',
                     closeButton: false,
                 });
@@ -185,7 +185,8 @@ function editarAgregar(arreglo) {
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            console.log(response);
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando Nuevo Rol a Usuario...</div>',
@@ -199,7 +200,7 @@ function editarAgregar(arreglo) {
                 });
             } else {
                 bootbox.alert({
-                    message: "Respuesta: " + response.respuesta,
+                    message: "Respuesta: " + response,
                     size: 'small',
                     closeButton: false,
                 });
@@ -266,7 +267,7 @@ function editarEliminar(arreglo) {
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Sacándole Rol a Usuario...</div>',
@@ -280,7 +281,7 @@ function editarEliminar(arreglo) {
                 });
             } else {
                 bootbox.alert({
-                    message: "Respuesta: " + response.respuesta,
+                    message: "Respuesta: " + response,
                     size: 'small',
                     closeButton: false,
                 });
@@ -329,8 +330,8 @@ function deshabilitar(idusuario) {
         success: function (response) {
             console.log(response)
             var response = jQuery.parseJSON(response);
-            console.log(response.respuesta);
-            if (response.respuesta) {
+            console.log(response);
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Deshabilitando Usuario...</div>',
@@ -395,8 +396,8 @@ function habilitar(idusuario) {
         success: function (response) {
             console.log(response);
             var response = jQuery.parseJSON(response);
-            console.log(response.respuesta);
-            if (response.respuesta) {
+            console.log(response);
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Habilitando Usuario...</div>',

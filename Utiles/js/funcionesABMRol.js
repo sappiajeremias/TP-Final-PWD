@@ -31,8 +31,8 @@ function agregar(arreglo) {
     data: arreglo,
     success: function (response) {
       var response = jQuery.parseJSON(response);
-
-      if (response.respuesta) {
+      console.log(response);
+      if (response) {
         // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
         var dialog = bootbox.dialog({
             message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando Rol...</div>',
@@ -47,7 +47,7 @@ function agregar(arreglo) {
         });
     } else {
         bootbox.alert({
-          message: "Respuesta: " + response.respuesta,
+          message: "Respuesta: " + response,
           size: "small",
           closeButton: false,
         });
@@ -94,7 +94,7 @@ $(document).ready(function () {
                 
                 var response = jQuery.parseJSON(response);
                 console.log(response);
-                if (response.respuesta) {
+                if (response) {
                     // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                     var dialog = bootbox.dialog({
                         message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Rol...</div>',
@@ -108,7 +108,7 @@ $(document).ready(function () {
                         }, 1500);
                     });
                 } else {
-                    console.log(response.respuesta);
+                    console.log(response);
                 }
             }
         });
@@ -155,7 +155,7 @@ function eliminar(idrol) {
     data: { idrol: idrol },
     success: function (response) {
       var response = jQuery.parseJSON(response);
-      if (response.respuesta) {
+      if (response) {
         // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
         var dialog = bootbox.dialog({
             message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Eliminando Rol...</div>',
@@ -169,7 +169,7 @@ function eliminar(idrol) {
             }, 1500);
         });
     } else {
-        console.log(response.respuesta);
+        console.log(response);
       }
     },
   });
