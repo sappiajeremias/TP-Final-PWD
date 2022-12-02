@@ -3,6 +3,7 @@ $Titulo = "Iniciar Sesion";
 include_once '../Estructura/cabecera.php';
 ?>
 <script src="../../Utiles/md5.js"></script>
+
 <div class="container p-4 mt-5 border border-secondary border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <h5 class="text-center"><i class="fa-solid fa-person-arrow-up-from-line me-2"></i>Iniciar Sesion</h5>
     <hr>

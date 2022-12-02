@@ -162,7 +162,7 @@ class abmUsuario
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objUsuario = $this->cargarObjetoConClave($param);
-            if ($objUsuario!=null and $objUsuario->eliminar()) {
+            if ($objUsuario != null and $objUsuario->eliminar()) {
                 $resp = true;
             }
         }
@@ -277,7 +277,7 @@ class abmUsuario
         if ($listaUsuarios > 0) {
             foreach ($listaUsuarios as $elem) {
                 $objUR = new abmUsuarioRol();
-                $rolesUs = $objUR->buscar(['idusuario'=>$elem->getID()]);
+                $rolesUs = $objUR->buscar(['idusuario' => $elem->getID()]);
                 $roles = '';
 
                 foreach ($rolesUs as $rolActual) {
@@ -311,7 +311,7 @@ class abmUsuario
 
     public function habilitarUsuario($data)
     {
-        $respuesta =false;
+        $respuesta = false;
         if (!empty($data)) {
             $objUs = $this->buscar(['idusuario' => $data['idusuario']]);
             $fecha = null;
@@ -327,15 +327,30 @@ class abmUsuario
     public function crearUsuario($data)
     {
         $respuesta = false;
-        if (isset($data['usnombre'])) {
-            $respuesta = $this->altaSinID($data);
+        if (!$this->usuarioExiste($data['usnombre'], $data['usmail'])) {
 
-            if ($respuesta) {
-                $arregloUsu = $this->buscar(['usnombre'=>$data['usnombre'], 'usmail' => $data['usmail']]);
-                $objUsuRol = new abmUsuarioRol();
-                $objUsuRol->alta(['idrol'=>$data['idrol'],'idusuario'=>$arregloUsu[0]->getID()]);
+            if ($this->altaSinID($data)) {
+                $objUs = $this->buscar(['usnombre' => $data['usnombre'], 'usmail' => $data['usmail']]);
+                $objUR = new abmUsuarioRol();
+                if (isset($data['idrol'])) {
+                    $respuesta = $objUR->alta(['idrol' => $data['idrol'], 'idusuario' => $objUs[0]->getID()]);
+                } else {
+                    $respuesta = $objUR->alta(['idrol' => 3, 'idusuario' => $objUs[0]->getID()]);
+                }
             }
         }
-        return ( $respuesta);
+        return $respuesta;
+    }
+
+    public function usuarioExiste($usname, $usmail)
+    {
+        $respuesta = false;
+        $list = $this->buscar(null);
+        foreach ($list as $usActual) {
+            if (($usActual->getUsNombre() == $usname) || ($usActual->getUsMail() == $usmail)) {
+                $respuesta = true;
+            }
+        }
+        return $respuesta;
     }
 }

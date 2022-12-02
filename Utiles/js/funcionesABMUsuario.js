@@ -127,7 +127,7 @@ function agregar(arreglo) {
                 });
             } else {
                 bootbox.alert({
-                    message: "Respuesta: " + response,
+                    message: "No se pudo agregar el usuario!",
                     size: 'small',
                     closeButton: false,
                 });

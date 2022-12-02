@@ -16,3 +16,4 @@ if ($respuesta) {
 }
 
 echo json_encode($respuesta);
+?>
