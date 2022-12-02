@@ -1,4 +1,4 @@
-/*################################# CARGAR COMPRAS #################################*/
+/*################################################## CARGAR COMPRAS ##################################################*/
 
 $(window).on("load", function () {
     cargarCompras();
@@ -11,10 +11,8 @@ function cargarCompras(){
         data: null,
         success: function (response) {
             var arreglo = [];
-            $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, compraActual) {
-                    arreglo.push(compraActual);
-                });
+            $.each($.parseJSON(response), function (index, compraActual) {
+                arreglo.push(compraActual);
             });
 
             armarTabla(arreglo);
@@ -36,7 +34,7 @@ function armarTabla(arreglo) {
                     botones = "<td><a href='#' id='aceptarCompra' class='me-2' onclick='cambiarEstado(2, this.id)'><button class='btn btn-outline-success'><i class='fa-solid fa-check me-2'></i>Aceptar</button></a><a href='#' id='cancelarCompra' onclick='cambiarEstado(4, this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
                     break;
                 case "aceptada":
-                    botones = "<td><a href='#' id='enviarCompra' onclick='cambiarEstado(3, this.id)'><button class='btn btn-outline-info'><i class='fa-solid fa-truck-fast me-2'></i>Enviar</button></a></td>";
+                    botones = "<td><a href='#' id='enviarCompra' class='me-2' onclick='cambiarEstado(3, this.id)'><button class='btn btn-outline-info'><i class='fa-solid fa-truck-fast me-2'></i>Enviar</button></a><a href='#' id='cancelarCompra' onclick='cambiarEstado(4, this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
                     break;
                 case "cancelada":
                 case "enviada":
@@ -66,7 +64,7 @@ function armarTabla(arreglo) {
     });
 }
 
-/*################################# VER PRODUCTOS DE COMPRA #################################*/
+/*################################################## VER PRODUCTOS DE COMPRA ##################################################*/
 
 $(document).on('click', '.verProductos', function () {
 
@@ -80,11 +78,10 @@ $(document).on('click', '.verProductos', function () {
         url: './accion/compras/listarProdCompra.php',
         data: { idcompra: idcompra },
         success: function (response) {
+            console.log(response);
             arreglo = [];
-            $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, productoActual) {
+            $.each($.parseJSON(response), function (index, productoActual) {
                     arreglo.push(productoActual);
-                });
             });
             var dialog = bootbox.dialog({
                 message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Listando Productos...</div>',
@@ -94,7 +91,7 @@ $(document).on('click', '.verProductos', function () {
                 setTimeout(function () {
                     listaProductos(arreglo, pronombre);
                     bootbox.hideAll();
-                }, 1000);
+                }, 750);
             });
         }
     });
@@ -105,7 +102,7 @@ function listaProductos(arreglo, nombre) {
     document.getElementById('oculto').classList.remove('d-none');
     $('#usnombre').append('<i class="fa-regular fa-rectangle-list me-2"></i>Lista Productos Compra de <b><u>' + nombre + '</u></b>');
     $.each(arreglo, function (index, producto) {
-        $('#listaProductos').append('<div class="card mb-3"><div class="row g-0"><div class="col-md-4"><img src="../img/'+producto.imagen+'" width="100%" class="img-fluid rounded-start" ></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></div></div></div></div>');
+        $('#listaProductos').append('<div class="card mb-3"><div class="row g-0"><div class="col-md-4"><img src="../img/'+producto.imagen+'" width="350" class="img-fluid rounded-start" ></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></div></div></div></div>');
     });
 };
 
@@ -116,7 +113,7 @@ $(document).on('click', '#cerrar', function () {
     document.getElementById('oculto').classList.add('d-none');
 });
 
-/*################################# CAMBIAR ESTADO COMPRA #################################*/
+/*################################################## CAMBIAR ESTADO COMPRA ##################################################*/
 
 function cambiarEstado(idcompraestadotipo, idboton) {
     var fila = $('#' + idboton + '').closest('tr');
@@ -128,9 +125,8 @@ function cambiarEstado(idcompraestadotipo, idboton) {
         url: './accion/compras/modificarEstadoCompra.php',
         data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
-            console.log(response);
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Modificando Estado Compra...</div>',
@@ -140,7 +136,7 @@ function cambiarEstado(idcompraestadotipo, idboton) {
                     setTimeout(function () {
                         cargarCompras();
                         bootbox.hideAll();
-                    }, 1000);
+                    }, 750);
                 });
             } else {
                 // ALERT LIBRERIA

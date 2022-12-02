@@ -162,7 +162,7 @@ class abmCompraItem
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompra = $this->cargarObjeto($param);
-            if ($objcompra!=null and $objcompra->modificar()) {
+            if ($objcompra != null and $objcompra->modificar()) {
                 $resp = true;
             }
         }
@@ -204,5 +204,25 @@ class abmCompraItem
             $objCI->getObjProducto()->setProCantStock($nuevaCantidad);
             $objCI->getObjProducto()->modificar();
         }
+    }
+
+    public function listarProductosPorCompra($datos)
+    {
+        $arreglo = [];
+        $list = $this->buscar(['idcompra' => $datos['idcompra']]);
+        if (count($list) > 0) {
+            foreach ($list as $elem) {
+                $nuevoElem = [
+                    "pronombre" => $elem->getObjProducto()->getProNombre(),
+                    "prodetalle" => $elem->getObjProducto()->getProDetalle(),
+                    "precio" => $elem->getObjProducto()->getPrecio(),
+                    "procantstock" => $elem->getCicantidad(),
+                    "imagen" => $elem->getObjProducto()->getImagen()
+                ];
+                array_push($arreglo, $nuevoElem);
+            }
+        }
+
+        return $arreglo;
     }
 }
