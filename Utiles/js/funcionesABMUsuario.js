@@ -72,6 +72,9 @@ $(document).on('click', '.agregar', function () {
             title: "Ingrese una contraseña",
             callback: function (result) {
                 if (result != '') {
+                    result = hex_md5(result).toString();
+                    
+                    
                     arreglo = {
                         'usnombre': nombre,
                         'usmail': mail,

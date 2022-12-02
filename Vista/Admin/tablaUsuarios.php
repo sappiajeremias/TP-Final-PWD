@@ -11,6 +11,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaUsuarios.php')) {
     $listaRoles = $objRol->buscar(null);
     if (count($listaUsuario) > 0) {
 ?>
+<script src="../../Utiles/md5.js"></script>
         <div class="container my-2">
             <div class="table-responsive">
                 <table class="table table-hover caption-top align-middle text-center" id="tablaUsuarios">

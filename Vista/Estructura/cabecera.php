@@ -26,8 +26,8 @@
     <link rel="stylesheet" href="../../Utiles/validaciones.css">
     <!--VALIDADOR -->
     <script src="..\..\Utiles\validaciones.js"></script>
-    <!--ENCRIPTACION -->
-    <script src="..\..\Utiles\md5.js"></script>
+    
+   
 
     <script src="..\..\Utiles\js\menu.js"></script>
     <?php
