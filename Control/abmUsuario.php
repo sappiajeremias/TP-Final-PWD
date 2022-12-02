@@ -328,7 +328,6 @@ class abmUsuario
     {
         $respuesta = false;
         if (isset($data['usnombre'])) {
-            $data['uspass']= md5($data['uspass']);
             $respuesta = $this->altaSinID($data);
 
             if ($respuesta) {
