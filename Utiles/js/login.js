@@ -8,7 +8,7 @@ $('#login').submit(function (e) {
         data: $(this).serialize(),
         success: function (response) {
             var response = jQuery.parseJSON(response);
-            console.log(response.respuesta);
+            console.log(response);
             // SI SE PUDO INICAR SESIÓN O NO, REDIRIGIMOS HACIA INDEX CON UN MENSAJE
             if (response.respuesta) {
                 var dialog = bootbox.dialog({
@@ -18,41 +18,14 @@ $('#login').submit(function (e) {
                 dialog.init(function () {
                     setTimeout(function () {
                         window.location.href = "../Home/index.php?mensaje=Sesión iniciada correctamente!";
-                    }, 1000);
+                    }, 750);
                 });
             } else {
-                // CARTEL SI LOS DATOS NO SE ENVIARON
-                if (typeof (response.mensajeDatos) != "undefined" && response.mensajeDatos !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajeDatos,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
-                // CARTEL SI EL USUARIO NO EXISTE
-                if (typeof (response.mensajeUsExist) != "undefined" && response.mensajeUsExist !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajeUsExist,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
-                // CARTEL SI EL USUARIO ESTA DESHABILITADO
-                if (typeof (response.mensajeUsDes) != "undefined" && response.mensajeUsDes !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajeUsDes,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
-                // CARTEL SI LA CONTRASEÑA FUE INCORRECTA
-                if (typeof (response.mensajePass) != "undefined" && response.mensajePass !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajePass,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
+                bootbox.alert({
+                    message: "No se pudo iniciar Sesión",
+                    size: 'small',
+                    closeButton: false,
+                });
             }
         }
     });
