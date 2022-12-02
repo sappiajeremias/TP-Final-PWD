@@ -1,20 +1,7 @@
 <?php
 include_once "../../../../configuracion.php";
 $data = data_submitted();
-$respuesta=false;
-if (!empty($data)){
-    $obj = new abmProducto();
-    $respuesta = $obj->baja($data);
-    if (!$respuesta){
-        $mensajeError = "No se pudo eliminar al producto";
-    }
-}
+$obj = new abmProducto();
 
-$retorno['respuesta'] = $respuesta;
-if (isset($mensajeError)){
-   
-    $retorno['mensajeError']=$mensajeError;
-
-}
-echo json_encode($retorno);
+echo json_encode($obj->baja($data));
 ?>

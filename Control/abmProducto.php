@@ -3,26 +3,27 @@
 class abmProducto
 {
 
-    public function abm($datos){
-        $resp=false;
-        if($datos['action']== 'eliminar'){
-            if($this->baja($datos)){
-                $resp=true;
+    public function abm($datos)
+    {
+        $resp = false;
+        if ($datos['action'] == 'eliminar') {
+            if ($this->baja($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'modificar'){
-            if($this->modificacion($datos)){
-                $resp=true;
+        if ($datos['action'] == 'modificar') {
+            if ($this->modificacion($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'alta'){
-            if($this->alta($datos)){
-                $resp=true;
+        if ($datos['action'] == 'alta') {
+            if ($this->alta($datos)) {
+                $resp = true;
             }
         }
         return $resp;
     }
-    
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
@@ -32,7 +33,8 @@ class abmProducto
     private function cargarObjeto($param)
     {
         $obj = null;
-        if (array_key_exists('idproducto', $param) &&
+        if (
+            array_key_exists('idproducto', $param) &&
             array_key_exists('pronombre', $param) &&
             array_key_exists('prodetalle', $param) &&
             array_key_exists('procantstock', $param) &&
@@ -44,7 +46,6 @@ class abmProducto
             $obj->setear($param['idproducto'], $param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado'], $param['imagen']);
         }
         return $obj;
-        
     }
 
     /**
@@ -68,7 +69,6 @@ class abmProducto
             $obj->setearSinID($param['pronombre'], $param['prodetalle'], $param['procantstock'], $param['precio'], $param['prodeshabilitado'], $param['imagen']);
         }
         return $obj;
-        
     }
 
     /**
@@ -108,9 +108,9 @@ class abmProducto
     public function alta($param)
     {
         $resp = false;
-       
+
         $objProducto = $this->cargarObjeto($param);
-        if ($objProducto!=null and $objProducto->insertar()) {
+        if ($objProducto != null and $objProducto->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -123,9 +123,9 @@ class abmProducto
     public function altaSinID($param)
     {
         $resp = false;
-       
+
         $objProducto = $this->cargarObjetoSinID($param);
-        if ($objProducto!=null and $objProducto->insertar()) {
+        if ($objProducto != null and $objProducto->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -141,7 +141,7 @@ class abmProducto
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjetoConClave($param);
-            if ($objProducto!=null and $objProducto->eliminar()) {
+            if ($objProducto != null and $objProducto->eliminar()) {
                 $resp = true;
             }
         }
@@ -159,11 +159,11 @@ class abmProducto
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjeto($param);
-            if ($objProducto!=null and $objProducto->modificar()) {
+            if ($objProducto != null and $objProducto->modificar()) {
                 $resp = true;
             }
         }
-        return $resp;        
+        return $resp;
     }
 
     /**
@@ -174,27 +174,27 @@ class abmProducto
     public function buscar($param)
     {
         $where = " true ";
-        if ($param<>null) {
+        if ($param <> null) {
             if (isset($param['idproducto'])) {
-                $where.=" and idproducto ='".$param['idproducto']."'";
+                $where .= " and idproducto ='" . $param['idproducto'] . "'";
             }
             if (isset($param['pronombre'])) {
-                $where.=" and pronombre ='".$param['pronombre']."'";
+                $where .= " and pronombre ='" . $param['pronombre'] . "'";
             }
             if (isset($param['prodetalle'])) {
-                $where.=" and prodetalle ='".$param['prodetalle']."'";
+                $where .= " and prodetalle ='" . $param['prodetalle'] . "'";
             }
             if (isset($param['procantstock'])) {
-                $where.=" and procantstock ='".$param['procantstock']."'";
+                $where .= " and procantstock ='" . $param['procantstock'] . "'";
             }
             if (isset($param['precio'])) {
-                $where.=" and precio ='".$param['precio']."'";
+                $where .= " and precio ='" . $param['precio'] . "'";
             }
             if (isset($param['prodeshabilitado'])) {
-                $where.=" and prodeshabilitado ='".$param['prodeshabilitado']."'";
+                $where .= " and prodeshabilitado ='" . $param['prodeshabilitado'] . "'";
             }
             if (isset($param['imagen'])) {
-                $where.=" and imagen ='".$param['imagen']."'";
+                $where .= " and imagen ='" . $param['imagen'] . "'";
             }
         }
 
@@ -203,10 +203,52 @@ class abmProducto
         return $arreglo;
     }
 
-    public function buscarConStock(){
+    public function buscarConStock()
+    {
         $arreglo = [];
         $objProducto = new producto();
         $arreglo = $objProducto->listar('procantstock > 0');
+        return $arreglo;
+    }
+
+    public function deshabilitarProducto($datos)
+    {
+        $resp = false;
+        if (!empty($datos)) {
+            $objPro = $this->buscar(['idproducto' => $datos['idproducto']]);
+            $fecha = null;
+            if ($datos['accion'] == "deshabilitar") {
+                $fecha = date('Y-m-d H:i:s');
+            }
+
+            $objPro[0]->setProDeshabilitado($fecha);
+            if ($objPro[0]->modificar()) {
+                $resp = true;
+            }
+        }
+
+        return $resp;
+    }
+
+    public function listarProductos($datos)
+    {
+        $arreglo = [];
+        $list = $this->buscar($datos);
+        if (count($list) > 0) {
+            foreach ($list as $elem) {
+                $nuevoElem = [
+                    "idproducto" => $elem->getID(),
+                    "pronombre" => $elem->getProNombre(),
+                    "prodetalle" => $elem->getProDetalle(),
+                    "procantstock" => $elem->getProCantStock(),
+                    "precio" => $elem->getPrecio(),
+                    "deshabilitado" => $elem->getProDeshabilitado(),
+                    "imagen" => $elem->getImagen()
+                ];
+                array_push($arreglo, $nuevoElem);
+            }
+        }
+
         return $arreglo;
     }
 }
