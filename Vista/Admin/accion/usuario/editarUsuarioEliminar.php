@@ -1,5 +1,5 @@
 <?php
-include_once "../../../configuracion.php";
+include_once "../../../../configuracion.php";
 $data = data_submitted();
 $obj = new abmUsuarioRol();
 $arregloRoles = ['idusuario'=>$data['idusuario'], 'idrol'=>$data['idrol']];

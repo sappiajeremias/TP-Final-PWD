@@ -6,7 +6,7 @@ $(window).on("load", function () {
 function cargarUsuarios() {
     $.ajax({
         type: "POST",
-        url: './accion/listarUsuarios.php',
+        url: './accion/usuario/listarUsuarios.php',
         data: null,
         success: function (response) {
             console.log(response)
@@ -105,7 +105,7 @@ function agregar(arreglo) {
     $.ajax({
 
         type: "POST",
-        url: './accion/altaUsuario.php',
+        url: './accion/usuario/altaUsuario.php',
         data: arreglo,
         success: function (response) {
             console.log(response);
@@ -181,7 +181,7 @@ $(document).on('click', '#cancelar', function () {
 function editarAgregar(arreglo) {
     $.ajax({
         type: "POST",
-        url: './accion/editarUsuario.php',
+        url: './accion/usuario/editarUsuario.php',
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -263,7 +263,7 @@ function editarEliminar(arreglo) {
 
     $.ajax({
         type: "POST",
-        url: './accion/editarUsuarioEliminar.php',
+        url: './accion/usuario/editarUsuarioEliminar.php',
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -325,7 +325,7 @@ $(document).on('click', '.deshabilitar', function () {
 function deshabilitar(idusuario) {
     $.ajax({
         type: "POST",
-        url: './accion/deshabilitarUsuario.php',
+        url: './accion/usuario/deshabilitarUsuario.php',
         data: { idusuario: idusuario, accion: 'deshabilitar'},
         success: function (response) {
             console.log(response)
@@ -391,7 +391,7 @@ function habilitar(idusuario) {
 
     $.ajax({
         type: "POST",
-        url: './accion/deshabilitarUsuario.php',
+        url: './accion/usuario/deshabilitarUsuario.php',
         data: {idusuario: idusuario, accion: 'habilitar'},
         success: function (response) {
             console.log(response);
