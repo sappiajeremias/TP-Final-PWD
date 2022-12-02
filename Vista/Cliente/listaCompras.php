@@ -1,15 +1,15 @@
 <?php
 $Titulo = "Tabla Compras";
 include_once '../Estructura/cabecera.php';
-if ($sesion->esCliente()) {
-    $mensaje = "No tiene permiso de cliente para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Cliente/listaCompras.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $objItems = new abmCompra();
     $listaCompras = $objItems->buscar(['idusuario' => $sesion->getIDUsuarioLogueado()]);
 
     if (count($listaCompras) > 0) {
-?>
+        ?>
         <div class="container my-2">
             <div class="table-responsive">
                 <table class="table table-hover caption-top align-middle text-center" id="tablaCompras">
@@ -46,7 +46,7 @@ if ($sesion->esCliente()) {
             <script src="../../Utiles/js/funcionesABMListadoCompras.js"></script>
         </div>
     <?php } else {
-    ?>
+        ?>
         <div class="container py-5 text-center">
             <div class=" card mb-3" style="max-width: 540px;">
                 <div class="row g-0">

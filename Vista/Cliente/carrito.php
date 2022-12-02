@@ -1,8 +1,8 @@
 <?php
 $Titulo = "Carrito";
 include_once '../Estructura/cabecera.php';
-if ($sesion->esCliente()) {
-    $mensaje = "No tiene permiso de cliente para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Cliente/carrito.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
 ?>

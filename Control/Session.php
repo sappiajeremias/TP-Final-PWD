@@ -272,4 +272,27 @@ class Session
     {
         $_SESSION['rolactivodescripcion'] = $param;
     }
+
+
+    public function verificarPermiso($param)
+    {
+        $listaRoles = $this->getRoles();
+        $respuesta = false;
+        foreach ($listaRoles as $rolAct) {
+            $objMR = new abmMenuRol();
+            $listaMR = $objMR->buscar(['idrol'=>$rolAct->getID()]);
+
+            foreach ($listaMR as $padre) {
+                $objHijo = new abmMenu();
+                $listaHijos = $objHijo->buscar(['idpadre'=>$padre->getObjMenu()->getID()]);
+                foreach ($listaHijos as $hijo) {
+                    if ($hijo->getMeDescripcion() == $param) {
+                        $respuesta = true;
+                    }
+                }
+            }
+        }
+
+        return $respuesta;
+    }
 }

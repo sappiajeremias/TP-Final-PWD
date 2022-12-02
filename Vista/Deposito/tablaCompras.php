@@ -1,8 +1,8 @@
 <?php
 $Titulo = "Tabla Compras";
 include_once '../Estructura/cabecera.php';
-if ($sesion->esDeposito()) {
-    $mensaje = "No tiene permiso de deposito para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Deposito/tablaCompras.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
     // Ver las compras generadas por los clientes
     // Cambiar el estado de las compras

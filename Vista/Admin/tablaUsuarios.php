@@ -1,8 +1,8 @@
 <?php
 $Titulo = "Tabla Usuarios";
 include_once '../Estructura/cabecera.php';
-if ($sesion->esAdmin()) {
-    $mensaje = "No tiene permiso de admin para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Admin/tablaUsuarios.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $objUsuarios = new abmUsuario();

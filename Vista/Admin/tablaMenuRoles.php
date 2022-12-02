@@ -2,8 +2,8 @@
 $Titulo = "Tabla Menu Roles";
 include_once '../Estructura/cabecera.php';
 
-if ($sesion->esAdmin()) {
-    $mensaje = "No tiene permiso de administrador para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $obj_ABM_Menu = new abmMenu();

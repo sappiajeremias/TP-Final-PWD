@@ -1,14 +1,17 @@
 <?php
 $Titulo = "Editar Perfil";
 include_once '../Estructura/cabecera.php';
-
-if ($sesion->getNombreUsuarioLogueado() <> null) {
-    $datosUser = [
-        'idusuario' => $sesion->getIDUsuarioLogueado(),
-        'usnombre' => $sesion->getNombreUsuarioLogueado(),
-        'usmail' => $sesion->getMailUsuarioLogueado()
-    ];
-?>
+if (!$sesion->verificarPermiso('../Cliente/modificarPerfil.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
+    echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
+} else {
+    if ($sesion->getNombreUsuarioLogueado() <> null) {
+        $datosUser = [
+            'idusuario' => $sesion->getIDUsuarioLogueado(),
+            'usnombre' => $sesion->getNombreUsuarioLogueado(),
+            'usmail' => $sesion->getMailUsuarioLogueado()
+        ];
+        ?>
 <div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <!-- INICIO FORMULARIO DE EDITAR PERFIL -->
     <form class="needs-validation" novalidate  action="./accion/actualizar.php" name="registro" id="registro" method="post" accept-charset="utf-8">
@@ -34,8 +37,9 @@ if ($sesion->getNombreUsuarioLogueado() <> null) {
     <!-- FIN FORMULARIO EDITAR PERFIL -->
 </div>
 
-<?php include_once '../Estructura/pie.php'; } 
-    else {
+<?php include_once '../Estructura/pie.php';
+    } else {
         $mensaje = "No estas logeado";
-        echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";    
+        echo "<script> window.location.href='../Home/index.php?mensaje=".urlencode($mensaje)."'</script>";
     }
+}

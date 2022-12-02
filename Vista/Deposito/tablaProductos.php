@@ -1,8 +1,8 @@
 <?php
 $Titulo = "Tabla Productos";
 include_once '../Estructura/cabecera.php';
-if ($sesion->esDeposito()) {
-    $mensaje = "No tiene permiso de deposito para acceder a este sitio.";
+if (!$sesion->verificarPermiso('../Deposito/tablaProductos.php')) {
+    $mensaje = "No tiene permiso para acceder a este sitio.";
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $objItems = new abmProducto();
