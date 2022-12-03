@@ -218,27 +218,6 @@ class Session
         return $resp;
     }
 
-    public function cambiarRol($idRol)
-    {
-        $_SESSION['rolactivoid'] = $idRol;
-        $retorno = false;
-        if ($_SESSION['rolactivoid'] === $idRol) {
-            switch ($_SESSION['rolactivoid']) {
-                case '1':
-                    $_SESSION['rolactivodescripcion'] = 'admin';
-                    break;
-                case '2':
-                    $_SESSION['rolactivodescripcion'] = 'deposito';
-                    break;
-                case '3':
-                    $_SESSION['rolactivodescripcion'] = 'cliente';
-                    break;
-            }
-            $retorno = true;
-        }
-        return $retorno;
-    }
-
     public function getRolActivo()
     {
         $resp = [];
@@ -302,5 +281,20 @@ class Session
         }
 
         return $respuesta;
+    }
+
+    public function cambiarRol($datos)
+    {
+        $resp = false;
+        $rolActivo = $this->getRolActivo();
+
+        if ($rolActivo['rol'] <> $datos['nuevorol']) { // SI EL ROL ES DISTINTO AL YA SETEADO HACEMOS EL CAMBIO
+            $idRol = $this->buscarIdRol($datos['nuevorol']);
+            $this->setIdRolActivo($idRol);
+            $this->setDescripcionRolActivo($datos['nuevorol']);
+            $resp = true;
+        }
+
+        return $resp;
     }
 }

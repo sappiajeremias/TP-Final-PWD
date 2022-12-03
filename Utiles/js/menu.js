@@ -39,29 +39,19 @@ $(document).on('click', '.cambiarRol', function () {
 
     $.ajax({
         type: "POST",
-        url: '../../Control/controlCambiarRol.php',
+        url: '../Login/accion/cambiarRol.php',
         data: {nuevorol: descripcion.toLowerCase()},
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            if (response) {
                 window.location.href="../Home/index.php";
             } else {
-                // CARTEL SI LOS DATOS NO SE ENVIARON
-                if (typeof (response.mensajeErrorRol) != "undefined" && response.mensajeErrorRol !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajeErrorRol,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
-                // CARTEL SI EL USUARIO NO EXISTE
-                if (typeof (response.mensajeRolYaActivo) != "undefined" && response.mensajeRolYaActivo !== null) {
-                    bootbox.alert({
-                        message: "" + response.mensajeRolYaActivo,
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
+                bootbox.alert({
+                    message: "No se puede actualizar el Rol!",
+                    size: 'small',
+                    closeButton: false,
+                });
             }
         }
     });
