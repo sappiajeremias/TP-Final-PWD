@@ -23,6 +23,11 @@ class Session
 
             $resp = true;
         }
+
+        if ($resp) {
+            $this->setearRolActivo();
+        }
+
         return $resp;
     }
 
@@ -276,18 +281,21 @@ class Session
 
     public function verificarPermiso($param)
     {
-        $listaRoles = $this->getRoles();
-        $respuesta = false;
-        foreach ($listaRoles as $rolAct) {
-            $objMR = new abmMenuRol();
-            $listaMR = $objMR->buscar(['idrol'=>$rolAct->getID()]);
+        $user = $this->getUsuario();
+        if ($this->obtenerDeshabilitado($user->getUsDeshabilitado())) {
+            $listaRoles = $this->getRoles();
+            $respuesta = false;
+            foreach ($listaRoles as $rolAct) {
+                $objMR = new abmMenuRol();
+                $listaMR = $objMR->buscar(['idrol' => $rolAct->getID()]);
 
-            foreach ($listaMR as $padre) {
-                $objHijo = new abmMenu();
-                $listaHijos = $objHijo->buscar(['idpadre'=>$padre->getObjMenu()->getID()]);
-                foreach ($listaHijos as $hijo) {
-                    if ($hijo->getMeDescripcion() == $param) {
-                        $respuesta = true;
+                foreach ($listaMR as $padre) {
+                    $objHijo = new abmMenu();
+                    $listaHijos = $objHijo->buscar(['idpadre' => $padre->getObjMenu()->getID()]);
+                    foreach ($listaHijos as $hijo) {
+                        if ($hijo->getMeDescripcion() == $param) {
+                            $respuesta = true;
+                        }
                     }
                 }
             }
