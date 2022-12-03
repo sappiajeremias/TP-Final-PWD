@@ -21,6 +21,7 @@ if (md5($data['uspass1'])===md5($data['uspass2'])){
     }
     
 }
+
 $retorno['respuesta'] = $respuesta;
 if (isset($mensaje)){
     

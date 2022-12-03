@@ -9,15 +9,15 @@ function cargarProductosCarrito() {
     //console.log("carrito");
     $.ajax({
         type: "POST",
-        url: './accion/listadoProdCarrito.php',
+        url: './accion/compra/listadoProdCarrito.php',
         data: null,
         success: function (response) {
             console.log(response);
             var arreglo = [];
-            $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, compraItemActual) {
+            $.each($.parseJSON(response), function (index, compraItemActual) {
+
                     arreglo.push(compraItemActual);
-                });
+
             });
 
             armarTablaCarrito(arreglo);
@@ -44,7 +44,7 @@ function armarTablaCarrito(arreglo) {
 
             total = total + compraItem.subtotal;
 
-            $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td hidden>' + compraItem.procantstock + '</td><td><img src="../img/' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>' + compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max=' + compraItem.procantstock + ' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value=' + compraItem.cicantidad + '></td><td><p class="text-danger"><strong> $ ' + compraItem.subtotal + ' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td></tr>');
+            $('#tablaCarrito > tbody:last-child').append('<tr><td hidden>' + compraItem.idcompraitem + '</td><td hidden>' + compraItem.idproducto + '</td><td hidden>' + compraItem.idcompra + '</td><td hidden>' + compraItem.procantstock + '</td><td><img src="../img/' + compraItem.imagen + '" class="rounded float-start" width="150" height="150"><p>' + compraItem.pronombre + '</p><p>' + compraItem.detalle + '</p></td><td><p><strong> $ ' + compraItem.precio + ' ARS </strong></p></td><td><input min=1 max=' + compraItem.procantstock + ' type="number" class="form-control" id="procantstock" name="procantstock" autocomplete="off" value=' + compraItem.cicantidad + '></td><td><p class="text-danger"><strong> $ ' + compraItem.subtotal + ' ARS </strong></p></td><td><a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a></td><td hidden>'+compraItem.cicantidad+'</td></tr>');
         });
 
         $('#totalPagar').append('<div class="card text-center" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Total a pagar:</h5><hr><p class="card-text"> $ ' + total + ' ARS</p><a href="#" class="pagar btn btn-outline-success">Pagar</a><br><br><a href="../Home/productos.php" class="btn btn-outline-info">Ver mas productos</a></div></div>')
@@ -65,12 +65,12 @@ $(document).on('change', '#procantstock', function () {
     var idproducto = fila[0].children[1].innerHTML;
     var idcompra = fila[0].children[2].innerHTML;
     var stock = fila[0].children[3].innerHTML;
+    var cicompraactual=fila[0].children[9].innerHTML;
     var cantpro = input[0].value;
+
     stock=parseInt(stock)
     cantpro=parseInt(cantpro)
 
-    console.log("stock "+stock);
-    console.log("cantidad "+cantpro);
 
     if ((cantpro >= 1 )&& (cantpro <= stock)) {
         
@@ -104,10 +104,12 @@ $(document).on('change', '#procantstock', function () {
     } else {
         // ALERT LIBRERIA
         bootbox.alert({
-            message: "El valor minimo es 1 y el valor maximo de este producto es "+stock,
+            message: "El valor minimo es 1 y el valor maximo es "+stock,
             size: 'small',
             closeButton: false,
         });
+        //Le devuelvo al input su valor anterior
+        input[0].value=cicompraactual;
     }
 });
 
@@ -115,13 +117,13 @@ function editarCantPro(array) {//cantidad
 
     $.ajax({
         type: "POST",
-        url: './accion/editarCantProducto.php',
+        url: './accion/producto/editarCantProducto.php',
         data: array,
 
         success: function (response) {
             var response = jQuery.parseJSON(response)
-            console.log(response.respuesta)
-            if (response.respuesta) {
+            console.log(response)
+            if (response) {
                 cargarProductosCarrito();
             } else {
                 // ALERT LIBRERIA
@@ -172,12 +174,12 @@ function agregarACarrito(idproducto) {
 function agregar(array) {
     $.ajax({
         type: "POST",
-        url: '../Cliente/accion/agregarProdCarrito.php',
+        url: '../Cliente/accion/producto/agregarProdCarrito.php',
         data: array,
         success: function (response) {
             console.log(response)
             var response = jQuery.parseJSON(response);
-            if (response.respuesta) {
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Agregando producto al carrito...</div>',
@@ -235,13 +237,13 @@ function eliminar(idcompraitem) {//cantidad
 
     $.ajax({
         type: "POST",
-        url: './accion/eliminarProdCarrito.php',
+        url: './accion/producto/eliminarProdCarrito.php',
         data: { idcompraitem: idcompraitem },
 
         success: function (response) {
             var response = jQuery.parseJSON(response)
-            console.log(response.respuesta)
-            if (response.respuesta) {
+            console.log(response)
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Borrando Producto...</div>',
@@ -296,13 +298,13 @@ function vaciarCarrito(idcompra) {
 
     $.ajax({
         type: "POST",
-        url: './accion/vaciarCarrito.php',
+        url: './accion/compra/vaciarCarrito.php',
         data: { idcompra: idcompra },
 
         success: function (response) {
             var response = jQuery.parseJSON(response)
-            console.log(response.respuesta)
-            if (response.respuesta) {
+            console.log(response)
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Vaciando carrito...</div>',
@@ -360,13 +362,13 @@ function comprar() {//cantidad
 
     $.ajax({
         type: "POST",
-        url: './accion/ejecutarCompraCarrito.php',
+        url: './accion/compra/ejecutarCompraCarrito.php',
         data: null,
 
         success: function (response) {
             var response = jQuery.parseJSON(response)
-            console.log(response.respuesta)
-            if (response.respuesta) {
+            console.log(response)
+            if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialogoRedireccion = bootbox.dialog({
                     message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Gracias por su compra!</div>',

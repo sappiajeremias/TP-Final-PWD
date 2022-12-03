@@ -353,4 +353,35 @@ class abmUsuario
         }
         return $respuesta;
     }
+
+    public function listarCompras($idUsuario)
+    {
+        $objItems = new abmCompra();
+        $arreglo_salida =  [];
+        $listaCompras = $objItems->buscar(['idusuario' => $idUsuario]);
+        if (count($listaCompras) > 0) {
+        
+            foreach ($listaCompras as $elem) {
+                $objCE = new abmCompraEstado;
+                $listaCE = $objCE->buscar(['idcompra' => $elem->getID()]);
+                //RECORREMOS EL LISTADO DE COMPRAS ESTADO
+                foreach ($listaCE as $compraActual) {
+                    //SI ES CARRITO NO LO MOSTRAMOS
+                    if (!($compraActual->getObjCompraEstadoTipo()->getCetDescripcion() === "carrito")) {
+                        $nuevoElem = [
+                            "idcompra" => $compraActual->getObjCompra()->getID(),
+                            "cofecha" => $compraActual->getCeFechaIni(),
+                            "finfecha" => $compraActual->getCeFechaFin(),
+                            "usnombre" => $compraActual->getObjCompra()->getObjUsuario()->getUsNombre(),
+                            "estado" => $compraActual->getObjCompraEstadoTipo()->getCetDescripcion(),
+                            "idcompraestado" => $compraActual->getID()
+                        ];
+                        array_push($arreglo_salida, $nuevoElem);
+                    }
+                }
+            }
+        
+        } 
+        return $arreglo_salida;
+    }
 }

@@ -7,16 +7,17 @@ $(window).on("load", function () {
 function cargarCompras(){
     $.ajax({
         type: "POST",
-        url: './accion/listadoCompras.php',
+        url: './accion/compra/listadoCompras.php',
         data: null,
         success: function (response) {
             console.log(response);
             var arreglo = [];
-            $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, compraActual) {
+            $.each($.parseJSON(response), function (index, compraActual) {
+                
                     arreglo.push(compraActual);
-                });
+        
             });
+            console.log(arreglo)
 
             armarTabla(arreglo);
         }
@@ -29,6 +30,8 @@ function armarTabla(arreglo) {
     $('#tablaCompras > tbody:last-child').empty();
 
     $.each(arreglo, function (index, compra) {
+       
+
         var estadoVista = null;
         var botones= null;
         if (compra.finfecha == null || compra.finfecha == "0000-00-00 00:00:00") {
@@ -76,14 +79,14 @@ $(document).on('click', '.verProductos', function () {
 
     $.ajax({
         type: "POST",
-        url: './accion/listadoProds.php',
+        url: './accion/producto/listadoProds.php',
         data: { idcompra: idcompra },
         success: function (response) {
             arreglo = [];
-            $.each($.parseJSON(response), function (index, value) {
-                $.each(value, function (index, productoActual) {
+            $.each($.parseJSON(response), function (index, productoActual) {
+                
                     arreglo.push(productoActual);
-                });
+                
             });
             var dialog = bootbox.dialog({
                 message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Listando Productos...</div>',
@@ -142,12 +145,12 @@ function cancelarCompra(idcompraestadotipo,idboton) {
             if (result) {
                 $.ajax({
                     type: "POST",
-                    url: './accion/cancelarCompra.php',
+                    url: './accion/compra/cancelarCompra.php',
                     data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo:idcompraestadotipo},
                     success: function (response) {
                         console.log(response);
                         var response = jQuery.parseJSON(response);
-                        if (response.respuesta) {
+                        if (response) {
                             // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD
                             var dialog = bootbox.dialog({
                                 message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Cancelando Compra...</div>',
@@ -162,7 +165,7 @@ function cancelarCompra(idcompraestadotipo,idboton) {
                         } else {
                             // ALERT LIBRERIA
                             bootbox.alert({
-                                message: "No se pudo eliminar el producto!",
+                                message: "No se pudo cancelar la compra!",
                                 size: 'small',
                                 closeButton: false,
                             });
