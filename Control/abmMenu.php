@@ -30,47 +30,28 @@ class abmMenu
      * @param array $param
      * @return menu
      */
-    private function cargarObjeto($param)
-    {
-        $menu = null;
-        if (
-
-            array_key_exists('idmenu', $param) &&
-            array_key_exists('menombre', $param) &&
-            array_key_exists('medescripcion', $param) &&
-            array_key_exists('idpadre', $param) &&
-            array_key_exists('medeshabilitado', $param)
-        ) {
-
-            $menu = new menu();
-            $menuPadre = new menu();
-
-            if ($param['idpadre'] !== null || $param['idpadre'] !== "") {
-                $menuPadre->setID($param['idpadre']);
-                $menuPadre->cargar();
-            }
-
-            $menu->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $menuPadre, $param['medeshabilitado']);
+    private function cargarObjeto($param){
+        
+        $obj = null;
+           
+        if(array_key_exists('menombre',$param) and array_key_exists('medescripcion',$param)){
             
-        } elseif (
-            array_key_exists('menombre', $param) &&
-            array_key_exists('medescripcion', $param) &&
-            array_key_exists('idpadre', $param)
-        ) {
-
-
-            $menu = new menu();
-            $menuPadre = new menu();
-            $menuPadre->setID($param['idpadre']);
-            $menuPadre->cargar();
-            $menu->setearSinID($param['menombre'], $param['medescripcion'], $menuPadre, null);
-        } else {
-
-
-            $menu = new menu();
-            $menu->setearSinPadre($param['menombre'], $param['medescripcion']);
+            $obj = new menu();            
+            $objMenu = null;
+            if (array_key_exists('idpadre',$param) && $param['idpadre'] !=''){
+                $objMenu = new menu();
+                $objMenu->setID($param['idpadre']);
+                $objMenu->cargar();
+            }
+            
+            if(isset($param['medeshabilitado'])){
+                $param['medeshabilitado']=null;
+            }else{
+                $param['medeshabilitado']= date("Y-m-d H:i:s");
+            } 
+            $obj->setear($param['idmenu'],$param['menombre'],$param['medescripcion'],$objMenu,$param['medeshabilitado']); 
         }
-        return $menu;
+        return $obj;
     }
 
     /**
@@ -111,17 +92,11 @@ class abmMenu
     public function alta($param)
     {
         $resp = false;
-        // $param['idrol'] =null;
+        $param['idmenu'] =null;
         $objMenu = $this->cargarObjeto($param);
-        // verEstructura($Objrol);
-        if (array_key_exists('idpadre', $param)) {
-            if ($objMenu != null and $objMenu->insertar()) {
-                $resp = true;
-            }
-        } else {
-            if ($objMenu != null and $objMenu->insertarDos()) {
-                $resp = true;
-            }
+        
+        if ($objMenu != null and $objMenu->insertar()) {
+            $resp = $this->darAlta($param) ;
         }
         return $resp;
     }
@@ -144,6 +119,19 @@ class abmMenu
         return $resp;
     }
 
+    public function bajaHabilitacion($param)
+    {
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objMenu = $this->cargarObjetoConClave($param);
+            if ($objMenu != null and $objMenu->eliminar()) {
+                $resp = true;
+            }
+        }
+
+        return $resp;
+    }
+
     /**
      * permite modificar un objeto
      * @param array $param
@@ -152,13 +140,36 @@ class abmMenu
     public function modificacion($param)
     {
         $resp = false;
-        if ($this->seteadosCamposClaves($param)) {
+        if ($this->seteadosCamposClaves($param)) {            
             $objMenu = $this->cargarObjeto($param);
             if ($objMenu != null and $objMenu->modificar()) {
+                if(array_key_exists('idrol',$param)){$this->ModificarRelacion($param);}    
                 $resp = true;
             }
         }
         return $resp;
+    }
+
+    private function ModificarRelacion($param){
+        $abmMenuRol = new abmMenuRol();
+        $resp = $abmMenuRol->modificacion(['idmenu'=>$param['idmenu'],'idrol'=>$param['idrol']]);
+        return $resp;
+    }
+
+    public function ModificarHablilitacion($param)
+    {
+        $bool = false;
+        $arrayObjMenu = $this->buscar($param);
+        
+        if ($arrayObjMenu[0]->getMeDeshabilitado() == '0000-00-00 00:00:00') {
+            $arrayObjMenu[0]->setMeDeshabilitado(date('Y-m-d H:i:s'));
+        } else {
+            $arrayObjMenu[0]->setMeDeshabilitado(NULL);
+        }
+        if ($arrayObjMenu[0]->modificar()) {
+            $bool = true;
+        }
+        return $bool;
     }
 
     /**
@@ -197,7 +208,7 @@ class abmMenu
     {
         $where = " true ";
         if ($param != "") {
-
+            
             if (isset($param['idrol'])) {
                 $where .= " and idrol = '" . $param['idrol'] . "'";
             }
@@ -205,8 +216,10 @@ class abmMenu
                 $where .= " and idmenu = '" . $param['idmenu'] . "'";
             }
         }
-        $objMenu = new menu();
+        $objMenu = new menuRol();
+        ;
         $arreglo = $objMenu->listar($where);
+     
         return $arreglo;
     }
 
@@ -219,5 +232,25 @@ class abmMenu
             $retorno = $arreglo;
         }
         return $retorno;
+    }
+
+    public function darAlta($param)
+    {
+        $arrRes = [];
+        $respuesta = false;
+        $abmRol = new abmRol();
+        $abmMenu = new abmMenu();
+        $abmMenuRol = new abmMenuRol();
+        $listaRol = $abmRol->buscar($param);
+        $listaMenu = $abmMenu->buscar($param);
+       
+        
+        $respuesta = $abmMenuRol->alta(['idrol' => $listaRol[0]->getID(), 'idmenu' => $listaMenu[0]->getID()]);
+        if (!$respuesta) {
+            $arrRes['mensajeError'] = "No se pudo crear el MenuRol";
+        }
+        $arrRes['respuesta'] = $respuesta;
+
+        return $arrRes;
     }
 }

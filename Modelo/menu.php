@@ -66,15 +66,18 @@ public function cargar(){
 
 public function insertar(){
     $resp = false;
-    
+
+    $idPadre = $this->getObjMenuPadre() != "" ? "'".$this->getObjMenuPadre()->getID()."'" : 'NULL';
+    $deshabilitado= $this->getMeDeshabilitado() != '' ? $this->getMeDeshabilitado() : 'NULL';
       
     // Si lleva ID Autoincrement, la consulta SQL no lleva id. Y viceversa:
     $sql="INSERT INTO menu(menombre, medescripcion, idpadre, medeshabilitado)
         VALUES('"
         .$this->getMeNombre()."', '"
-        .$this->getMeDescripcion()."', '"
-        .$this->getObjMenuPadre()->getID()."', '"
-        .$this->getMeDeshabilitado()."');";
+        .$this->getMeDescripcion()."', "
+        .$idPadre.", "
+        .$deshabilitado.");";
+        
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;
@@ -88,7 +91,7 @@ public function insertar(){
 }
 
 
-public function insertarDos(){
+/* public function insertarDos(){
     $resp = false;
       
     // Si lleva ID Autoincrement, la consulta SQL no lleva id. Y viceversa:
@@ -106,7 +109,7 @@ public function insertarDos(){
         $this->setMensajeOperacion("menu->insertar: ".$this->getError());
     }
     return $resp;
-}
+} */
 
 public function modificar(){
     $resp = false;

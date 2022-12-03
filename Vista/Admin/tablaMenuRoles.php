@@ -7,7 +7,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $obj_ABM_Menu = new abmMenu();
-    $arrayMenu = $obj_ABM_Menu->buscar(null);
+    $arrayMenu = $obj_ABM_Menu->ObtenerMenu();
 
     if (count($arrayMenu) > 0) { ?>
         <div class="container my-2">
@@ -20,6 +20,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                             <th>Nombre</th>
                             <th>Detalle</th>
                             <th width="120">ID Padre</th>
+                            <th width="120">ID Rol</th>
                             <th>Deshabilitado</th>
                             <th>Acciones</th>
                         </tr>
@@ -30,12 +31,27 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                             <td><input class="form-control" type="text" placeholder="Nombre"></td>
                             <td><input class="form-control" type="text" placeholder="Detalle"></td>
                             <td><input class="form-control" type="number" min=0 placeholder="ID Menu Padre"></td>
+                            <td><input class="form-control" type="number" min=0 placeholder="ID Rol"></td>
                             <td><input class="form-control" type="text" placeholder="Deshabilitado" onlyread></td>
                             <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                         </tr>
                         <?php
-                        foreach ($arrayMenu as $objMenu) {
-                            $arregloHijos = $obj_ABM_Menu->tieneHijos($objMenu->getID());
+                        foreach ($arrayMenu as $objMenu) {$menu= $objMenu->getObjMenu();$rol = $objMenu->getObjRol()?>
+                        
+                            <tr>
+                            <td><?php echo $menu->getID() ?></td>
+                            <td><?php echo $menu->getMeNombre() ?></td>
+                            <td><?php echo $menu->getMeDescripcion() ?></td>
+                            <td><?php echo "" ?></td>
+                            <td><?php echo $rol->getRolDescripcion()?></td>
+                            <td><?php echo $menu->getMeDeshabilitado() ?></td>
+                            <td>
+                                <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                            </td>
+                        </tr>
+                        <?php
+                            $arregloHijos = $obj_ABM_Menu->tieneHijos($menu->getID());
                             if ($arregloHijos <> null) {
 
                                 foreach ($arregloHijos as $hijo) { ?>
@@ -43,7 +59,8 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                                         <td><?php echo $hijo->getID() ?></td>
                                         <td><?php echo $hijo->getMeNombre() ?></td>
                                         <td><?php echo $hijo->getMeDescripcion() ?></td>
-                                        <td><?php echo $hijo->getObjMenuPadre()->getID() ?></td>
+                                        <td><?php echo $menu->getID() ?></td>
+                                        <td><?php echo $rol->getRolDescripcion()?></td>
                                         <td><?php echo $hijo->getMeDeshabilitado() ?></td>
                                         <td>
                                             <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
@@ -55,17 +72,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
 
 
                                 ?>
-                                <tr>
-                                    <td><?php echo $objMenu->getID() ?></td>
-                                    <td><?php echo $objMenu->getMeNombre() ?></td>
-                                    <td><?php echo $objMenu->getMeDescripcion() ?></td>
-                                    <td><?php echo "" ?></td>
-                                    <td><?php echo $objMenu->getMeDeshabilitado() ?></td>
-                                    <td>
-                                        <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
-                                        <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
-                                    </td>
-                                </tr>
+                               
                         <?php
 
 

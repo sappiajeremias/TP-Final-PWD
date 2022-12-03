@@ -54,6 +54,7 @@ public function insertar(){
         VALUES('"
         .$this->getObjMenu()->getID()."', '"
         .$this->getObjRol()->getID()."');";
+        
     if ($this->Iniciar()) {
         if ($this->Ejecutar($sql)) {
             $resp = true;
@@ -101,12 +102,13 @@ public function eliminar(){
 public function listar($parametro=""){
     $arreglo = array();
     
-    $sql="SELECT DISTINCT * FROM menurol ";
+    $sql="SELECT  * FROM menurol ";
    
     
     if ($parametro!="") {
         $sql.= "WHERE ".$parametro;
     }
+    
     
     
     $res = $this->Ejecutar($sql);

@@ -71,25 +71,27 @@ function eliminar(idmenu) {
 
 $(document).on("click", ".agregar", function () {
   var fila = $(this).closest("tr").find("input");
-  //var fila_tipo = fila.find('input[type=radio]');
 
   var nombre = fila[1].value;
   var detalle = fila[2].value;
   var idpadre = fila[3].value;
+  var rol = fila[4].value;
 
   if (idpadre === "") {
     arreglo = {
       menombre: nombre,
       medescripcion: detalle,
+      idrol:rol
     };
   } else {
     arreglo = {
       menombre: nombre,
       medescripcion: detalle,
       idpadre: idpadre,
+      idrol:rol
     };
   }
-  console.log(nombre, detalle, idpadre);
+  console.log(nombre, detalle, idpadre,rol);
 
   var verificador = true;
 
@@ -157,13 +159,26 @@ $(document).on('click','.editar', function () {
   menombre = fila[0].children[1].innerHTML;
   medescripcion = fila[0].children[2].innerHTML;
   idpadre = fila[0].children[3].innerHTML;
-  medeshabilitado = fila[0].children[4].innerHTML;
+  rol = fila[0].children[4].innerHTML;
+  medeshabilitado = fila[0].children[5].innerHTML;
   
-  
+  var i = 0;
+  var bool = true;
 
   
   var form = document.getElementById('editarM');
   var inputs = form.getElementsByTagName('input');
+  var option = form.getElementsByTagName('option');
+
+  while (bool && i<option.length) {
+    
+    if (option[i].text == rol){
+      option[i].setAttribute('selected',true);
+      
+    }
+    i++;
+  }
+  
 
   document.getElementById('idmenu').innerHTML = idMenu;
 
@@ -174,7 +189,8 @@ $(document).on('click','.editar', function () {
   inputs[2].value = medescripcion;  
   inputs[3].value = medeshabilitado;
   inputs[4].value = idpadre;
-  
+
+
 
 });
 
@@ -186,11 +202,13 @@ $(document).on('click','#cancelar',function(){
 $(document).ready(function () {
   $('form').submit(function (e) { 
     e.preventDefault();
+    console.log($(this).serialize())
 
     $.ajax({
       type: "POST",
       url: "./accionMenu/editarMenu.php",
       data: $(this).serialize() ,
+     
 
       success: function (response) {
         console.log(response);

@@ -6,12 +6,15 @@ $respuesta['respuesta'] = false;
 
 if (isset($data['idmenu'])){
     $objMenu_abm = new abmMenu();
-    $objMenu = $objMenu_abm->buscar($data);
-    $fecha = date("Y-m-d H:i:s");
-   
+    //$objMenu = $objMenu_abm->buscar($data);
+    if ($objMenu_abm->bajaHabilitacion($data)){
+        $respuesta['respuesta']= true;
+    }
+    echo json_encode($respuesta);
+
     
     
-    $arregloOBJ= 
+ /*    $arregloOBJ= 
     [
         'idmenu'=>$objMenu[0]->getID(),
         'menombre'=>$objMenu[0]->getMeNombre(),
@@ -19,14 +22,13 @@ if (isset($data['idmenu'])){
         'idpadre'=>($objMenu[0]->getObjMenuPadre()->getID() !== $objMenu[0]->getID() ? $objMenu[0]->getObjMenuPadre()->getID(): 'null'),
         'medeshabilitado'=> $fecha
     ];
-
-    if($objMenu_abm->modificacion($arregloOBJ)){
+ */
+    /* if($objMenu_abm->modificacion($data)){
         $respuesta['respuesta']= true;
-    }
+    } */
     
 
 }
 
-echo json_encode($respuesta);
 
 ?>
