@@ -2,8 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <!-- INCIO MENÚ PÚBLICO -->
     <div class="container-fluid m-3">
-    <a class="navbar-brand" href="#"><i class="fa-solid fa-seedling me-2"></i>La Casa de Las Plantas  <i class="fa-solid fa-seedling"></i></a>
-        
+        <a class="navbar-brand" href="#">
+            <i class="fa-solid fa-seedling me-2"></i>La Casa de Las Plantas<i class="fa-solid fa-seedling ms-2"></i>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,15 +16,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
-                <!--
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="../Cliente/carrito.php">
-                                    <i class="fa-solid fa-cart-shopping">
-                                        <span class="top-0 start-100 translate-middle badge rounded-pill bg-warning">2</span>
-                                    </i>
-                                </a>
-                            </li>
-                        -->
             </ul>
         </div>
         <!-- FIN MENÚ PÚBLICO -->
