@@ -9,8 +9,9 @@ function cargarMenu() {
         url: '../Estructura/accion/menus.php',
         data: null,
         success: function (response) {
+            //console.log(response);
             var response = jQuery.parseJSON(response);
-            if (typeof (response.menuSinLogin) != "undefined" && response.menuSinLogin !== null) {
+            if (typeof (response.menuSinLogin) !== "undefined" && response.menuSinLogin !== null) {
                 armarMenuSinLogin(response.menuSinLogin);
             } else {
                 armarMenuLogin(response.menuPermisos, response.menuCambioRoles, response.menuDatosUsActivo);
