@@ -43,7 +43,7 @@ El objetivo del trabajo es integrar los conceptos vistos en la materia. Se esper
 
 ### Pautas Básicas:
 
-<br>
+<br><br>
 1. La aplicación debe ser desarrollada sobre una arquitectura MVC (Modelo-VistaControl) utilizando PHP como lenguaje de programación. Se propone una estructura de directorio inicial como la que se visualiza en la Ilustración 2.
 <br><br>
 2. Se debe utilizar la Base de Datos bdcarritocompras otorgada por la cátedra. Realizar el MOR de las tablas del modelo de base de datos de la Ilustración 1. Verificar la estructura de las tablas y realizar las modificaciones que crea
