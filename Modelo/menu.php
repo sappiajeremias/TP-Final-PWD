@@ -112,9 +112,18 @@ public function insertar(){
 } */
 
 public function modificar(){
+    $idPadre = $this->getObjMenuPadre() != null ? "'".$this->getObjMenuPadre()->getID()."'" : 'NULL';
+    
+    $deshabilitado= $this->getMeDeshabilitado() != '' ? $this->getMeDeshabilitado() : 'NULL';
+      
     $resp = false;
    
-    $sql="UPDATE menu SET menombre='".$this->getMeNombre()."', medescripcion='".$this->getMeDescripcion()."', medeshabilitado='".$this->getMeDeshabilitado()."', idpadre=".( $this->getObjMenuPadre()->getID() <> 'null'? $this->getObjMenuPadre()->getID() : 'null') ." WHERE idmenu='".$this->getID()."'";
+    $sql="UPDATE menu SET menombre='"
+    .$this->getMeNombre()."', medescripcion='"
+    .$this->getMeDescripcion()."', medeshabilitado='"
+    .$deshabilitado."', idpadre="
+    .$idPadre 
+    ." WHERE idmenu='".$this->getID()."'";
 
     
     if ($this->Iniciar()) {
@@ -162,8 +171,8 @@ public function listar($parametro=""){
                 $padre->setID($row['idpadre']);
                 $padre->cargar();
 
-                $padre->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
-                array_push($arreglo, $padre);
+                $obj->setear($row['idmenu'], $row['menombre'], $row['medescripcion'], $padre, $row['medeshabilitado']);
+                array_push($arreglo, $obj);
             }
         }
     } else {

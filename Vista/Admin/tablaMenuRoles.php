@@ -7,6 +7,8 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
     echo "<script> window.location.href='../Home/index.php?mensaje=" . urlencode($mensaje) . "'</script>";
 } else {
     $obj_ABM_Menu = new abmMenu();
+    $obj_ABM_rol = new abmRol();
+    $arrayRol = $obj_ABM_rol->buscar(null);
     $arrayMenu = $obj_ABM_Menu->ObtenerMenu();
 
     if (count($arrayMenu) > 0) { ?>
@@ -26,7 +28,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <tr class="table-success">
+                        <tr class="table-active">
                             <td><input class="form-control" type="number" placeholder="#" readonly></td>
                             <td><input class="form-control" type="text" placeholder="Nombre"></td>
                             <td><input class="form-control" type="text" placeholder="Detalle"></td>
@@ -36,21 +38,30 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                             <td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success col-11"><i class="fa-solid fa-folder-plus"></i></button></a></td>
                         </tr>
                         <?php
-                        foreach ($arrayMenu as $objMenu) {$menu= $objMenu->getObjMenu();$rol = $objMenu->getObjRol()?>
-                        
+                        foreach ($arrayMenu as $objMenu) {
+                            $menu = $objMenu->getObjMenu();
+                            $rol = $objMenu->getObjRol()
+                        ?>
+
                             <tr>
-                            <td><?php echo $menu->getID() ?></td>
-                            <td><?php echo $menu->getMeNombre() ?></td>
-                            <td><?php echo $menu->getMeDescripcion() ?></td>
-                            <td><?php echo "" ?></td>
-                            <td><?php echo $rol->getRolDescripcion()?></td>
-                            <td><?php echo $menu->getMeDeshabilitado() ?></td>
-                            <td>
-                                <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
-                                <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
-                            </td>
-                        </tr>
-                        <?php
+                                <td><?php echo $menu->getID() ?></td>
+                                <td><?php echo $menu->getMeNombre() ?></td>
+                                <td><?php echo $menu->getMeDescripcion() ?></td>
+                                <td><?php echo $menu->getObjMenuPadre() == NULL ? "" : $menu->getObjMenuPadre()->getID() ?></td>
+                                <td><?php echo $rol->getRolDescripcion() ?></td>
+                                <td><?php echo $menu->getMeDeshabilitado() == NULL || $menu->getMeDeshabilitado() == '0000-00-00 00:00:00'  ? 'Habilitado' : 'Desabilitado' ?></td>
+                                <td>
+                                    <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
+                                    <?php if ($menu->getMeDeshabilitado() == NULL || $menu->getMeDeshabilitado() == '0000-00-00 00:00:00') {
+                                        echo "<a href='#' class='deshabilitar'><button class='btn btn-outline-danger'><i class='fa-solid fa-trash mx-2'></i></button></a>' ";
+                                    } else {
+                                        echo "<a href='#' class='habilitar'><button class='btn btn-outline-success'><i class='fa-solid fa-trash mx-2'></i></button></a>' ";
+                                    } ?>
+                                </td>
+                                <td><?php echo "Hasta aca los padres"; ?></td>
+                            </tr>
+                            <?php
+                            
                             $arregloHijos = $obj_ABM_Menu->tieneHijos($menu->getID());
                             if ($arregloHijos <> null) {
 
@@ -59,12 +70,16 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                                         <td><?php echo $hijo->getID() ?></td>
                                         <td><?php echo $hijo->getMeNombre() ?></td>
                                         <td><?php echo $hijo->getMeDescripcion() ?></td>
-                                        <td><?php echo $menu->getID() ?></td>
-                                        <td><?php echo $rol->getRolDescripcion()?></td>
-                                        <td><?php echo $hijo->getMeDeshabilitado() ?></td>
+                                        <td><?php echo $menu->getID() != $hijo->getID() ? $menu->getID() : 'NULL'  ?></td>
+                                        <td></td>
+                                        <td><?php echo $hijo->getMeDeshabilitado() == NULL || $hijo->getMeDeshabilitado() == '0000-00-00 00:00:00' ? 'Habilitado' : 'Desabilitado' ?></td>
                                         <td>
                                             <a href="#" class="editar"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen mx-2"></i></button></a>
-                                            <a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash mx-2"></i></button></a>
+                                            <?php if ($hijo->getMeDeshabilitado() == NULL || $hijo->getMeDeshabilitado() == '0000-00-00 00:00:00') {
+                                                echo "<a href='#' class='deshabilitar'><button class='btn btn-outline-danger'><i class='fa-solid fa-trash mx-2'></i></button></a>' ";
+                                            } else {
+                                                echo "<a href='#' class='habilitar'><button class='btn btn-outline-success'><i class='fa-solid fa-trash mx-2'></i></button></a>' ";
+                                            } ?>
                                         </td>
                                     </tr>
                                 <?php
@@ -72,7 +87,7 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
 
 
                                 ?>
-                               
+
                         <?php
 
 
@@ -113,11 +128,11 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
                             <input type="text" class="form-control" id="idpadre" name="idpadre" autocomplete="off">
 
                         </div>
-                        <div class="form-group mb-3 ">
+                        <div class="form-group mb-3 " id="selecRol">
 
-                            <label for="idrol" class="form-label">Menu Padre </label>
+                            <label for="idrol" class="form-label">Menu Roles </label>
                             <select class="form-select" id="idrol" name="idrol" aria-label="Default select example">
-                                <option selected disabled>Elija un rol</option>
+                                <option selected disabled>Elegir...</option>
                                 <option value="1">Administrador</option>
                                 <option value="2">Deposito</option>
                                 <option value="3">Cliente</option>

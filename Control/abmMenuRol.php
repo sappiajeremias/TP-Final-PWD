@@ -113,8 +113,10 @@ class abmMenuRol
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
+            echo "hola";
             $objMenu = $this->cargarObjetoConClave($param);
             if ($objMenu!=null and $objMenu->eliminar()) {
+                echo "hola3";
                 $resp = true;
             }
         }

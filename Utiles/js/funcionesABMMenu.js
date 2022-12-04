@@ -3,7 +3,7 @@
 
 // ELIMINAR MENU
 
-$(document).on("click", ".eliminar", function () {
+$(document).on("click", ".deshabilitar", function () {
   var fila = $(this).closest("tr");
   var idmenu = fila[0].children[0].innerHTML;
   var menombre = fila[0].children[1].innerHTML;
@@ -12,10 +12,10 @@ $(document).on("click", ".eliminar", function () {
 
   // CARTEL LIBRERIA
   bootbox.confirm({
-    title: "Eliminar Menu ?",
+    title: "Deshabilitar Menu ?",
     closeButton: false,
     message:
-      "Estas seguro que quieres eliminar a " +
+      "Estas seguro que quieres deshabilitar a " +
       menombre +
       " con ID: <b>" +
       idmenu +
@@ -44,15 +44,15 @@ function eliminar(idmenu) {
   $.ajax({
     type: "POST",
     url: "./accionMenu/eliminarMenu.php?",
-    data: { idmenu: idmenu },
+    data: { idmenu: idmenu, accion:'deshabilitar'},
     success: function (response) {
       console.log(response);
       var response = jQuery.parseJSON(response);
-      if (response.respuesta) {
+      if (response) {
         // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
         var dialog = bootbox.dialog({
           message:
-            '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Borrando Menu...</div>',
+            '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Deshabilitar Menu...</div>',
           closeButton: false,
         });
         dialog.init(function () {
@@ -61,7 +61,71 @@ function eliminar(idmenu) {
           }, 1500);
         });
       } else {
-        console.log(response.respuesta);
+        console.log(response);
+      }
+    },
+  });
+}
+
+$(document).on("click", ".habilitar", function () {
+  var fila = $(this).closest("tr");
+  var idmenu = fila[0].children[0].innerHTML;
+  var menombre = fila[0].children[1].innerHTML;
+ 
+
+
+  // CARTEL LIBRERIA
+  bootbox.confirm({
+    title: "Habilitar Menu ?",
+    closeButton: false,
+    message:
+      "Estas seguro que quieres habilitar a " +
+      menombre +
+      " con ID: <b>" +
+      idmenu +
+      "</b>",
+    buttons: {
+      cancel: {
+        className: "btn btn-outline-danger",
+        label: '<i class="fa fa-times"></i> Cancelar',
+      },
+      confirm: {
+        className: "btn btn-outline-success",
+        label: '<i class="fa fa-check"></i> Confirmar',
+      },
+    },
+    callback: function (result) {
+      if (result) {
+        habilitar(idmenu);
+      }
+    },
+  });
+});
+
+function habilitar(idmenu) {
+  
+  
+  $.ajax({
+    type: "POST",
+    url: "./accionMenu/eliminarMenu.php?",
+    data: { idmenu: idmenu, accion:'habilitar'},
+    success: function (response) {
+      console.log(response);
+      var response = jQuery.parseJSON(response);
+      if (response) {
+        // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
+        var dialog = bootbox.dialog({
+          message:
+            '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Habilitando Menu...</div>',
+          closeButton: false,
+        });
+        dialog.init(function () {
+          setTimeout(function () {
+            location.reload();
+          }, 1500);
+        });
+      } else {
+        console.log(response);
       }
     },
   });
@@ -76,22 +140,32 @@ $(document).on("click", ".agregar", function () {
   var detalle = fila[2].value;
   var idpadre = fila[3].value;
   var rol = fila[4].value;
-
-  if (idpadre === "") {
+  
+  if(idpadre !== "" && rol === "") {
     arreglo = {
       menombre: nombre,
       medescripcion: detalle,
-      idrol:rol
+      idpadre: idpadre,      
     };
-  } else {
-    arreglo = {
-      menombre: nombre,
-      medescripcion: detalle,
-      idpadre: idpadre,
-      idrol:rol
-    };
+    console.log(nombre, detalle, idpadre,rol);
   }
-  console.log(nombre, detalle, idpadre,rol);
+
+  if (idpadre === "" && rol !== "") {
+    arreglo = {
+      menombre: nombre,
+      medescripcion: detalle,
+      idrol:rol
+    };
+    
+  }
+  if (idpadre !== "" && rol !== "" ){
+    arreglo = {
+      menombre: nombre,
+      medescripcion: detalle,
+    };
+    
+  }
+  
 
   var verificador = true;
 
@@ -122,7 +196,7 @@ function agregar(array) {
       console.log(response);
       var response = jQuery.parseJSON(response);
 
-      if (response.respuesta) {
+      if (response) {
         // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
         var dialog = bootbox.dialog({
           message:
@@ -163,12 +237,17 @@ $(document).on('click','.editar', function () {
   medeshabilitado = fila[0].children[5].innerHTML;
   
   var i = 0;
-  var bool = true;
-
-  
+  var bool = true;  
   var form = document.getElementById('editarM');
   var inputs = form.getElementsByTagName('input');
   var option = form.getElementsByTagName('option');
+
+  console.log(idpadre);
+  if (idpadre !== ""){
+      document.getElementById('selecRol').style.display='none';  
+  }else{
+    document.getElementById('selecRol').style.display='block';
+  }
 
   while (bool && i<option.length) {
     
@@ -214,7 +293,7 @@ $(document).ready(function () {
         console.log(response);
         var response = jQuery.parseJSON(response);  
         
-        if(response.respuesta){
+        if(response){
           var dialog = bootbox.dialog({
             message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Producto...</div>',
             closeButton: false
@@ -225,7 +304,7 @@ $(document).ready(function () {
             }, 1500);
           })
         }else{
-          console.log(response.respuesta);
+          console.log(response);
         }        
       }
     });
