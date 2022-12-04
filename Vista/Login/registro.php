@@ -2,7 +2,12 @@
 $Titulo = "Registrarse";
 include_once '../Estructura/cabecera.php';
 ?>
+<!-- MD5 -->
 <script src="../../Utiles/md5.js"></script>
+<!--VALIDADOR -->
+<script src="..\..\Utiles\validaciones.js"></script>
+<!-- VALIDACIONES ESTILOS -->
+<link rel="stylesheet" href="../../Utiles/validaciones.css">
 
 <div class="container p-4 mt-5 border border-warning border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <h5 class="text-center"><i class="fa-solid fa-user-plus me-2"></i>Registro</h5>
