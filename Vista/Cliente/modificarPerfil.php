@@ -14,7 +14,7 @@ if (!$sesion->verificarPermiso('../Cliente/modificarPerfil.php')) {
         ?>
 <div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <!-- INICIO FORMULARIO DE EDITAR PERFIL -->
-    <form class="needs-validation" novalidate  action="./accion/actualizar.php" name="registro" id="registro" method="post" accept-charset="utf-8">
+    <form class="needs-validation" novalidate  action="./accion/actualizar.php" name="modificar" id="modificar" method="post" accept-charset="utf-8">
         <div class="form-group mb-3">
             <label for="usnombre" class="form-label">Nombre de Usuario: </label>
             <input type="text" class="form-control" id="usnombre" name="usnombre" autocomplete="off" value=<?php echo $datosUser['usnombre'] ?>>
