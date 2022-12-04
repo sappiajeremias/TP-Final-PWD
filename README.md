@@ -69,6 +69,21 @@ roles: cliente, depósito y administrador.
     * Crear nuevos usuarios al sistema, asignar los roles correspondientes y actualizar la información que se requiera.
     * Gestionar y administrar nuevos roles e ítem del menú. Vinculando item del menú al rol según corresponda.
 
+### Lista Usuarios:
+
+1. Nombre de Usuario: mondongo
+  * Contraseña: mondongo
+  * Roles: Admin - Depósito - Cliente
+2. Nombre de Usuario: admin
+  * Contraseña: admin123
+  * Roles: Admin
+3. Nombre de Usuario: deposito
+  * Contraseña: deposito
+  * Roles: Depósito
+4. Nombre de Usuario: cliente
+  * Contraseña: cliente123
+  * Roles: Cliente
+
 <p align="right">(<a href="#readme-top">ir al inicio</a>)</p>
 
 
