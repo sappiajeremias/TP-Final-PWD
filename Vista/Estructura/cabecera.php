@@ -22,13 +22,7 @@
 
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="../img/icon.ico">
-    <!-- VALIDACIONES ESTILOS -->
-    <link rel="stylesheet" href="../../Utiles/validaciones.css">
-    <!--VALIDADOR -->
-    <script src="..\..\Utiles\validaciones.js"></script>
-    
-   
-
+    <!-- MENU -->
     <script src="..\..\Utiles\js\menu.js"></script>
     <?php
     include_once '../../configuracion.php';

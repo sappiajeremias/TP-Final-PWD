@@ -12,6 +12,11 @@ if (!$sesion->verificarPermiso('../Cliente/modificarPerfil.php')) {
             'usmail' => $sesion->getMailUsuarioLogueado()
         ];
         ?>
+<!--VALIDADOR -->
+<script src="..\..\Utiles\validaciones.js"></script>
+<!-- VALIDACIONES ESTILOS -->
+<link rel="stylesheet" href="../../Utiles/validaciones.css">
+
 <div class="container p-4 mt-5 border border-info border-2 rounded-2 bg-primary bg-opacity-10" style="width: 350px;">
     <!-- INICIO FORMULARIO DE EDITAR PERFIL -->
     <form class="needs-validation" novalidate  action="./accion/actualizar.php" name="modificar" id="modificar" method="post" accept-charset="utf-8">
