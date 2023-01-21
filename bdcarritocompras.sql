@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2022 a las 19:53:44
--- Versión del servidor: 10.4.24-MariaDB
--- Versión de PHP: 8.1.6
+-- Tiempo de generación: 21-01-2023 a las 23:20:06
+-- Versión del servidor: 10.4.27-MariaDB
+-- Versión de PHP: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `compra` (
   `idcompra` bigint(20) NOT NULL,
   `cofecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `idusuario` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `compraestado` (
   `idcompraestadotipo` int(11) NOT NULL,
   `cefechaini` timestamp NOT NULL DEFAULT current_timestamp(),
   `cefechafin` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ CREATE TABLE `compraestadotipo` (
   `idcompraestadotipo` int(11) NOT NULL,
   `cetdescripcion` varchar(50) NOT NULL,
   `cetdetalle` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `compraestadotipo`
@@ -81,7 +81,7 @@ CREATE TABLE `compraitem` (
   `idproducto` bigint(20) NOT NULL,
   `idcompra` bigint(20) NOT NULL,
   `cicantidad` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE `menu` (
   `medescripcion` varchar(124) NOT NULL COMMENT 'Descripcion mas detallada del item del menu',
   `idpadre` bigint(20) DEFAULT NULL COMMENT 'Referencia al id del menu que es subitem',
   `medeshabilitado` timestamp NULL DEFAULT current_timestamp() COMMENT 'Fecha en la que el menu fue deshabilitado por ultima vez'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `menu`
@@ -111,7 +111,8 @@ INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabi
 (15, 'Listado de Compras', '../Cliente/listaCompras.php', 13, NULL),
 (16, 'Deposito Permisos', '#', NULL, '0000-00-00 00:00:00'),
 (17, 'Ver Compras', '../Deposito/tablaCompras.php', 16, NULL),
-(18, 'Ver Productos', '../Deposito/tablaProductos.php', 16, NULL);
+(18, 'Ver Productos', '../Deposito/tablaProductos.php', 16, NULL),
+(29, 'Ver Perfil', '../Cliente/modificarPerfil.php', 13, NULL);
 
 -- --------------------------------------------------------
 
@@ -122,7 +123,7 @@ INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabi
 CREATE TABLE `menurol` (
   `idmenu` bigint(20) NOT NULL,
   `idrol` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `menurol`
@@ -147,7 +148,7 @@ CREATE TABLE `producto` (
   `precio` int(11) NOT NULL,
   `prodeshabilitado` timestamp NULL DEFAULT current_timestamp(),
   `imagen` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `producto`
@@ -155,8 +156,8 @@ CREATE TABLE `producto` (
 
 INSERT INTO `producto` (`idproducto`, `pronombre`, `prodetalle`, `procantstock`, `precio`, `prodeshabilitado`, `imagen`) VALUES
 (7, 'Planta 1', 'detalle', 100, 4000, '0000-00-00 00:00:00', 'planta1.png'),
-(8, 'Planta 2', 'detalle', 100, 2000, NULL, 'planta2.png'),
-(76, 'Planta 3', 'detalle', 100, 4000, NULL, 'planta3.png'),
+(8, 'Planta 2', 'detalle', 98, 2000, '0000-00-00 00:00:00', 'planta2.png'),
+(76, 'Planta 3', 'detalle', 95, 4000, '0000-00-00 00:00:00', 'planta3.png'),
 (77, 'Planta 4', 'detalle', 100, 5000, NULL, 'planta4.png'),
 (91, 'Planta 5', 'detalle', 100, 30000, '0000-00-00 00:00:00', 'planta5.png');
 
@@ -169,7 +170,7 @@ INSERT INTO `producto` (`idproducto`, `pronombre`, `prodetalle`, `procantstock`,
 CREATE TABLE `rol` (
   `idrol` bigint(20) NOT NULL,
   `rodescripcion` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `rol`
@@ -192,7 +193,7 @@ CREATE TABLE `usuario` (
   `uspass` varchar(150) NOT NULL,
   `usmail` varchar(50) NOT NULL,
   `usdeshabilitado` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -213,7 +214,7 @@ INSERT INTO `usuario` (`idusuario`, `usnombre`, `uspass`, `usmail`, `usdeshabili
 CREATE TABLE `usuariorol` (
   `idusuario` bigint(20) NOT NULL,
   `idrol` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `usuariorol`
@@ -315,25 +316,25 @@ ALTER TABLE `usuariorol`
 -- AUTO_INCREMENT de la tabla `compra`
 --
 ALTER TABLE `compra`
-  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `idcompra` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de la tabla `compraestado`
 --
 ALTER TABLE `compraestado`
-  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
+  MODIFY `idcompraestado` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
 
 --
 -- AUTO_INCREMENT de la tabla `compraitem`
 --
 ALTER TABLE `compraitem`
-  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `idcompraitem` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
