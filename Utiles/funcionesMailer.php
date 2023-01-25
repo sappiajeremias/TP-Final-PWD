@@ -223,7 +223,7 @@ function devolverBody($data){
                                         border-radius: 5px;
                                         margin: 0 auto;
                                         margin-top: 1.5rem;
-                                        background-color: rgba( 120,194,173);
+                                        background-color: #BFACE2;
                                         padding: 1rem;  
                                         box-shadow: 5px 5px 15px 5px #000000;
                                         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -249,7 +249,7 @@ function devolverBody($data){
                                     /*CSS BUTTON*/
                                     .hvr-overline-from-center {
                                         margin-top: 1rem;
-                                        background-color: #b4eeeb;
+                                        background-color: #BFACE2;
                                         border-color: transparent;
                                         border-radius: 10px;
                                         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -358,7 +358,7 @@ function devolverBody($data){
                                         border-radius: 5px;
                                         margin: 0 auto;
                                         margin-top: 1.5rem;
-                                        background-color: rgba( 120,194,173);
+                                        background-color: #93C6E7;
                                         padding: 1rem;  
                                         box-shadow: 5px 5px 15px 5px #000000;
                                         font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -384,7 +384,7 @@ function devolverBody($data){
                                     /*CSS BUTTON*/
                                     .hvr-overline-from-center {
                                         margin-top: 1rem;
-                                        background-color: #b4eeeb;
+                                        background-color: #93C6E7;
                                         border-color: transparent;
                                         border-radius: 10px;
                                         font-family: Verdana, Geneva, Tahoma, sans-serif;

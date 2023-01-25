@@ -412,7 +412,7 @@ public function crearCarrito($idUser){
             }
             
         }
-        return $respuesta;
+        return ['idcompra'=>$idCompra, 'respuesta'=>$respuesta];
      }
 
     /* FIN EJECUTAR COMPRA CARRITO */
