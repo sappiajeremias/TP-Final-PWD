@@ -125,6 +125,7 @@ function cambiarEstado(idcompraestadotipo, idboton) {
         url: './accion/compras/modificarEstadoCompra.php',
         data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD
