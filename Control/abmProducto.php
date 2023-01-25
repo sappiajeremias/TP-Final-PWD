@@ -124,10 +124,18 @@ class abmProducto
     {
         $resp = false;
 
-        $objProducto = $this->cargarObjetoSinID($param);
-        if ($objProducto != null and $objProducto->insertar()) {
-            $resp = true;
+        $cImagenes = new controlImagenes();
+        $arreglo = $cImagenes->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+
+        if ($arreglo['respuesta']) {
+            $param['imagen'] = $arreglo['nombre'];
+            $param['prodeshabilitado'] = null;
+            $objProducto = $this->cargarObjetoSinID($param);
+            if ($objProducto != null and $objProducto->insertar()) {
+                $resp = true;
+            }
         }
+        
         return $resp;
     }
 
@@ -141,6 +149,9 @@ class abmProducto
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjetoConClave($param);
+            $objProducto->cargar();
+            $cImagen = new controlImagenes();
+            $cImagen->eliminarImagen($objProducto->getImagen(), 'productos/');
             if ($objProducto != null and $objProducto->eliminar()) {
                 $resp = true;
             }
@@ -161,6 +172,31 @@ class abmProducto
             $objProducto = $this->cargarObjeto($param);
             if ($objProducto != null and $objProducto->modificar()) {
                 $resp = true;
+            }
+        }
+        return $resp;
+    }
+
+    /**
+     * permite modificar la imagen del producto
+     * @param array $param
+     * @return boolean
+     */
+    public function modificarImagen($param)
+    {
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objProducto = $this->cargarObjetoConClave($param);
+            $objProducto->cargar();
+            // PRIMERO ELIMINAMOS LA IMAGEN ANTIGUA E INSERTAMOS LA NUEVA
+            $cImagen = new controlImagenes();
+            $cImagen->eliminarImagen($param['url'], 'productos/');
+            $arreglo = $cImagen->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+            if($arreglo['respuesta']){
+                $objProducto->setImagen($arreglo['nombre']);
+                if ($objProducto != null and $objProducto->modificar()) {
+                    $resp = true;
+                }
             }
         }
         return $resp;

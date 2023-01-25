@@ -24,7 +24,7 @@ class producto extends BaseDatos
         $this->precio="";
         $this->prodeshabilitado="";
         $this->imagen="";
-        $this->mensajeOperacion="";
+        $this->mensajeoperacion="";
     }
 
     public function setear($idproducto, $pronombre, $prodetalle, $procantstock, $precio, $prodeshabilitado, $imagen)

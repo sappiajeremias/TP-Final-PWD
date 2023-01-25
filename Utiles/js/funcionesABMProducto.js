@@ -11,7 +11,7 @@ function cargarProductos() {
         success: function (response) {
             var arreglo = [];
             $.each($.parseJSON(response), function (index, productoActual) {
-                    arreglo.push(productoActual);
+                arreglo.push(productoActual);
             });
 
             armarTabla(arreglo);
@@ -23,8 +23,6 @@ function cargarProductos() {
 function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaProductos > tbody').empty();
-    // GENERAMOS EL FORM PARA AGREGAR EL PRODUCTO
-    $('#tablaProductos > tbody').append('<tr class="table-active"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td><input class="form-control" type="text" placeholder="Imagen"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
     // AGREGAMOS LOS PRODUCTOS
     $.each(arreglo, function (index, producto) {
         if (producto.deshabilitado == null || producto.deshabilitado == "0000-00-00 00:00:00") {
@@ -33,56 +31,20 @@ function armarTabla(arreglo) {
             var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check"></i></button></a>';
         }
 
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td hidden>' + producto.imagen + '</td><td><img src="../img/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="../img/productos/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><button type="button" class="editarButton btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#editar-modal-producto"><i class="fa-solid fa-file-pen"></i></button>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
 /*################################################## AGREGAR PRODUCTO ##################################################*/
-$(document).on('click', '.agregar', function () {
-    var row = $(this).closest('tr').find("input");
-
-    var nombre = row[1].value;
-    var detalle = row[2].value;
-    var stock = row[3].value;
-    var precio = row[4].value;
-    var imagen = row[5].value;
-
-    arreglo = {
-        'pronombre': nombre,
-        'prodetalle': detalle,
-        'procantstock': stock,
-        'precio': precio,
-        'prodeshabilitado': null,
-        'imagen': imagen
-    };
-
-    var verificador = true;
-
-    $.each(arreglo, function (index, value) {
-        console.log(value)
-        if (value === '') {
-            verificador = false;
-        }
-    });
-
-    if (verificador) {
-        agregar(arreglo);
-    } else {
-        // ALERT LIBRERIA
-        bootbox.alert({
-            message: "No puedes dejar campos vacios!",
-            size: 'small',
-            closeButton: false,
-        });
-    }
-
-});
-
-function agregar(array) {
+$('#agregar').submit(function (e) {
+    e.preventDefault();
+    formData = new FormData(this);
     $.ajax({
         type: "POST",
         url: './accion/producto/altaProd.php',
-        data: array,
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             console.log(response);
             var response = jQuery.parseJSON(response);
@@ -94,6 +56,7 @@ function agregar(array) {
                 });
                 dialog.init(function () {
                     setTimeout(function () {
+                        $('#agregar-modal-producto').modal('hide'); //OCULTAMOS EL MODAL
                         cargarProductos();
                         bootbox.hideAll();
                     }, 1000);
@@ -108,12 +71,11 @@ function agregar(array) {
             }
         }
     });
-}
+});
 
 /*################################################## EDITAR PRODUCTO ##################################################*/
 
-$(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
-    document.getElementById('editarProducto').classList.remove('d-none');
+$(document).on('click', '.editarButton', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
     var fila = $(this).closest('tr');
 
     var idproducto = fila[0].children[0].innerHTML;
@@ -121,63 +83,108 @@ $(document).on('click', '.editar', function () { //MUESTRA EL FORMULARIO Y PRECA
     var prodetalle = fila[0].children[2].innerHTML;
     var procantstock = fila[0].children[3].innerHTML;
     var precio = fila[0].children[4].innerHTML;
-    var imagen = fila[0].children[5].innerHTML;
-    var prodeshabilitado = fila[0].children[7].innerHTML;
+    var prodeshabilitado = fila[0].children[6].innerHTML;
 
-    var form = document.getElementById('editarP');
+    //GUARDAMOS EL NOMBRE DEL JPG PARA REEMPLAZARLO POR UNO NUEVO, SI ES QUE SE DECIDE REEMPLAZARSE.
+    var images = $(this).closest('tr').children('td').children('img').attr('src');
+    url = images.replace('../img/productos/', '');
+    sessionStorage.setItem('url', url);
+    // EL ID PARA SABER DE QUE PRODUCTO ACTUALIZAREMOS LA IMAGEN
+    sessionStorage.setItem('id', idproducto);
 
+    var form = document.getElementById('editarForm');
     var inputs = form.getElementsByTagName('input');
 
-    document.getElementById('idproducto').innerHTML = idproducto;
-
     inputs[0].value = idproducto;
-    inputs[1].value = pronombre;
-    inputs[2].value = prodetalle;
-    inputs[3].value = procantstock;
-    inputs[4].value = precio;
-    inputs[5].value = prodeshabilitado;
-    inputs[6].value = imagen;
-});
-
-//CIERRA EL FORMULARIO
-$(document).on('click', '#cancelar', function () {
-    document.getElementById('editarProducto').classList.add('d-none');
+    inputs[1].value = prodeshabilitado;
+    inputs[2].value = pronombre;
+    inputs[3].value = prodetalle;
+    inputs[4].value = procantstock;
+    inputs[5].value = precio;
+    inputs[6].value = url;
 });
 
 //ENVIA LOS DATOS
-$(document).ready(function () {
-    $('form').submit(function (e) {
-        e.preventDefault();
+$('#editarForm').submit(function (e) {
+    e.preventDefault();
 
-        $.ajax({
-            type: "POST",
-            url: './accion/producto/editarProd.php',
-            data: $(this).serialize(),
-            success: function (response) {
-                var response = jQuery.parseJSON(response);
-                if (response) {
-                    // CARTEL LIBRERIA, ESPERA 1 SEG Y REFRESCA LA TABLA
-                    var dialog = bootbox.dialog({
-                        message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Producto...</div>',
-                        closeButton: false
-                    });
-                    dialog.init(function () {
-                        setTimeout(function () {
-                            document.getElementById('editarProducto').classList.add('d-none');
-                            cargarProductos();
-                            bootbox.hideAll();
-                        }, 1000);
-                    });
-                } else {
-                    // ALERT LIBRERIA
-                    bootbox.alert({
-                        message: "No se pudo completar la modificación!",
-                        size: 'small',
-                        closeButton: false,
-                    });
-                }
+    $.ajax({
+        type: "POST",
+        url: './accion/producto/editarProd.php',
+        data: $(this).serialize(),
+        success: function (response) {
+            var response = jQuery.parseJSON(response);
+            if (response) {
+                // CARTEL LIBRERIA, ESPERA 1 SEG Y REFRESCA LA TABLA
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Producto...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        $('#editar-modal-producto').modal('hide'); //OCULTAMOS EL MODAL
+                        cargarProductos();
+                        bootbox.hideAll();
+                    }, 1000);
+                });
+            } else {
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo completar la modificación!",
+                    size: 'small',
+                    closeButton: false,
+                });
             }
-        });
+        }
+    });
+});
+
+/*################################################## EDITAR IMAGEN PRODUCTO ##################################################*/
+$('.editarImagenButton').click(function () {
+    url = sessionStorage.getItem('url');
+    id = sessionStorage.getItem('id');
+    var form = document.getElementById('editar-modal-imagen');
+    var inputs = form.getElementsByTagName('input');
+
+    inputs[0].value = url;
+    inputs[1].value = id;
+});
+
+// SUBMIT FORMULARIO EDITAR IMAGEN
+$('#editarImagen').submit(function (e) {
+    e.preventDefault();
+    formData = new FormData(this);
+    $.ajax({
+        type: "POST",
+        url: './accion/producto/editarImagen.php',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            var response = jQuery.parseJSON(response);
+            if (response) {
+                // CARTEL LIBRERIA, ESPERA 1SEG Y REFRESCA LA TABLA
+                var dialog = bootbox.dialog({
+                    message: '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Imagen...</div>',
+                    closeButton: false
+                });
+                dialog.init(function () {
+                    setTimeout(function () {
+                        $('#editar-modal-imagen').modal('hide'); //OCULTAMOS EL MODAL
+                        cargarProductos();
+                        bootbox.hideAll();
+                    }, 1000);
+                });
+            } else {
+                // ALERT LIBRERIA
+                bootbox.alert({
+                    message: "No se pudo hacer la modificación!",
+                    size: 'small',
+                    closeButton: false,
+                });
+            }
+        }
     });
 });
 
