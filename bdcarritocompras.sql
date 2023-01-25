@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-01-2023 a las 23:20:06
+-- Tiempo de generación: 25-01-2023 a las 18:38:52
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -155,11 +155,11 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idproducto`, `pronombre`, `prodetalle`, `procantstock`, `precio`, `prodeshabilitado`, `imagen`) VALUES
-(7, 'Planta 1', 'detalle', 100, 4000, '0000-00-00 00:00:00', 'planta1.png'),
-(8, 'Planta 2', 'detalle', 98, 2000, '0000-00-00 00:00:00', 'planta2.png'),
-(76, 'Planta 3', 'detalle', 95, 4000, '0000-00-00 00:00:00', 'planta3.png'),
-(77, 'Planta 4', 'detalle', 100, 5000, NULL, 'planta4.png'),
-(91, 'Planta 5', 'detalle', 100, 30000, '0000-00-00 00:00:00', 'planta5.png');
+(99, 'Planta 1', 'descripcion sobre planta 1', 10, 100, '0000-00-00 00:00:00', 'producto1674668198103801747363d168a6b8d69.jpeg'),
+(100, 'Planta 2', 'descripcion sobre planta 2', 10, 100, '0000-00-00 00:00:00', 'producto167466821298072312663d168b431436.jpeg'),
+(101, 'Planta 3', 'descripcion sobre planta 3', 10, 100, '0000-00-00 00:00:00', 'producto167466822524751216463d168c1d9ef6.jpeg'),
+(102, 'Planta 4', 'descripcion sobre planta 4', 10, 100, '0000-00-00 00:00:00', 'producto1674668236131023293663d168cc86c42.jpeg'),
+(103, 'Planta 5', 'descripcion sobre planta 5', 10, 100, '0000-00-00 00:00:00', 'producto1674668261197346209963d168e50d7dd.jpeg');
 
 -- --------------------------------------------------------
 
@@ -340,7 +340,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`

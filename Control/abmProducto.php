@@ -178,6 +178,31 @@ class abmProducto
     }
 
     /**
+     * permite modificar la imagen del producto
+     * @param array $param
+     * @return boolean
+     */
+    public function modificarImagen($param)
+    {
+        $resp = false;
+        if ($this->seteadosCamposClaves($param)) {
+            $objProducto = $this->cargarObjetoConClave($param);
+            $objProducto->cargar();
+            // PRIMERO ELIMINAMOS LA IMAGEN ANTIGUA E INSERTAMOS LA NUEVA
+            $cImagen = new controlImagenes();
+            $cImagen->eliminarImagen($param['url'], 'productos/');
+            $arreglo = $cImagen->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+            if($arreglo['respuesta']){
+                $objProducto->setImagen($arreglo['nombre']);
+                if ($objProducto != null and $objProducto->modificar()) {
+                    $resp = true;
+                }
+            }
+        }
+        return $resp;
+    }
+
+    /**
      * permite buscar un objeto
      * @param array $param
      * @return array
