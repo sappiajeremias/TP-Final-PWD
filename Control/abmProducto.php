@@ -124,10 +124,18 @@ class abmProducto
     {
         $resp = false;
 
-        $objProducto = $this->cargarObjetoSinID($param);
-        if ($objProducto != null and $objProducto->insertar()) {
-            $resp = true;
+        $cImagenes = new controlImagenes();
+        $arreglo = $cImagenes->cargarImagen('producto', $param['files']['imagen'], 'productos/');
+
+        if ($arreglo['respuesta']) {
+            $param['imagen'] = $arreglo['nombre'];
+            $param['prodeshabilitado'] = null;
+            $objProducto = $this->cargarObjetoSinID($param);
+            if ($objProducto != null and $objProducto->insertar()) {
+                $resp = true;
+            }
         }
+        
         return $resp;
     }
 
@@ -141,6 +149,9 @@ class abmProducto
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objProducto = $this->cargarObjetoConClave($param);
+            $objProducto->cargar();
+            $cImagen = new controlImagenes();
+            $cImagen->eliminarImagen($objProducto->getImagen(), 'productos/');
             if ($objProducto != null and $objProducto->eliminar()) {
                 $resp = true;
             }

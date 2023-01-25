@@ -11,7 +11,7 @@ function cargarProductos() {
         success: function (response) {
             var arreglo = [];
             $.each($.parseJSON(response), function (index, productoActual) {
-                    arreglo.push(productoActual);
+                arreglo.push(productoActual);
             });
 
             armarTabla(arreglo);
@@ -23,8 +23,6 @@ function cargarProductos() {
 function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaProductos > tbody').empty();
-    // GENERAMOS EL FORM PARA AGREGAR EL PRODUCTO
-    $('#tablaProductos > tbody').append('<tr class="table-active"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Detalle"></td><td><input class="form-control" type="number" min=0 placeholder="Stock"></td><td><input class="form-control" type="number" min=0 placeholder="Precio"></td><td><input class="form-control" type="text" placeholder="Imagen"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td colspan="2"><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus"></i></button></a></td></tr>');
     // AGREGAMOS LOS PRODUCTOS
     $.each(arreglo, function (index, producto) {
         if (producto.deshabilitado == null || producto.deshabilitado == "0000-00-00 00:00:00") {
@@ -33,56 +31,20 @@ function armarTabla(arreglo) {
             var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check"></i></button></a>';
         }
 
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td hidden>' + producto.imagen + '</td><td><img src="../img/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="../img/productos/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><a href="#" class="editar me-2"><button class="btn btn-outline-warning"><i class="fa-solid fa-file-pen"></i></button></a>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
 /*################################################## AGREGAR PRODUCTO ##################################################*/
-$(document).on('click', '.agregar', function () {
-    var row = $(this).closest('tr').find("input");
-
-    var nombre = row[1].value;
-    var detalle = row[2].value;
-    var stock = row[3].value;
-    var precio = row[4].value;
-    var imagen = row[5].value;
-
-    arreglo = {
-        'pronombre': nombre,
-        'prodetalle': detalle,
-        'procantstock': stock,
-        'precio': precio,
-        'prodeshabilitado': null,
-        'imagen': imagen
-    };
-
-    var verificador = true;
-
-    $.each(arreglo, function (index, value) {
-        console.log(value)
-        if (value === '') {
-            verificador = false;
-        }
-    });
-
-    if (verificador) {
-        agregar(arreglo);
-    } else {
-        // ALERT LIBRERIA
-        bootbox.alert({
-            message: "No puedes dejar campos vacios!",
-            size: 'small',
-            closeButton: false,
-        });
-    }
-
-});
-
-function agregar(array) {
+$('#agregar').submit(function (e) {
+    e.preventDefault();
+    formData = new FormData(this);
     $.ajax({
         type: "POST",
         url: './accion/producto/altaProd.php',
-        data: array,
+        data: formData,
+        processData: false,
+        contentType: false,
         success: function (response) {
             console.log(response);
             var response = jQuery.parseJSON(response);
@@ -108,7 +70,7 @@ function agregar(array) {
             }
         }
     });
-}
+});
 
 /*################################################## EDITAR PRODUCTO ##################################################*/
 
@@ -146,7 +108,7 @@ $(document).on('click', '#cancelar', function () {
 
 //ENVIA LOS DATOS
 $(document).ready(function () {
-    $('form').submit(function (e) {
+    $('#editarP').submit(function (e) {
         e.preventDefault();
 
         $.ajax({
