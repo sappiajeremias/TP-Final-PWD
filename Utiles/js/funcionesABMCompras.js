@@ -6,6 +6,7 @@ $(window).on("load", function () {
 
 function cargarCompras(){
     $.ajax({
+        //Llamamos a la funcion cargar compra y las cargamos en un arreglo para mandar a la funcion armarTabla
         type: "POST",
         url: './accion/compras/listarCompras.php',
         data: null,

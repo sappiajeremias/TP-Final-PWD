@@ -4,6 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+//Funcion encargada del envio del mail, recibe como parametro un arreglo con el id de la compra y el id de compraestadotipo
 function enviarMail ($data) {
     $user = buscarUsuario($data['idcompra']);
     $bodyMail = devolverBody($data);
@@ -36,6 +37,7 @@ function enviarMail ($data) {
     return $exito;
 }
 
+// Funcion que se encarga de buscar los datos del usuario necesarios con el idcompra
 function buscarUsuario($idcompra){
     $objCompra = new abmCompra();
     $objC = $objCompra->buscar(['idcompra' => $idcompra]);
@@ -44,6 +46,7 @@ function buscarUsuario($idcompra){
     return (['usmail'=>$objUsuario->getUsMail(), 'usname'=>$objUsuario->getUsNombre()]);
 }
 
+//Funcion que se encarga de crear el cuerpo del mail en base al estado de la compra
 function devolverBody($data){
     switch($data['idcompraestadotipo']){
         case 1: {
