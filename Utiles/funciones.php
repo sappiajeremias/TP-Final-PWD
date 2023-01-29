@@ -45,4 +45,9 @@ function compararPsw($nombre, $psw)
     return $resul;
 }
 
+function verEstructura($param){
+    echo "<pre>";
+    print_r($param);
+    echo "</pre>";
+}
 

@@ -30,26 +30,27 @@ class abmMenu
      * @param array $param
      * @return menu
      */
-    private function cargarObjeto($param){
-        
+    private function cargarObjeto($param)
+    {
+
         $obj = null;
-           
-        if(array_key_exists('menombre',$param) and array_key_exists('medescripcion',$param)){
-            
-            $obj = new menu();            
+
+        if (array_key_exists('menombre', $param) and array_key_exists('medescripcion', $param)) {
+
+            $obj = new menu();
             $objMenu = null;
             $deshabilitado = NULL;
-            if (array_key_exists('idpadre',$param) && $param['idpadre'] !='null'){
-                
+            if (array_key_exists('idpadre', $param) && $param['idpadre'] != 'null') {
+
                 $objMenu = new menu();
                 $objMenu->setID($param['idpadre']);
                 $objMenu->cargar();
             }
-            
-            if(array_key_exists('medeshabilitado', $param) ){
-                $deshabilitado= $param['medeshabilitado'];
+
+            if (array_key_exists('medeshabilitado', $param)) {
+                $deshabilitado = $param['medeshabilitado'];
             }
-            $obj->setear($param['idmenu'],$param['menombre'],$param['medescripcion'],$objMenu,$deshabilitado); 
+            $obj->setear($param['idmenu'], $param['menombre'], $param['medescripcion'], $objMenu, $deshabilitado);
         }
         return $obj;
     }
@@ -136,7 +137,7 @@ class abmMenu
                 date_default_timezone_set('America/Argentina/Buenos_Aires');
                 $fecha = date('Y-m-d H:i:s');
             }
-           
+
 
             $objMenu[0]->setMeDeshabilitado($fecha);
             if ($objMenu[0]->modificar()) {
@@ -156,26 +157,27 @@ class abmMenu
     public function modificacion($param)
     {
         $resp = false;
-        if ($this->seteadosCamposClaves($param)) {            
+        if ($this->seteadosCamposClaves($param)) {
             $objMenu = $this->cargarObjeto($param);
             if ($objMenu != null and $objMenu->modificar() || $this->ModificarRelacion($param)) {
-              /*   if(array_key_exists('idrol',$param))
-                {$this->ModificarRelacion($param);}  */   
+                /*   if(array_key_exists('idrol',$param))
+                {$this->ModificarRelacion($param);}  */
                 $resp = true;
             }
         }
         return $resp;
     }
 
-    private function ModificarRelacion($param){
+    private function ModificarRelacion($param)
+    {
         $abmMenuRol = new abmMenuRol();
-        $objMenuRolantes = $abmMenuRol->buscar(['idmenu'=>$param['idmenu']]);
-        $dataMR = [ 
+        $objMenuRolantes = $abmMenuRol->buscar(['idmenu' => $param['idmenu']]);
+        $dataMR = [
             'idmenu' => $objMenuRolantes[0]->getObjMenu()->getID(),
             'idrol' => $objMenuRolantes[0]->getObjRol()->getID()
         ];
         $abmMenuRol->baja($dataMR);
-        $resp = $abmMenuRol->alta(['idmenu'=>$param['idmenu'],'idrol'=>$param['idrol']]);
+        $resp = $abmMenuRol->alta(['idmenu' => $param['idmenu'], 'idrol' => $param['idrol']]);
         return $resp;
     }
 
@@ -215,7 +217,7 @@ class abmMenu
     {
         $where = " true ";
         if ($param != "") {
-            
+
             if (isset($param['idrol'])) {
                 $where .= " and idrol = '" . $param['idrol'] . "'";
             }
@@ -224,9 +226,8 @@ class abmMenu
             }
         }
         $objMenu = new menuRol();
-        ;
         $arreglo = $objMenu->listar($where);
-     
+
         return $arreglo;
     }
 
@@ -250,8 +251,8 @@ class abmMenu
         $abmMenuRol = new abmMenuRol();
         $listaRol = $abmRol->buscar($param);
         $listaMenu = $abmMenu->buscar($param);
-       
-        
+
+
         $respuesta = $abmMenuRol->alta(['idrol' => $listaRol[0]->getID(), 'idmenu' => $listaMenu[0]->getID()]);
         if (!$respuesta) {
             $arrRes['mensajeError'] = "No se pudo crear el MenuRol";
@@ -270,7 +271,7 @@ class abmMenu
                 $objMenu = $elem->getObjMenu();
                 $objRol = $elem->getObjRol();
                 $arrayHijoMenu = $this->tieneHijos($objMenu->getID());
-                if (!empty($arrayHijoMenu)){
+                if (!empty($arrayHijoMenu)) {
                     $arregloHM = $this->listarMenu($arrayHijoMenu);
                 }
 
@@ -279,13 +280,100 @@ class abmMenu
                     "menombre" => $elem->getProNombre(),
                     "medescripcion" => $elem->getProDetalle(),
                     "mehijo" => $arregloHM,
-                    "idrol" => $objRol()->getID()." ". $objRol->getDescripcion(),
-                    "medeshabilitado" => $elem->getMeDeshabilitado()                    
+                    "idrol" => $objRol()->getID() . " " . $objRol->getDescripcion(),
+                    "medeshabilitado" => $elem->getMeDeshabilitado()
                 ];
                 array_push($arreglo, $nuevoElem);
             }
         }
 
         return $arreglo;
+    }
+
+    public function armarMenu()
+    {
+        $sesion = new Session();
+        $menuFinal = [];
+        if ($sesion->sesionActiva()) {
+            $arregloRolActual = $sesion->getRolActivo();
+            $objMR = $this->ObtenerMenu(['idrol' => $arregloRolActual['id']]); //Obtenemos el rol actual para armar el menu
+           
+            $permisos = [];
+            
+            foreach($objMR as $actualMR){
+                $permisoActual = $this->listarPermisos($actualMR->getObjMenu());
+                array_push($permisos, $permisoActual);
+            }
+        
+
+            $arregloRolesUser = $sesion->getRoles(); //Obtenemos sus roles, si es que tiene
+            $roles = $this->listarRoles($arregloRolesUser);
+
+            $menuFinal['permisos'] = $permisos;
+            $menuFinal['roles'] = $roles;
+            $menuFinal['usuario'] = ['nombre' => $sesion->getNombreUsuarioLogueado(), 'rol' => strtoupper($arregloRolActual['rol'])];
+        }
+
+        return $menuFinal; //En caso de que no haya sesión activa el retorno quedará vacio, menu.js se encarga de armar la interfaz
+    }
+
+    public function listarPermisos($menu)
+    {
+        $hijos = [];
+        $arrayHijos = $this->tieneHijos($menu->getID());
+
+        if (!empty($arrayHijos)) {
+            foreach ($arrayHijos as $hijoActual) {
+
+                $nietos = [];
+                $arrayNietos = $this->tieneHijos($hijoActual->getID());
+
+                if (!empty($arrayNietos)) {
+                    foreach ($arrayNietos as $nietoActual) {
+                        $nieto = $this->listarPermisos($nietoActual);
+                        array_push($nietos, $nieto);
+                    }
+                }
+
+                $newHijo = [
+                    'menombre' => $hijoActual->getMeNombre(),
+                    'medescripcion' => $hijoActual->getMeDescripcion(),
+                    'hijos' => $nietos
+                ];
+
+                array_push($hijos, $newHijo);
+            }
+        }
+
+        $newPapa = [
+            'menombre' => $menu->getMeNombre(),
+            'medescripcion' => $menu->getMeDescripcion(),
+            'hijos' => $hijos
+        ];
+
+        return $newPapa;
+    }
+
+    public function listarRoles($roles)
+    {
+        $arregloRoles = [];
+
+        if (count($roles) > 1) { //Si tiene más de un rol
+            foreach ($roles as $rol) {
+                $newItem = [
+                    'rol' => strtoupper($rol->getRolDescripcion())
+                ];
+
+                array_push($arregloRoles, $newItem);
+            }
+        } elseif (count($roles) === 1) { //Si tiene un solo rol
+            $newItem = [
+                'rol' => strtoupper($roles[0]->getRolDescripcion())
+            ];
+
+            array_push($arregloRoles, $newItem);
+        }
+
+        return $arregloRoles;
     }
 }

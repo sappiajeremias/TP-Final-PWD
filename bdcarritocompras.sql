@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-01-2023 a las 18:38:52
+-- Tiempo de generación: 29-01-2023 a las 16:56:30
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -103,16 +103,17 @@ CREATE TABLE `menu` (
 
 INSERT INTO `menu` (`idmenu`, `menombre`, `medescripcion`, `idpadre`, `medeshabilitado`) VALUES
 (1, 'Administrador Permisos', '#', NULL, NULL),
-(2, 'Administrar Menu-Roles', '../Admin/tablaMenuRoles.php', 1, NULL),
-(3, 'Administrar Roles', '../Admin/tablaRoles.php', 1, NULL),
+(2, 'Administrar Menu-Roles', '../Admin/tablaMenuRoles.php', 30, NULL),
+(3, 'Administrar Roles', '../Admin/tablaRoles.php', 30, NULL),
 (12, 'Administrar Usuarios', '../Admin/tablaUsuarios.php', 1, NULL),
-(13, 'Cliente Permisos', '#', NULL, NULL),
+(13, 'Tus Compras', '#', NULL, NULL),
 (14, 'Ver Carrito', '../Cliente/carrito.php', 13, NULL),
 (15, 'Listado de Compras', '../Cliente/listaCompras.php', 13, NULL),
 (16, 'Deposito Permisos', '#', NULL, '0000-00-00 00:00:00'),
 (17, 'Ver Compras', '../Deposito/tablaCompras.php', 16, NULL),
 (18, 'Ver Productos', '../Deposito/tablaProductos.php', 16, NULL),
-(29, 'Ver Perfil', '../Cliente/modificarPerfil.php', 13, NULL);
+(29, 'Ver Perfil', '../Cliente/modificarPerfil.php', NULL, NULL),
+(30, 'Opciones Menú y Rol', '#', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -132,7 +133,8 @@ CREATE TABLE `menurol` (
 INSERT INTO `menurol` (`idmenu`, `idrol`) VALUES
 (1, 1),
 (13, 3),
-(16, 2);
+(16, 2),
+(29, 3);
 
 -- --------------------------------------------------------
 
@@ -334,7 +336,7 @@ ALTER TABLE `compraitem`
 -- AUTO_INCREMENT de la tabla `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idmenu` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`

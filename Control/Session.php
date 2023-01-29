@@ -297,7 +297,7 @@ class Session
 
         return $resp;
     }
-
+    /*
     public function traerMenu()
     {
         $arreglo = [];
@@ -449,5 +449,5 @@ class Session
         $menuUs .= "<li><a class='dropdown-item' href='../Login/accion/cerrarSesion.php'><i class='fa-solid fa-power-off me-2'></i>Cerrar Sesión</a></li></ul><!-- FIN MENÚ USUARIO LOGEADO -->";
     
         return $menuUs;
-    }
+    }*/
 }

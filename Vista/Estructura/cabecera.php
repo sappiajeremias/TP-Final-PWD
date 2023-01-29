@@ -19,7 +19,8 @@
     <script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
     <!-- FONTAWESOME LIBRERIA ICONOS -->
     <script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
-
+    <!-- CSS MENÚ, SIN ESTO LOS DROPDOWNS NO FUNCIONAN -->
+    <link rel="stylesheet" href="..\..\Utiles\menu.css">
     <!-- ICON -->
     <link rel="icon" type="image/x-icon" href="../img/icon.ico">
     <!-- MENU -->
