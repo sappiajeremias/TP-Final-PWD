@@ -67,6 +67,7 @@ function listarHijos(hijos) {
 
 function armarCambioRol(roles) {
     cambioRolCuerpo = "";
+    console.log(roles);
 
     if (Object.keys(roles).length > 1) { //Si tiene más de un rol
         cambioRolCuerpo += "<!-- INICIO CAMBIOS ROL --><li class='nav-item dropdown'><a class='nav-link dropdown-toggle' href='#' data-bs-toggle='dropdown'>Cambiar Rol</a><ul class='dropdown-menu dropdown-menu-end'>";
@@ -77,9 +78,7 @@ function armarCambioRol(roles) {
         });
 
         cambioRolCuerpo += "</ul></li><!-- FIN CAMBIOS ROL -->"
-    } else if (Object.keys(roles).length === 1) { //Si tiene un único rol
-        cambioRolCuerpo += "<li class='nav-item active'>" + roles.rol + "</li>"
-    } else { //Si no tiene ninguno
+    } else if (Object.keys(roles).length === 0){
         cambioRolCuerpo += "<li class='nav-item active'>No tienes nigún permiso</li>"
     }
 
