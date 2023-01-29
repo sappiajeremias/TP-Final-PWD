@@ -6,6 +6,7 @@ $(window).on("load", function () {
 
 function cargarCompras(){
     $.ajax({
+        //Llamamos a la funcion cargar compra y las cargamos en un arreglo para mandar a la funcion armarTabla
         type: "POST",
         url: './accion/compras/listarCompras.php',
         data: null,
@@ -125,6 +126,7 @@ function cambiarEstado(idcompraestadotipo, idboton) {
         url: './accion/compras/modificarEstadoCompra.php',
         data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
+            console.log(response);
             var response = jQuery.parseJSON(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1 SEG Y LUEGO HACE EL RELOAD

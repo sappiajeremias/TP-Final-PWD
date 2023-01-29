@@ -366,8 +366,9 @@ function comprar() {//cantidad
         data: null,
 
         success: function (response) {
-            var response = jQuery.parseJSON(response)
             console.log(response)
+            var response = jQuery.parseJSON(response)
+            
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialogoRedireccion = bootbox.dialog({

@@ -42,8 +42,10 @@ function armarTabla(arreglo) {
 
 /*################################# AGREGAR USUARIO #################################*/
 $(document).on('click', '.agregar', function () {
+    //Tomamos la fila del ingreso de los datos
     var row = $(this).closest('tr').find(".form-control");
 
+    //Tomamos cada dato de esa fila
     var nombre = row[1].value;
     var mail = row[2].value;
     var rol = row[4].value;
@@ -66,6 +68,7 @@ $(document).on('click', '.agregar', function () {
 
     if (verificador) {
         bootbox.prompt({
+            //Creamos el cartel para ingresarle una contraseña al usuario y la ciframos
             size: "small",
             closeButton: false,
             inputType: "password",
@@ -106,7 +109,7 @@ $(document).on('click', '.agregar', function () {
 
 function agregar(arreglo) {
     $.ajax({
-
+        //Llamamos al metodo que agrega al usuario e indicamos al administrador si tuvo exito o no
         type: "POST",
         url: './accion/usuario/altaUsuario.php',
         data: arreglo,
@@ -154,6 +157,7 @@ $(document).on('click', '.agregarRol', function () { //MUESTRA EL FORMULARIO Y P
                 label: '<i class="fa fa-check"></i> Confirmar'
             }
         },
+        //El input que va a indicar al administrador las opciones de roles disponibles
         inputType: 'select',
         inputOptions: [
             {
@@ -169,6 +173,7 @@ $(document).on('click', '.agregarRol', function () { //MUESTRA EL FORMULARIO Y P
                 value: 3
             }
         ],
+        //Guardamos la opcion elegida y la enviamos a la funcion
         callback: function (result) {
             let arreglo = { 'idusuario': idusuario, 'idrol': result };
             editarAgregar(arreglo);
@@ -245,6 +250,7 @@ $(document).on('click', '.eliminarRol', function () {
                 value: 3
             }
         ],
+        //Realiza los mismos pasos que el agregado.
         callback: function (result) {
             if(result){
                 let arreglo = { 'idusuario': idusuario, 'idrol': result };
@@ -317,6 +323,7 @@ $(document).on('click', '.deshabilitar', function () {
                 label: '<i class="fa-solid fa-ban"></i> Deshabilitar'
             }
         },
+        //Llamamos a la funcion deshabilitar con el id del usuario apuntado
         callback: function (result) {
             if (result) {
                 deshabilitar(idusuario);
@@ -328,6 +335,7 @@ $(document).on('click', '.deshabilitar', function () {
 function deshabilitar(idusuario) {
     $.ajax({
         type: "POST",
+        //Llamamos a la funcion deshabilitarUsuario con el arreglo del id del usuario con la accion a tomar.
         url: './accion/usuario/deshabilitarUsuario.php',
         data: { idusuario: idusuario, accion: 'deshabilitar'},
         success: function (response) {
@@ -394,6 +402,7 @@ function habilitar(idusuario) {
 
     $.ajax({
         type: "POST",
+        //Llamamos a la funcion habilitarUsuario con el arreglo del id del usuario con la accion a tomar.
         url: './accion/usuario/deshabilitarUsuario.php',
         data: {idusuario: idusuario, accion: 'habilitar'},
         success: function (response) {

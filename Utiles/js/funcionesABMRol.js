@@ -2,7 +2,7 @@
 
 $(document).on("click", ".agregar", function () {
   var row = $(this).closest("tr").find(".form-control");
-
+//Buscamos el nombre del rol que vamos a agregar
   var descripcion = row[1].value;
   let arreglo = { rodescripcion: descripcion };
   var verificador = false;
@@ -26,6 +26,7 @@ $(document).on("click", ".agregar", function () {
 function agregar(arreglo) {
   console.log(arreglo);
   $.ajax({
+    //Llamamos a la funcion altarol y le enviamos el arreglo con la descripcion, el id es autoincrement
     type: "POST",
     url: "./accion/altaRol.php",
     data: arreglo,
@@ -87,6 +88,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         $.ajax({
+          //Llamamos a la funcion editar con el id y la nueva descripcion del rol
             type: "POST",
             url: './accion/editarRol.php',
             data: $(this).serialize(),
@@ -150,6 +152,7 @@ $(document).on("click", ".eliminar", function () {
 
 function eliminar(idrol) {
   $.ajax({
+    //Llamamos a la funcion eliminarRol con el id del rol a eliminar
     type: "POST",
     url: "./accion/eliminarRol.php",
     data: { idrol: idrol },
