@@ -295,23 +295,27 @@ class abmMenu
         $sesion = new Session();
         $menuFinal = [];
         if ($sesion->sesionActiva()) {
-            $arregloRolActual = $sesion->getRolActivo();
-            $objMR = $this->ObtenerMenu(['idrol' => $arregloRolActual['id']]); //Obtenemos el rol actual para armar el menu
-           
             $permisos = [];
-            
-            foreach($objMR as $actualMR){
-                $permisoActual = $this->listarPermisos($actualMR->getObjMenu());
-                array_push($permisos, $permisoActual);
+            $rol = null;
+
+            $roles = $sesion->getRoles();
+            if (count($roles) > 0) {
+                $arregloRolActual = $sesion->getRolActivo();
+                $objMR = $this->ObtenerMenu(['idrol' => $arregloRolActual['id']]); //Obtenemos el rol actual para armar el menu
+                $rol = strtoupper($arregloRolActual['rol']);
+                foreach ($objMR as $actualMR) {
+                    $permisoActual = $this->listarPermisos($actualMR->getObjMenu());
+                    array_push($permisos, $permisoActual);
+                }
             }
-        
+
 
             $arregloRolesUser = $sesion->getRoles(); //Obtenemos sus roles, si es que tiene
             $roles = $this->listarRoles($arregloRolesUser);
 
             $menuFinal['permisos'] = $permisos;
             $menuFinal['roles'] = $roles;
-            $menuFinal['usuario'] = ['nombre' => $sesion->getNombreUsuarioLogueado(), 'rol' => strtoupper($arregloRolActual['rol'])];
+            $menuFinal['usuario'] = ['nombre' => $sesion->getNombreUsuarioLogueado(), 'rol' => $rol];
         }
 
         return $menuFinal; //En caso de que no haya sesión activa el retorno quedará vacio, menu.js se encarga de armar la interfaz

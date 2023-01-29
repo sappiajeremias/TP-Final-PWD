@@ -79,7 +79,7 @@ function armarCambioRol(roles) {
 
         cambioRolCuerpo += "</ul></li><!-- FIN CAMBIOS ROL -->"
     } else if (Object.keys(roles).length === 0){
-        cambioRolCuerpo += "<li class='nav-item active'>No tienes nigún permiso</li>"
+        cambioRolCuerpo += "<li class='nav-item active'><a class='nav-link'>No tienes Permisos</a></li>"
     }
 
     $('#menu').append(cambioRolCuerpo);
@@ -88,7 +88,11 @@ function armarCambioRol(roles) {
 function armarDatosUsuario(usuario) {
     usuarioCuerpo = "";
     usuarioCuerpo += "<!-- INICIO USUARIO ACTIVO DATOS --><li class='nav-item dropdown'><a class='nav-link dropdown-toggle' href='#' data-bs-toggle='dropdown'>" + usuario.nombre + "</a><ul class='dropdown-menu dropdown-menu-end'>";
-    usuarioCuerpo += "<li><button class='dropdown-item'>Rol Activo: " + usuario.rol + "</button></li>";
+    if(usuario.rol !== null){
+        usuarioCuerpo += "<li><button class='dropdown-item'>Rol Activo: " + usuario.rol + "</button></li>";
+    } else {
+        usuarioCuerpo += "<li><button class='dropdown-item'>No tienes roles</button></li>";
+    }
     usuarioCuerpo += "<li><a class='dropdown-item' href='../Login/accion/cerrarSesion.php'><i class='fa-solid fa-power-off me-2'></i>Cerrar Sesión</a></li>";
     usuarioCuerpo += "</ul></li><!-- FIN MENÚ USUARIO LOGEADO -->";
 
