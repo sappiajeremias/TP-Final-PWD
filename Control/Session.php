@@ -261,26 +261,43 @@ class Session
     public function verificarPermiso($param)
     {
         $user = $this->getUsuario();
+        $permiso = false;
         if ($this->obtenerDeshabilitado($user->getUsDeshabilitado())) {
-            $listaRoles = $this->getRoles();
-            $respuesta = false;
-            foreach ($listaRoles as $rolAct) {
-                $objMR = new abmMenuRol();
-                $listaMR = $objMR->buscar(['idrol' => $rolAct->getID()]);
+            $rol = $this->getRolActivo();
+            $objMR = new abmMenuRol();
+            $listaMR = $objMR->buscar(['idrol' => $rol['id']]);
+            $abmMenu = new abmMenu(); // MANDAMOS EL ABM PARA BUSCAR LOS HIJOS EN CASO DE QUE EXISTAN
 
-                foreach ($listaMR as $padre) {
-                    $objHijo = new abmMenu();
-                    $listaHijos = $objHijo->buscar(['idpadre' => $padre->getObjMenu()->getID()]);
-                    foreach ($listaHijos as $hijo) {
-                        if ($hijo->getMeDescripcion() == $param) {
-                            $respuesta = true;
-                        }
-                    }
-                }
+            $a = 0; //contador
+            while (!$permiso && ($a < count($listaMR))){
+                $permiso = $this->buscarPermiso($listaMR[$a]->getObjMenu(), $param, $abmMenu);
+                $a++;
             }
         }
 
-        return $respuesta;
+        return $permiso;
+    }
+
+    public function buscarPermiso($menu, $param, $abm){
+        $respuesta2 = false;
+        $hijos = $abm->tieneHijos($menu->getID());
+        if(!empty($hijos)){ // SI TIENE HIJOS VERIFICAMOS QUE TENGAN EL ACCESO
+            $i = 0; //contador
+            while(!$respuesta2 && ($i < count($hijos))){
+                if($hijos[$i]->getMeDescripcion() == $param){ // PUEDE SER PADRE OSEA DESCRIPCION = "#"
+                    $respuesta2 = true;
+                } else {
+                    $respuesta2 = $this->buscarPermiso($hijos[$i], $param, $abm); // HACEMOS RECURSIVIDAD PORQUE ESOS HIJOS PUEDEN TENER HIJOS
+                }
+                $i++;
+            }
+        } else {
+            if($menu->getMeDescripcion() == $param){ // EN CASO DE NO TENER HIJOS VERIFICAMOS SI EL PADRE TIENE EL ACCESO
+                $respuesta2 = true;
+            }
+        }
+
+        return $respuesta2;
     }
 
     public function cambiarRol($datos)
@@ -297,157 +314,4 @@ class Session
 
         return $resp;
     }
-    /*
-    public function traerMenu()
-    {
-        $arreglo = [];
-        if ($this->sesionActiva()) {
-
-            $roles = $this->getRoles(); // TODOS LOS OBJ ROLES DEL USUARIO ACTIVO
-
-            if (count($roles) > 0) { // SI TIENE AL MENOS UN ROL
-                $rolActivo = $this->getRolActivo(); // ARREGLO CON ID Y DESCRIPCION DEL ROL ACTIVO
-                $abmMenuRol = new abmMenuRol();
-                $menuRoles = $abmMenuRol->buscar(['idrol' => $rolActivo['id']]); // BUSCAMOS LOS PERMISOS SEGÚN EL ID DEL ROL ACTIVO
-
-                $arreglo['menuPermisos'] = ""; // LO DEJO SETEADO EN VACIO EN CASO DE QUE NO TENGA NINGÚN ROL, OSEA NINGÚN PERMISO
-
-                if (count($menuRoles) > 1) { // SI TIENE MÁS DE UN ROL
-                    foreach ($menuRoles as $permisoActual) {
-                        $arreglo['menuPermisos'] .= $this->traerPermisos($permisoActual);
-                    }
-                } elseif (count($menuRoles) === 1) { // SI TIENE UN ÚNICO ROL
-                    $arreglo['menuPermisos'] .= $this->traerPermisos($menuRoles[0]);
-                }
-
-                $arreglo['menuCambioRoles'] = $this->traerCambiosRol($roles);
-                $arreglo['menuDatosUsActivo'] = $this->traerDatosUs($rolActivo);
-            } else { // SI NO TIENE NINGÚN ROL
-                $arreglo['menuPermisos'] = "";
-                $arreglo['menuCambioRoles'] = $this->traerCambiosRol($roles);
-                $arreglo['menuDatosUsActivo'] = $this->traerDatosUs(['rol'=>null]);
-            }
-        } else {
-            $arreglo['menuSinLogin'] = "<!-- MENÚ NO LOGIN -->
-                <li class='nav-item dropdown'>
-                    <a class='nav-link dropdown-toggle' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                        <i class='fa-solid fa-right-to-bracket'></i>
-                    </a>
-                    <div class='dropdown-menu dropdown-menu-end'>
-                        <a class='dropdown-item' href='../Login/login.php'>Iniciar Sesión</a>
-                        <hr class='dropdown-divider'>
-                        <a class='dropdown-item' href='../Login/registro.php'>Registrarse</a>
-                    </div>
-                </li>";
-        }
-
-        return $arreglo;
-    }
-
-    public function traerPermisos($menuRol)
-    {
-        $permisos = "";
-        $abmMenu = new abmMenu();
-        $objMenuActual = $menuRol->getObjMenu(); // TRAEMOS EL OBJ MENU
-
-        if (!empty($objMenuActual->getObjMenuPadre())) { //VERIFICA SI ES RAIZ OSEA IDPADRE=NULL
-            $idMenuActual = $objMenuActual->getID(); //TOMA EL ID DE LA RAIZ
-            $arregloHijos = $abmMenu->tieneHijos($idMenuActual);  // SI TIENE HIJOS RETORNA ARREGLO, SINO NULL
-            if ($arregloHijos <> null) { // VERIFICAMOS
-
-                $padreConHijos = "<!-- INICIO PERMISOS DROPDOWN --><li class='nav-item dropdown me-2'>
-                    <a class='nav-link dropdown-toggle text-white' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>" . $objMenuActual->getMeNombre() . "</a>
-                    <div class='dropdown-menu dropdown-menu-end'>";
-
-                $hijos = "";
-                foreach ($arregloHijos as $menuRolHijo) { // RECORREMOS LOS HIJOS
-                    $hijos .= "<a class='dropdown-item' href=" . $menuRolHijo->getMeDescripcion() . ">" . $menuRolHijo->getMeNombre() . "</a>";
-                }
-
-                $padreConHijos .= $hijos;
-                $padreConHijos .= "</div></li><!-- FIN PERMISOS DROPDOWN -->";
-            }
-        } else {
-            $padreSinHijos = "<a class='dropdown-item' href=" . $objMenuActual->getMeDescripcion() . ">" . $objMenuActual->getMeNombre() . "</a>";
-        }
-
-        if (isset($padreConHijos)) {
-            $permisos = $padreConHijos;
-        }
-        if (isset($padreSinHijos)) {
-            $permisos = $padreSinHijos;
-        }
-
-        return $permisos;
-    }
-
-    public function traerCambiosRol($roles)
-    {
-        $cambiosRol = "";
-
-        if (count($roles) > 1) { //SI TIENE MAS DE UN ROL
-            $cambiosRol = "<!-- INICIO CAMBIAR ROLES --><li class='nav-item dropdown'>
-            <a class='nav-link dropdown-toggle text-white' href='#' role='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                <i class='fa-solid fa-user-gear me-1'></i>Cambiar Roles</a>
-            <div class='dropdown-menu dropdown-menu-end'>";
-            $rolsito = "";
-            foreach ($roles as $rolActual) {
-                $rolsito .= "<button class='cambiarRol dropdown-item'>" . strtoupper($rolActual->getRolDescripcion()) . "</button>";
-            }
-    
-            $cambiosRol .= $rolsito;
-            $cambiosRol .= "</div></li><!-- FIN CAMBIAR ROLES -->";
-
-        } elseif (count($roles) === 1) { //SI TIENE UN SOLO ROL
-            switch ($roles[0]->getRolDescripcion()) {
-                case 'cliente':
-                    $cambiosRol = "<li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-tie me-2'></i>Cliente</a></li>";
-                    break;
-                case 'deposito':
-                    $cambiosRol = "<li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-ninja me-2'></i>Deposito</a></li>";
-                    break;
-                case 'admin':
-                    $cambiosRol = "<li class='nav-item'>
-                    <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-user-astronaut me-2'></i>Admin</a></li>";
-                    break;
-            }
-        } else { // SI NO TIENE ROLES
-            $cambiosRol = "<li class='nav-item'>
-            <a class='nav-link active' aria-current='page' href='#'><i class='fa-solid fa-skull me-2'></i>No tienes Permisos</a></li>";
-        }
-    
-        return $cambiosRol;
-    }
-
-    public function traerDatosUs($rolActivo)
-    {
-        $menuUs = "";
-    
-        $menuUs = "<!-- INICIO USUARIO ACTIVO DATOS -->
-                <button class='btn btn-outline-dark dropdown-toggle' type='button' data-bs-toggle='dropdown' aria-expanded='false'>
-                    <i class='fa-solid fa-user me-2'></i>" . $this->getNombreUsuarioLogueado() . "</button>
-                <ul class='dropdown-menu'><li><a class='dropdown-item' id='rolactivo' disabled='disabled'>
-                <i class='fa-solid fa-address-book me-2'></i>";
-    
-        if ($rolActivo['rol'] === null) {
-            $cartel = "ROL: NO TIENES";
-        } else {
-            $cartel = "ROL: " . strtoupper($rolActivo['rol']);
-        }
-        $menuUs .= $cartel;
-        $menuUs .= "</a></li><hr class='dropdown-divider'>";
-    
-        $clienteActivo = "";
-    
-        if ($rolActivo['rol'] === 'cliente' || $rolActivo['rol'] === null) { // SI ES ROL CLIENTE O NO TIENEN NIGUNO TIENE ACCESO A MODIFICARPERFIL
-            $clienteActivo = "<li><a class='dropdown-item' href='../Cliente/modificarPerfil.php'><i class='fa-solid fa-user-pen me-2'></i>Ver Perfil</a></li>
-                    <hr class='dropdown-divider'>";
-        }
-        $menuUs .= $clienteActivo;
-        $menuUs .= "<li><a class='dropdown-item' href='../Login/accion/cerrarSesion.php'><i class='fa-solid fa-power-off me-2'></i>Cerrar Sesión</a></li></ul><!-- FIN MENÚ USUARIO LOGEADO -->";
-    
-        return $menuUs;
-    }*/
 }
