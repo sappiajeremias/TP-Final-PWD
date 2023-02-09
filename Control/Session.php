@@ -263,28 +263,38 @@ class Session
         $user = $this->getUsuario();
         $permiso = false;
         if ($this->obtenerDeshabilitado($user->getUsDeshabilitado())) {
-            $rol = $this->getRolActivo();
-            $objMR = new abmMenuRol();
-            $listaMR = $objMR->buscar(['idrol' => $rol['id']]);
-            $abmMenu = new abmMenu(); // MANDAMOS EL ABM PARA BUSCAR LOS HIJOS EN CASO DE QUE EXISTAN
-
-            $a = 0; //contador
-            while (!$permiso && ($a < count($listaMR))){
-                $permiso = $this->buscarPermiso($listaMR[$a]->getObjMenu(), $param, $abmMenu);
-                $a++;
-            }
+            $permiso = $this->recorrerPermisosPorRoles($this->getRoles(), $param); //LE MANDAMOS TODOS LOS ROLES DEL USUARIO
         }
 
         return $permiso;
     }
 
-    public function buscarPermiso($menu, $param, $abm){
+    public function recorrerPermisosPorRoles($roles, $script)
+    {
+        $objMR = new abmMenuRol();
+        $recorrido = false;
+        foreach ($roles as $rolActual) { // POR CADA ROL OBTENEMOS LOS MENUES Y BUSCAMOS SI EL SCRIPT SE ENCUENTRA AHI
+            $listaMR = $objMR->buscar(['idrol' => $rolActual->getID()]);
+            $abmMenu = new abmMenu(); // MANDAMOS EL ABM PARA BUSCAR LOS HIJOS EN CASO DE QUE EXISTAN
+
+            $a = 0; //contador
+            while (!$recorrido && ($a < count($listaMR))) {
+                $recorrido = $this->buscarPermiso($listaMR[$a]->getObjMenu(), $script, $abmMenu);
+                $a++;
+            }
+        }
+
+        return $recorrido;
+    }
+
+    public function buscarPermiso($menu, $param, $abm)
+    {
         $respuesta2 = false;
         $hijos = $abm->tieneHijos($menu->getID());
-        if(!empty($hijos)){ // SI TIENE HIJOS VERIFICAMOS QUE TENGAN EL ACCESO
+        if (!empty($hijos)) { // SI TIENE HIJOS VERIFICAMOS QUE TENGAN EL ACCESO
             $i = 0; //contador
-            while(!$respuesta2 && ($i < count($hijos))){
-                if($hijos[$i]->getMeDescripcion() == $param){ // PUEDE SER PADRE OSEA DESCRIPCION = "#"
+            while (!$respuesta2 && ($i < count($hijos))) {
+                if ($hijos[$i]->getMeDescripcion() == $param) { // PUEDE SER PADRE OSEA DESCRIPCION = "#"
                     $respuesta2 = true;
                 } else {
                     $respuesta2 = $this->buscarPermiso($hijos[$i], $param, $abm); // HACEMOS RECURSIVIDAD PORQUE ESOS HIJOS PUEDEN TENER HIJOS
@@ -292,7 +302,7 @@ class Session
                 $i++;
             }
         } else {
-            if($menu->getMeDescripcion() == $param){ // EN CASO DE NO TENER HIJOS VERIFICAMOS SI EL PADRE TIENE EL ACCESO
+            if ($menu->getMeDescripcion() == $param) { // EN CASO DE NO TENER HIJOS VERIFICAMOS SI EL PADRE TIENE EL ACCESO
                 $respuesta2 = true;
             }
         }
