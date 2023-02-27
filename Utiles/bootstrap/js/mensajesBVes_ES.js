@@ -48,7 +48,7 @@
             'default': 'Por favor introduce un número EAN válido'
         },
         emailAddress: {
-            'default': 'Por favor introduce un email válido'
+            'default': ' Por favor introduce un email válido'
         },
         file: {
             'default': 'Por favor elija un archivo válido'

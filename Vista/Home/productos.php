@@ -8,5 +8,6 @@ include_once '../Estructura/cabecera.php';
 </div>
 
 <script src="../../Utiles/js/listarProductos.js"></script>
+<script src="../../Utiles/js/funcionesCarrito.js"></script>
 
 <?php include_once '../Estructura/pie.php' ?>

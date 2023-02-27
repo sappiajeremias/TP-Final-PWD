@@ -1,4 +1,10 @@
 <?php
+
+include_once "../../../configuracion.php";
+$abmProducto = new abmProducto();
+
+echo json_encode($abmProducto->listarProdTienda());
+/*
 include_once "../../../configuracion.php";
 $data = data_submitted();
 $arreglo_salida=[];
@@ -37,3 +43,4 @@ if (count($listaProductos)>0) {
 }
 
 echo json_encode($respuesta);
+*/

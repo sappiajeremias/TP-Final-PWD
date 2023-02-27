@@ -33,34 +33,20 @@ class Session
 
     public function setearRolActivo()
     {
+        $verificador=false;
         $rolesUs = $this->getRoles(); // TRAEMOS EL ARREGLO DE OBJETOS
 
         if (count($rolesUs) > 0) {
-            $i = 0;
-            $verificador = false;
-            do {
-                if ($rolesUs[$i]->getRolDescripcion() == "admin") {
-                    $_SESSION['rolactivodescripcion'] = 'admin';
-                    $idRol = $this->buscarIdRol('admin');
-                    $_SESSION['rolactivoid'] = $idRol;
-                    $verificador = true;
-                } elseif ($rolesUs[$i]->getRolDescripcion() == "deposito") {
-                    $_SESSION['rolactivodescripcion'] = 'deposito';
-                    $idRol = $this->buscarIdRol('deposito');
-                    $_SESSION['rolactivoid'] = $idRol;
-                    $verificador = true;
-                } elseif ($rolesUs[$i]->getRolDescripcion() == "cliente") {
-                    $_SESSION['rolactivodescripcion'] = 'cliente';
-                    $idRol = $this->buscarIdRol('cliente');
-                    $_SESSION['rolactivoid'] = $idRol;
-                    $verificador = true;
-                }
-                $i++;
-            } while (!$verificador);
+            $rolActivoDescripcion=$rolesUs[0]->getRolDescripcion();
+            $_SESSION['rolactivodescripcion'] = $rolActivoDescripcion;
+            $idRol = $this->buscarIdRol($rolActivoDescripcion);
+            $_SESSION['rolactivoid'] = $idRol;
+            $verificador = true;
         } else {
             $_SESSION['rolactivodescripcion'] = null;
             $_SESSION['rolactivoid'] = null;
         }
+        return $verificador;
     }
 
     public function buscarIdRol($param)
@@ -187,37 +173,6 @@ class Session
         return $nombreUsuario;
     }
 
-    public function esAdmin()
-    {
-        // Retorna true si el usuario activo tiene permiso de administrador
-        $resp = false;
-        if ($_SESSION['rolactivodescripcion'] <> 'admin') {
-            $resp = true;
-        }
-        return $resp;
-    }
-
-    public function esDeposito()
-    {
-        // Retorna true si el usuario activo tiene permiso de depósito
-        $resp = false;
-        if ($_SESSION['rolactivodescripcion'] <> 'deposito') {
-            $resp = true;
-        }
-        return $resp;
-    }
-
-
-    public function esCliente()
-    {
-        // Retorna true si el usuario activo tiene permiso de cliente
-        $resp = false;
-        if ($_SESSION['rolactivodescripcion'] <> 'cliente') {
-            $resp = true;
-        }
-        return $resp;
-    }
-
     public function getRolActivo()
     {
         $resp = [];
@@ -262,9 +217,11 @@ class Session
     {
         $user = $this->getUsuario();
         $permiso = false;
+        if($user!=null){
         if ($this->obtenerDeshabilitado($user->getUsDeshabilitado())) {
             $permiso = $this->recorrerPermisosPorRoles($this->getRoles(), $param); //LE MANDAMOS TODOS LOS ROLES DEL USUARIO
         }
+    }
 
         return $permiso;
     }

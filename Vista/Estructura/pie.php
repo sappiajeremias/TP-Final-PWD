@@ -30,6 +30,18 @@
         </div>
     </footer>
 </section>
+
+<!-- BOOTSTRAP -->
+<script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
+<!-- BOOTSTRAP VALIDATOR -->
+<script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
+<script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
+<!-- BOOTBOXJS LIBRERIA NOTIFICACIONES -->
+<script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
+<!-- FONTAWESOME LIBRERIA ICONOS -->
+<script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
+<!--VALIDADOR -->
+<script src="..\..\Utiles\validaciones.js"></script>
 </body>
 <!-- FIN PIE -->
 

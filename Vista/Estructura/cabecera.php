@@ -9,16 +9,10 @@
 
     <!-- JQUERY -->
     <script type="text/javascript" src="..\..\Utiles\jquery-3.6.1\jquery.min.js"></script>
+    
     <!-- BOOTSTRAP -->
     <link rel="stylesheet" href="..\..\Utiles\bootstrap\css\bootstrap.min.css">
-    <script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
-    <!-- BOOTSTRAP VALIDATOR -->
-    <script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
-    <script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
-    <!-- BOOTBOXJS LIBRERIA NOTIFICACIONES -->
-    <script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
-    <!-- FONTAWESOME LIBRERIA ICONOS -->
-    <script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
+    
     <!-- CSS MENÚ, SIN ESTO LOS DROPDOWNS NO FUNCIONAN -->
     <link rel="stylesheet" href="..\..\Utiles\menu.css">
     <!-- ICON -->

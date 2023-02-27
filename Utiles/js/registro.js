@@ -1,11 +1,11 @@
 
 /*################################# FORMULARIO DE REGISTRO #################################*/
 $('#registro').submit(function (e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
 
     var inputs = $('#registro :input');
-    var uspass = inputs[2].value;
+
+    if (inputs[1].value != "" && inputs[2].value != "" && inputs[3].value != "") {
+    var uspass = inputs[3].value;
     var pass = hex_md5(uspass);
 
     arreglo = {
@@ -14,6 +14,9 @@ $('#registro').submit(function (e) {
         uspass: pass,
         usdeshabilitado: null,
     }
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
 
     $.ajax({
         type: "POST",
@@ -35,11 +38,20 @@ $('#registro').submit(function (e) {
                 });
             } else {
                 bootbox.alert({
-                    message: "No se pudo completar el registro!",
+                    message: "No se pudo concretar el registro. Puede ser que los datos ingresados ya pertenezcan a un usuario del sistema.",
                     size: 'small',
                     closeButton: false,
                 });
             }
         }
     });
+
+    }else{
+        bootbox.alert({
+            message: "Debe completar todos los campos.",
+            size: "small",
+            closeButton: false,
+          });
+    }
+    
 });

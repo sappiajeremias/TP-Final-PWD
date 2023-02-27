@@ -17,11 +17,12 @@
                     <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
                 </li>
             </ul>
-        </div>
+        
         <!-- FIN MENÚ PÚBLICO -->
         <ul class="navbar-nav ms-auto" id="menu">
 
         </ul>
+        </div>
     </div>
 </nav>
 <!-- NAVBAR FIN -->
