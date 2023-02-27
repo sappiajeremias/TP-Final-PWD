@@ -3,7 +3,7 @@ $.ajax({
     url: "../Estructura/accion/accionMenu.php",
     data: null,
     success: function (response) {
-        console.log(response);
+        //console.log(response);
         var response = jQuery.parseJSON(response);
         if (Object.keys(response).length > 0) {
             armarPermisos(response.permisos);
@@ -67,7 +67,7 @@ function listarHijos(hijos) {
 
 function armarCambioRol(roles) {
     cambioRolCuerpo = "";
-    console.log(roles);
+    //console.log(roles);
 
     if (Object.keys(roles).length > 1) { //Si tiene más de un rol
         cambioRolCuerpo += "<!-- INICIO CAMBIOS ROL --><li class='nav-item dropdown'><a class='nav-link dropdown-toggle' href='#' data-bs-toggle='dropdown'>Cambiar Rol</a><ul class='dropdown-menu dropdown-menu-end'>";

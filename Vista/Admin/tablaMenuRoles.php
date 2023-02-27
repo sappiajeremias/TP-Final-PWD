@@ -54,7 +54,4 @@ if (!$sesion->verificarPermiso('../Admin/tablaMenuRoles.php')) {
 }
 include_once '../Estructura/pie.php'; ?>
 <?php
-
-// Relacionar cada menu con un rol, modificar la relacion menurol
-
 ?>
