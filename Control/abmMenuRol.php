@@ -144,7 +144,7 @@ class abmMenuRol
     /**
      * permite buscar un objeto
      * @param array $param
-     * @return array
+     * @return object
      */
     public function buscar($param)
     {

@@ -7,9 +7,9 @@ $data = data_submitted();
 $objC= new abmCompra();
 $resp=$objC->ejecutarCompraCarrito();
 if($resp['respuesta']){
-    enviarMail(['idcompra'=>$resp['idcompra'], 'idcompraestadotipo'=>1]);
+    $respuestaCorreo = enviarMail(['idcompra'=>$resp['idcompra'], 'idcompraestadotipo'=>1]);
 }
-echo json_encode($resp['respuesta']);
+echo json_encode($respuestaCorreo);
 
 ?>
  

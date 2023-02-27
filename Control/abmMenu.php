@@ -107,6 +107,17 @@ class abmMenu
         return $resp;
     }
 
+    public function altaHijo($param){
+        $resp = false;
+        $objMenu = $this->cargarObjeto($param);
+
+        if (array_key_exists('idpadre', $param)) {
+            $resp = ($objMenu != null and $objMenu->insertar());
+        }
+        
+        return $resp;
+    }
+
 
 
     /**
@@ -118,6 +129,14 @@ class abmMenu
     {
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
+            $abmMR = new abmMenuRol();
+            $relacion = $abmMR->buscar(['idmenu'=>$param['idmenu']]);
+            if (!empty($relacion)){
+                foreach($relacion as $mrActual){
+                    $mrActual->eliminar(); //ELIMINAMOS TODAS LAS RELACIONES CON ROL ANTES DE ELIMINAR EL MENÚ
+                }
+            }
+
             $objMenu = $this->cargarObjetoConClave($param);
             if ($objMenu != null and $objMenu->eliminar()) {
                 $resp = true;
@@ -329,27 +348,13 @@ class abmMenu
         if (!empty($arrayHijos)) {
             foreach ($arrayHijos as $hijoActual) {
 
-                $nietos = [];
-                $arrayNietos = $this->tieneHijos($hijoActual->getID());
-
-                if (!empty($arrayNietos)) {
-                    foreach ($arrayNietos as $nietoActual) {
-                        $nieto = $this->listarPermisos($nietoActual);
-                        array_push($nietos, $nieto);
-                    }
-                }
-
-                $newHijo = [
-                    'menombre' => $hijoActual->getMeNombre(),
-                    'medescripcion' => $hijoActual->getMeDescripcion(),
-                    'hijos' => $nietos
-                ];
-
+                $newHijo = $this->listarPermisos($hijoActual);
                 array_push($hijos, $newHijo);
             }
         }
 
         $newPapa = [
+            'id' => $menu->getID(),
             'menombre' => $menu->getMeNombre(),
             'medescripcion' => $menu->getMeDescripcion(),
             'hijos' => $hijos
@@ -379,5 +384,50 @@ class abmMenu
         }
 
         return $arregloRoles;
+    }
+
+    public function listarMenuesTabla()
+    {
+        $arreglo = [];
+        $list = $this->buscar(null);
+        if (count($list) > 0) {
+            $abmMR = new abmMenuRol();
+            $abmMenu = new abmMenu();
+            foreach ($list as $menuActual) {
+
+                $rol = "Ninguno";
+
+                $mrActual = $abmMR->buscar(['idmenu'=>$menuActual->getID()]);
+                if(!empty($mrActual)){
+                    $rol = "";
+                    foreach($mrActual as $mr){
+                        $rol .= $mr->getObjRol()->getRolDescripcion()." - ";
+                    }
+                }
+
+                $hijos = $abmMenu->buscar(['idpadre'=>$menuActual->getID()]);                
+                $tieneHijos = (count($hijos)>0);
+
+                
+                $nuevoElem = [
+                    'id' => $menuActual->getID(),
+                    'idpadre' => $menuActual->getObjMenuPadre()->getID(),
+                    'menombre' => $menuActual->getMeNombre(),
+                    'medescripcion' => $menuActual->getMeDescripcion(),
+                    'hijos' => $tieneHijos,
+                    'rol' => $rol
+                ];
+
+                array_push($arreglo, $nuevoElem);
+            }
+        }
+
+        return $arreglo;
+    }
+
+    public function cambiarDescripcion($param){
+        $obj = $this->buscar(['idmenu'=>$param['idmenu']]);
+        $obj[0]->setMeDescripcion($param['descripcion']);
+        return $obj[0]->modificarDescripcion();
     }
 }

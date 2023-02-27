@@ -111,6 +111,24 @@ public function insertar(){
     return $resp;
 } */
 
+public function modificarDescripcion(){
+    $resp = false;
+   
+    $sql="UPDATE menu SET medescripcion='".$this->getMeDescripcion()."' WHERE idmenu='".$this->getID()."'";
+    
+    if ($this->Iniciar()) {
+        if ($this->Ejecutar($sql)) {
+            $resp = true;
+         
+        } else {
+            $this->setMensajeOperacion("menu->modificar: ".$this->getError());
+        }
+    } else {
+        $this->setMensajeOperacion("menu->modificar: ".$this->getError());
+    }
+    return $resp;
+}
+
 public function modificar(){
     $idPadre = $this->getObjMenuPadre() != null ? "'".$this->getObjMenuPadre()->getID()."'" : 'NULL';
     
@@ -247,6 +265,7 @@ return $this;
 
 /**
  * Get the value of idpadre
+ * @return object
  */ 
 public function getObjMenuPadre()
 {
