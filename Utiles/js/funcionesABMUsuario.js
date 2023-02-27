@@ -9,7 +9,7 @@ function cargarUsuarios() {
         url: './accion/usuario/listarUsuarios.php',
         data: null,
         success: function (response) {
-            console.log(response)
+            //console.log(response)
             var arreglo = [];
             $.each($.parseJSON(response), function (index, value) {
                 
