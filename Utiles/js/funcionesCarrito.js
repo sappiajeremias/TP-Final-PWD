@@ -104,7 +104,7 @@ $(document).on('change', '#procantstock', function () {
     } else {
         // ALERT LIBRERIA
         bootbox.alert({
-            message: "El valor minimo es 1 y el valor maximo es "+stock,
+            message: "La cantidad minima del producto es <b>1</b> y la maxima es <b>"+stock+"</b>",
             size: 'small',
             closeButton: false,
         });
@@ -192,7 +192,7 @@ function agregar(array) {
                 });
             } else {
                 bootbox.alert({
-                    message: response.errorMsg,
+                    message:"Ya eligio la cantidad maxima de este producto.",
                     size: 'small',
                     closeButton: false,
                 });

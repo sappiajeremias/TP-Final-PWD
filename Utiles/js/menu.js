@@ -28,6 +28,7 @@ function armarPermisos(menus) {
             cuerpoHijos = ""; //Aqui se almacenaran los hijos
 
             permisosCuerpo += "<!-- INICIO PERMISOS --><li class='nav-item dropdown'><a class='nav-link dropdown-toggle' href='#' data-bs-toggle='dropdown'>" + menuActual.menombre + "</a><ul class='dropdown-menu dropdown-menu-end'>"; //Armamos el ul
+            
 
             cuerpoHijos += listarHijos(menuActual.hijos); //Traemos la lista de hijos, función recursiva
 
@@ -53,6 +54,7 @@ function listarHijos(hijos) {
             cuerpoNietos = ""; //Aqui se almacenaran los nietos
 
             cuerpoHijos += "<li><a class='dropdown-item' href='#'>" + hijoActual.menombre + " &raquo; </a><ul class='submenu submenu-left dropdown-menu'>"; //Armamos el ul
+            
 
             cuerpoNietos += listarHijos(hijoActual.hijos); //Traemos la lista de los nietos
 
@@ -124,7 +126,7 @@ $(document).on('click', '.cambiarRol', function () {
                 window.location.href="../Home/index.php";
             } else {
                 bootbox.alert({
-                    message: "No se puede actualizar el Rol!",
+                    message: "Actualmente se encuentra en el rol seleccionado.",
                     size: 'small',
                     closeButton: false,
                 });

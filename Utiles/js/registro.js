@@ -4,7 +4,7 @@ $('#registro').submit(function (e) {
 
     var inputs = $('#registro :input');
 
-    if (inputs[1].value != "" && inputs[2].value != "" && inputs[3].value != "") {
+    if (inputs[1].value != "" || inputs[2].value != "" || inputs[3].value != "") {
     var uspass = inputs[3].value;
     var pass = hex_md5(uspass);
 

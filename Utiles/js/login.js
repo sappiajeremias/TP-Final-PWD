@@ -2,7 +2,7 @@
 $("#login").submit(function (e) {
   var inputs = $("#login :input");
 
-  if (inputs[1].value != "" && inputs[2].value != "") {
+  if (inputs[1].value != "" || inputs[2].value != "") {
     console.log(inputs[1].value);
     console.log(inputs[2].value);
 
