@@ -28,7 +28,7 @@ function agregar(arreglo) {
   $.ajax({
     //Llamamos a la funcion altarol y le enviamos el arreglo con la descripcion, el id es autoincrement
     type: "POST",
-    url: "./accion/altaRol.php",
+    url: "../Acciones/rol/altaRol.php",
     data: arreglo,
     success: function (response) {
       var response = jQuery.parseJSON(response);
@@ -90,7 +90,7 @@ $(document).ready(function () {
         $.ajax({
           //Llamamos a la funcion editar con el id y la nueva descripcion del rol
             type: "POST",
-            url: './accion/editarRol.php',
+            url: '../Acciones/rol/editarRol.php',
             data: $(this).serialize(),
             success: function (response) {
                 
@@ -154,7 +154,7 @@ function eliminar(idrol) {
   $.ajax({
     //Llamamos a la funcion eliminarRol con el id del rol a eliminar
     type: "POST",
-    url: "./accion/eliminarRol.php",
+    url: "../Acciones/rol/eliminarRol.php",
     data: { idrol: idrol },
     success: function (response) {
       var response = jQuery.parseJSON(response);

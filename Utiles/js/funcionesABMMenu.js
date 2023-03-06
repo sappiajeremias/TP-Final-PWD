@@ -6,7 +6,7 @@ $(window).on("load", function () {
 function cargarMenues() {
   $.ajax({
     type: "POST",
-    url: './accion/menurol/listarMenues.php',
+    url: '../Acciones/menurol/listarMenues.php',
     data: null,
     success: function (response) {
       //console.log(response);
@@ -53,7 +53,7 @@ $('#agregarHijo').submit(function (e) {
   e.preventDefault();
   $.ajax({
     type: "POST",
-    url: './accion/menurol/agregarHijo.php',
+    url: '../Acciones/menurol/agregarHijo.php',
     data: $(this).serialize(),
     success: function (response) {
       console.log(response);
@@ -173,7 +173,7 @@ $(document).on("click", ".convertirSimple", function () {
 function cambiarDescripcion(idmenu, descripcion) {
   $.ajax({
     type: "POST",
-    url: "./accion/menurol/menuDescripcion.php",
+    url: "../Acciones/menurol/menuDescripcion.php",
     data: { idmenu: idmenu, descripcion: descripcion },
     success: function (response) {
       console.log(response);
@@ -203,7 +203,7 @@ $('#agregar').submit(function (e) {
   e.preventDefault();
   $.ajax({
     type: "POST",
-    url: './accion/menurol/agregarMenu.php',
+    url: '../Acciones/menurol/agregarMenu.php',
     data: $(this).serialize(),
     success: function (response) {
       console.log(response);
@@ -270,7 +270,7 @@ $(document).on("click", ".eliminar", function () {
 function eliminar(idmenu) {
   $.ajax({
     type: "POST",
-    url: "./accion/menurol/eliminar.php?",
+    url: "../Acciones/menurol/eliminar.php?",
     data: { idmenu: idmenu },
     success: function (response) {
       console.log(response);

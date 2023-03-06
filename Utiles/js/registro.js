@@ -20,7 +20,7 @@ $('#registro').submit(function (e) {
 
     $.ajax({
         type: "POST",
-        url: './accion/registro.php',
+        url: '../Acciones/login/registro.php',
         data: arreglo,
         success: function (response){
             console.log(response);
@@ -33,7 +33,7 @@ $('#registro').submit(function (e) {
                 });
                 dialog.init(function () {
                     setTimeout(function () {
-                        window.location.href = "login.php";
+                        window.location.href = "./login.php";
                     }, 1000);
                 });
             } else {

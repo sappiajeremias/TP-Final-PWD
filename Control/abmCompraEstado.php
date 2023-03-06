@@ -226,6 +226,7 @@ class abmCompraEstado
                 if ($this->verificarStock($datos['idcompra'])) { // SI HAY MODIFICAMOS LA CANTIDAD DE LOS PRODUCTOS Y FINALMENTE SETEAMOS EL NUEVO COMPRAESTADO
                     $objCI->modificarCantidad($datos['idcompra']);
                     $resp = $this->cambiarEstado($datos, $elem);
+                    
                 }
             } else if(($datos['idcompraestadotipo'] == 4) && ($elem->getObjCompraEstadoTipo()->getID() == 2)){ //SI QUIERER CANCELAR UNA COMPRA YA ACEPTADA
                 if ($this->devolverStock($datos['idcompra'])){
@@ -235,7 +236,6 @@ class abmCompraEstado
                 $resp = $this->cambiarEstado($datos, $elem);
             }
         }
-
         return $resp;
     }
 

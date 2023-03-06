@@ -411,7 +411,7 @@ public function crearCarrito($idUser){
                 $respuesta = $objAbmCompraEstado->modificacion($paramEdicion);
             }
             
-        }
+        } 
         return ['idcompra'=>$idCompra, 'respuesta'=>$respuesta];
      }
 
@@ -470,7 +470,5 @@ public function vaciarCarrito($idCarrito){
 }
 
 /* FIN VACIAR CARRITO */
-
-
 
 }

@@ -11,10 +11,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../Home/index.php">Inicio</a>
+                    <a class="nav-link active" aria-current="page" href="../Vista/index.php">Inicio</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="../Home/productos.php">Productos</a>
+                    <a class="nav-link active" aria-current="page" href="../Vista/productos.php">Productos</a>
                 </li>
             </ul>
         

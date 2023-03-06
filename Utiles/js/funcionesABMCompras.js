@@ -8,7 +8,7 @@ function cargarCompras(){
     $.ajax({
         //Llamamos a la funcion cargar compra y las cargamos en un arreglo para mandar a la funcion armarTabla
         type: "POST",
-        url: './accion/compras/listarCompras.php',
+        url: '../Acciones/compras/listarCompras.php',
         data: null,
         success: function (response) {
             var arreglo = [];
@@ -76,7 +76,7 @@ $(document).on('click', '.verProductos', function () {
 
     $.ajax({
         type: "POST",
-        url: './accion/compras/listarProdCompra.php',
+        url: '../Acciones/compras/listarProdCompra.php',
         data: { idcompra: idcompra },
         success: function (response) {
             console.log(response);
@@ -103,7 +103,7 @@ function listaProductos(arreglo, nombre) {
     document.getElementById('oculto').classList.remove('d-none');
     $('#usnombre').append('<i class="fa-regular fa-rectangle-list me-2"></i>Lista Productos Compra de <b><u>' + nombre + '</u></b>');
     $.each(arreglo, function (index, producto) {
-        $('#listaProductos').append('<div class="card mb-3"><div class="row g-0"><div class="col-md-4"><img src="../img/'+producto.imagen+'" width="350" class="img-fluid rounded-start" ></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></div></div></div></div>');
+        $('#listaProductos').append('<div class="card mb-3"><div class="row g-0"><div class="col-md-4"><img src="./img/productos/'+producto.imagen+'" width="350" class="img-fluid rounded-start" ></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></div></div></div></div>');
     });
 };
 
@@ -123,7 +123,7 @@ function cambiarEstado(idcompraestadotipo, idboton) {
 
     $.ajax({
         type: "POST",
-        url: './accion/compras/modificarEstadoCompra.php',
+        url: '../Acciones/compras/modificarEstadoCompra.php',
         data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo: idcompraestadotipo },
         success: function (response) {
             console.log(response);

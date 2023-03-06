@@ -7,7 +7,7 @@ $(window).on("load", function () {
 function cargarCompras(){
     $.ajax({
         type: "POST",
-        url: './accion/compra/listadoCompras.php',
+        url: '../Acciones/compra/listadoCompras.php',
         data: null,
         success: function (response) {
             //console.log(response);
@@ -79,7 +79,7 @@ $(document).on('click', '.verProductos', function () {
 
     $.ajax({
         type: "POST",
-        url: './accion/producto/listadoProds.php',
+        url: '../Acciones/producto/listadoProds.php',
         data: { idcompra: idcompra },
         success: function (response) {
             arreglo = [];
@@ -108,7 +108,7 @@ function listaProductos(arreglo, nombre) {
     $('#usnombre').append('<i class="fa-regular fa-rectangle-list me-2"></i>Lista Productos Compra de <b><u>' + nombre + '</u></b>');
 
     $.each(arreglo, function (index, producto) {
-        $('#listaProductos').append('<li class="list-group-item d-flex justify-content-between align-items-start"><div class="row g-0"><div class="col-md-4"><img src="../img/'+producto.imagen+'"class="img-fluid rounded-start" alt="..."></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p></div></div></div><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></li>');
+        $('#listaProductos').append('<li class="list-group-item d-flex justify-content-between align-items-start"><div class="row g-0"><div class="col-md-4"><img src="./img/productos/'+producto.imagen+'"class="img-fluid rounded-start" alt="..."></div><div class="col-md-8"><div class="card-body"><h5 class="card-title">' + producto.pronombre + '</h5><p class="card-text">' + producto.prodetalle + '</p><p class="card-text"><small class="text-muted">$ ' + producto.precio + '</small></p></div></div></div><h5><span class="badge text-bg-warning rounded-pill">Cantidad: ' + producto.procantstock + '</span></h5></li>');
     });
 };
 
@@ -145,7 +145,7 @@ function cancelarCompra(idcompraestadotipo,idboton) {
             if (result) {
                 $.ajax({
                     type: "POST",
-                    url: './accion/compra/cancelarCompra.php',
+                    url: '../Acciones/compra/cancelarCompra.php',
                     data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo:idcompraestadotipo},
                     success: function (response) {
                         console.log(response);

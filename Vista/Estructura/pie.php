@@ -26,22 +26,22 @@
             </div>
         </div>
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-            Programación Web Dinámica - 2022 <img src="../img/logo.png" class="mx-2" alt="FAI" title="FAI" width="40" height="40"> Universidad Nacional del Comahue
+            Programación Web Dinámica - 2022 <img src="./img/logo.png" class="mx-2" alt="FAI" title="FAI" width="40" height="40"> Universidad Nacional del Comahue
         </div>
     </footer>
 </section>
 
 <!-- BOOTSTRAP -->
-<script src="..\..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
+<script src="..\Utiles\bootstrap\js\bootstrap.bundle.min.js"></script>
 <!-- BOOTSTRAP VALIDATOR -->
-<script src="..\..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
-<script src="..\..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
+<script src="..\Utiles\bootstrap\js\bootstrapValidator.min.js"></script>
+<script src="..\Utiles\bootstrap\js\mensajesBVes_ES.js"></script>
 <!-- BOOTBOXJS LIBRERIA NOTIFICACIONES -->
-<script type="text/javascript" src="../../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
+<script type="text/javascript" src="../Utiles/bootboxjs-5.5.2/bootbox.min.js"></script>
 <!-- FONTAWESOME LIBRERIA ICONOS -->
-<script src="../../Utiles/Iconos/FontAwesomeKit.js"></script>
+<script src="../Utiles/Iconos/FontAwesomeKit.js"></script>
 <!--VALIDADOR -->
-<script src="..\..\Utiles\validaciones.js"></script>
+<script src="../Utiles/js/validaciones.js"></script>
 </body>
 <!-- FIN PIE -->
 

@@ -26,11 +26,6 @@ Jeremías Sappia - jeremiassappia@gmail.com
 
 Roni Broilo - ronniebroilo@gmail.com
 
-<!-- ABOUT THE PROJECT -->
-## La Casa de Las Plantas
-
-<img src="./Vista/img/invernadero.png" alt="Logo">
-
 ## Objetivos:
 El objetivo del trabajo es integrar los conceptos vistos en la materia. Se espera que el alumno implemente una tienda On-Line que tendrá 2 vistas: una vista “pública” y otra “privada”.
 

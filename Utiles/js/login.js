@@ -3,9 +3,6 @@ $("#login").submit(function (e) {
   var inputs = $("#login :input");
 
   if (inputs[1].value != "" || inputs[2].value != "") {
-    console.log(inputs[1].value);
-    console.log(inputs[2].value);
-
     var uspass = inputs[2].value;
     var pass = hex_md5(uspass);
 
@@ -19,7 +16,7 @@ $("#login").submit(function (e) {
 
     $.ajax({
       type: "POST",
-      url: "./accion/ingresar.php",
+      url: "../Acciones/login/ingresar.php",
       data: arreglo,
       success: function (response) {
         console.log(response);
@@ -33,8 +30,7 @@ $("#login").submit(function (e) {
           });
           dialog.init(function () {
             setTimeout(function () {
-              window.location.href =
-                "../Home/index.php?mensaje=Sesión iniciada correctamente!";
+              window.location.href = "./index.php?mensaje=Sesión iniciada correctamente!";
             }, 750);
           });
         } else {

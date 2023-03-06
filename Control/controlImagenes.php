@@ -4,10 +4,10 @@ class controlImagenes
     public function cargarImagen($nombreTabla, $imagen, $nombreCarpeta)
     {
         $id = time().uniqid(rand());
-        $nombreArchivoImagen = $nombreTabla . $id . ".jpeg";
+        $nombreArchivoImagen = $nombreTabla . $id . ".png";
 
         $respuesta = false;
-        if(imagejpeg(imagecreatefromstring(file_get_contents($imagen['tmp_name'])), $GLOBALS['IMGS'] . $nombreCarpeta . $nombreArchivoImagen)){
+        if(imagepng(imagecreatefromstring(file_get_contents($imagen['tmp_name'])), $GLOBALS['IMGS'] . $nombreCarpeta . $nombreArchivoImagen)){
             $respuesta = true;
         }
 

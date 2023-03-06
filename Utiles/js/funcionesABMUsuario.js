@@ -6,7 +6,7 @@ $(window).on("load", function () {
 function cargarUsuarios() {
     $.ajax({
         type: "POST",
-        url: './accion/usuario/listarUsuarios.php',
+        url: '../Acciones/usuario/listarUsuarios.php',
         data: null,
         success: function (response) {
             //console.log(response)
@@ -111,7 +111,7 @@ function agregar(arreglo) {
     $.ajax({
         //Llamamos al metodo que agrega al usuario e indicamos al administrador si tuvo exito o no
         type: "POST",
-        url: './accion/usuario/altaUsuario.php',
+        url: '../Acciones/usuario/altaUsuario.php',
         data: arreglo,
         success: function (response) {
             console.log(response);
@@ -189,7 +189,7 @@ $(document).on('click', '#cancelar', function () {
 function editarAgregar(arreglo) {
     $.ajax({
         type: "POST",
-        url: './accion/usuario/editarUsuario.php',
+        url: '../Acciones/usuario/editarUsuario.php',
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -272,7 +272,7 @@ function editarEliminar(arreglo) {
 
     $.ajax({
         type: "POST",
-        url: './accion/usuario/editarUsuarioEliminar.php',
+        url: '../Acciones/usuario/editarUsuarioEliminar.php',
         data: arreglo,
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -336,7 +336,7 @@ function deshabilitar(idusuario) {
     $.ajax({
         type: "POST",
         //Llamamos a la funcion deshabilitarUsuario con el arreglo del id del usuario con la accion a tomar.
-        url: './accion/usuario/deshabilitarUsuario.php',
+        url: '../Acciones/usuario/deshabilitarUsuario.php',
         data: { idusuario: idusuario, accion: 'deshabilitar'},
         success: function (response) {
             console.log(response)
@@ -403,7 +403,7 @@ function habilitar(idusuario) {
     $.ajax({
         type: "POST",
         //Llamamos a la funcion habilitarUsuario con el arreglo del id del usuario con la accion a tomar.
-        url: './accion/usuario/deshabilitarUsuario.php',
+        url: '../Acciones/usuario/deshabilitarUsuario.php',
         data: {idusuario: idusuario, accion: 'habilitar'},
         success: function (response) {
             console.log(response);

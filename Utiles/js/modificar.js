@@ -19,7 +19,7 @@ $('#modificar').submit(function (e) {
 
         $.ajax({
             type: "POST",
-            url: './accion/actualizar.php',
+            url: '../Acciones/usuario/actualizar.php',
             data: arreglo,
             success: function (response) {
                 console.log(response);
@@ -32,7 +32,7 @@ $('#modificar').submit(function (e) {
                     });
                     dialog.init(function () {
                         setTimeout(function () {
-                            window.location.href = "../Login/login.php";
+                            window.location.href = "./login.php";
                         }, 1000);
                     });
                 } else {

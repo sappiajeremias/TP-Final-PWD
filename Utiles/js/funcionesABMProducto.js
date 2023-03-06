@@ -6,7 +6,7 @@ $(window).on("load", function () {
 function cargarProductos() {
     $.ajax({
         type: "POST",
-        url: './accion/producto/listarProductos.php',
+        url: '../Acciones/producto/listarProductos.php',
         data: null,
         success: function (response) {
             var arreglo = [];
@@ -31,7 +31,7 @@ function armarTabla(arreglo) {
             var boton = '<a href="#" class="habilitar me-2"><button class="btn btn-outline-success"><i class="fa-solid fa-square-check"></i></button></a>';
         }
 
-        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="../img/productos/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><button type="button" class="editarButton btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#editar-modal-producto"><i class="fa-solid fa-file-pen"></i></button>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
+        $('#tablaProductos > tbody:last-child').append('<tr><td>' + producto.idproducto + '</td><td>' + producto.pronombre + '</td><td>' + producto.prodetalle + '</td><td>' + producto.procantstock + '</td><td>' + producto.precio + '</td><td><img src="./img/productos/' + producto.imagen + '" class="rounded float-start" width="150" height="150"></td><td>' + producto.deshabilitado + '</td><td><button type="button" class="editarButton btn btn-outline-warning mx-2" data-bs-toggle="modal" data-bs-target="#editar-modal-producto"><i class="fa-solid fa-file-pen"></i></button>' + boton + '<a href="#" class="eliminar"><button class="btn btn-outline-danger"><i class="fa-solid fa-trash"></i></button></a></td></tr>');
     });
 }
 
@@ -41,7 +41,7 @@ $('#agregar').submit(function (e) {
     formData = new FormData(this);
     $.ajax({
         type: "POST",
-        url: './accion/producto/altaProd.php',
+        url: '../Acciones/producto/altaProd.php',
         data: formData,
         processData: false,
         contentType: false,
@@ -110,7 +110,7 @@ $('#editarForm').submit(function (e) {
 
     $.ajax({
         type: "POST",
-        url: './accion/producto/editarProd.php',
+        url: '../Acciones/producto/editarProd.php',
         data: $(this).serialize(),
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -156,7 +156,7 @@ $('#editarImagen').submit(function (e) {
     formData = new FormData(this);
     $.ajax({
         type: "POST",
-        url: './accion/producto/editarImagen.php',
+        url: '../Acciones/producto/editarImagen.php',
         data: formData,
         processData: false,
         contentType: false,
@@ -223,7 +223,7 @@ function eliminar(idproducto) {
 
     $.ajax({
         type: "POST",
-        url: './accion/producto/eliminarProducto.php',
+        url: '../Acciones/producto/eliminarProducto.php',
         data: { idproducto: idproducto },
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -287,7 +287,7 @@ $(document).on('click', '.deshabilitar', function () {
 function deshabilitar(idproducto) {
     $.ajax({
         type: "POST",
-        url: './accion/producto/deshabilitarProducto.php',
+        url: '../Acciones/producto/deshabilitarProducto.php',
         data: { idproducto: idproducto, accion: 'deshabilitar' },
         success: function (response) {
             var response = jQuery.parseJSON(response);
@@ -351,7 +351,7 @@ function habilitar(idproducto) {
 
     $.ajax({
         type: "POST",
-        url: './accion/producto/deshabilitarProducto.php',
+        url: '../Acciones/producto/deshabilitarProducto.php',
         data: { idproducto: idproducto, accion: 'habilitar' },
         success: function (response) {
             var response = jQuery.parseJSON(response);
