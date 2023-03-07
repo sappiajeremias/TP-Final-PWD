@@ -3,7 +3,7 @@ $.ajax({
     url: "../Acciones/login/accionMenu.php",
     data: null,
     success: function (response) {
-        //console.log(response);
+        console.log(response);
         var response = jQuery.parseJSON(response);
         if (Object.keys(response).length > 0) {
             armarPermisos(response.permisos);
@@ -116,6 +116,7 @@ function armarNoLogin(){
 // CAMBIAR ROL 
 $(document).on('click', '.cambiarRol', function () {
     var descripcion = $(this).text();
+    console.log(descripcion)
     $.ajax({
         type: "POST",
         url: '../Acciones/login/cambiarRol.php',

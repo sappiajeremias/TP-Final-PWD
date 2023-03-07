@@ -14,7 +14,6 @@ if (!$sesion->verificarPermiso('./tablaMenuRoles.php')) {
         <!-- INCLUIMOS MODALES -->
         <?php include './Estructura/Modales/Menu-rol/modal_add_menu.php'; ?>
         <?php include './Estructura/Modales/Menu-rol/modal_add_hijo.php'; ?>
-        <?php include './Estructura/Modales/Menu-rol/modal_editar_menu.php'; ?>
 
         <div class="container my-2">
             <div class="table-responsive">

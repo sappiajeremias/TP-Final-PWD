@@ -24,8 +24,6 @@ function cargarUsuarios() {
 function armarTabla(arreglo) {
     // VACIAMOS LA TABLA
     $('#tablaUsuarios > tbody').empty();
-    // GENERAMOS EL FORM PARA AGREGAR UN USUARIO
-    $('#tablaUsuarios > tbody').append('<tr class="table-active"><td><input class="form-control" type="number" placeholder="#" readonly></td><td><input class="form-control" type="text" placeholder="Nombre"></td><td><input class="form-control" type="text" placeholder="Mail"></td><td><input class="form-control" type="text" placeholder="null" readonly></td><td><select class="form-control"><option value=1>Admin</option><option value=3>Deposito</option><option value=3>Cliente</option></select></td><td><a href="#" class="agregar"><button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus me-2"></i>Agregar</button></a></td></tr>');
     // LISTAMOS LOS USUARIOS
 
     $.each(arreglo, function (index, usuario) {
@@ -59,7 +57,6 @@ $(document).on('click', '.agregar', function () {
     var verificador = true;
 
     $.each(arregloVerificador, function (index, value) {
-        console.log(value)
         if (value === '') {
             verificador = false;
         }
@@ -76,8 +73,6 @@ $(document).on('click', '.agregar', function () {
             callback: function (result) {
                 if (result != '') {
                     result = hex_md5(result).toString();
-                    
-                    
                     arreglo = {
                         'usnombre': nombre,
                         'usmail': mail,
@@ -114,7 +109,7 @@ function agregar(arreglo) {
         url: '../Acciones/usuario/altaUsuario.php',
         data: arreglo,
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             var response = jQuery.parseJSON(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
@@ -144,39 +139,37 @@ function agregar(arreglo) {
 $(document).on('click', '.agregarRol', function () { //MUESTRA EL FORMULARIO Y PRECARGA LOS DATOS
     var fila = $(this).closest('tr');
     var idusuario = fila[0].children[0].innerHTML;
-    bootbox.prompt({
-        title: 'Agregar roles a ID: ' + idusuario,
-        closeButton: false,
-        buttons: {
-            cancel: {
-                className: 'btn btn-outline-danger',
-                label: '<i class="fa fa-times"></i> Cancelar'
-            },
-            confirm: {
-                className: 'btn btn-outline-success',
-                label: '<i class="fa fa-check"></i> Confirmar'
-            }
-        },
-        //El input que va a indicar al administrador las opciones de roles disponibles
-        inputType: 'select',
-        inputOptions: [
-            {
-                text: 'Admin',
-                value: 1
-            },
-            {
-                text: 'Deposito',
-                value: 2
-            },
-            {
-                text: 'Cliente',
-                value: 3
-            }
-        ],
-        //Guardamos la opcion elegida y la enviamos a la funcion
-        callback: function (result) {
-            let arreglo = { 'idusuario': idusuario, 'idrol': result };
-            editarAgregar(arreglo);
+
+    $.ajax({
+        //Llamamos al metodo que agrega al usuario e indicamos al administrador si tuvo exito o no
+        type: "POST",
+        url: '../Acciones/usuario/listaRolesUsuario.php',
+        data: null,
+        success: function (response) {
+            //console.log(response);
+            var response = jQuery.parseJSON(response);
+            bootbox.prompt({
+                title: 'Agregar roles a ID: ' + idusuario,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                        className: 'btn btn-outline-danger',
+                        label: '<i class="fa fa-times"></i> Cancelar'
+                    },
+                    confirm: {
+                        className: 'btn btn-outline-success',
+                        label: '<i class="fa fa-check"></i> Confirmar'
+                    }
+                },
+                //El input que va a indicar al administrador las opciones de roles disponibles
+                inputType: 'select',
+                inputOptions: response,
+                //Guardamos la opcion elegida y la enviamos a la funcion
+                callback: function (result) {
+                    let arreglo = { 'idusuario': idusuario, 'idrol': result };
+                    editarAgregar(arreglo);
+                }
+            });
         }
     });
 });
@@ -192,8 +185,8 @@ function editarAgregar(arreglo) {
         url: '../Acciones/usuario/editarUsuario.php',
         data: arreglo,
         success: function (response) {
+            //console.log(response);
             var response = jQuery.parseJSON(response);
-            console.log(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
@@ -222,42 +215,36 @@ $(document).on('click', '.eliminarRol', function () {
     var fila = $(this).closest('tr');
     var idusuario = fila[0].children[0].innerHTML;
 
-    bootbox.prompt({
-        title: 'Eliminar roles a ID: ' + idusuario,
-        closeButton: false,
-        buttons: {
-            cancel: {
-                className: 'btn btn-outline-danger',
-                label: '<i class="fa fa-times"></i> Cancelar'
-            },
-            confirm: {
-                className: 'btn btn-outline-success',
-                label: '<i class="fa fa-check"></i> Confirmar'
-            }
-        },
-        inputType: 'select',
-        inputOptions: [
-            {
-                text: 'Admin',
-                value: 1
-            },
-            {
-                text: 'Deposito',
-                value: 2
-            },
-            {
-                text: 'Cliente',
-                value: 3
-            }
-        ],
-        //Realiza los mismos pasos que el agregado.
-        callback: function (result) {
-            if(result){
-                let arreglo = { 'idusuario': idusuario, 'idrol': result };
-                editarEliminar(arreglo);
-            } else {
-                bootbox.hideAll();
-            }
+    $.ajax({
+        //Llamamos al metodo que agrega al usuario e indicamos al administrador si tuvo exito o no
+        type: "POST",
+        url: '../Acciones/usuario/listaRolesUsuario.php',
+        data: {idusuario: idusuario},
+        success: function (response) {
+            //console.log(response);
+            var response = jQuery.parseJSON(response);
+            bootbox.prompt({
+                title: 'Agregar roles a ID: ' + idusuario,
+                closeButton: false,
+                buttons: {
+                    cancel: {
+                        className: 'btn btn-outline-danger',
+                        label: '<i class="fa fa-times"></i> Cancelar'
+                    },
+                    confirm: {
+                        className: 'btn btn-outline-success',
+                        label: '<i class="fa fa-check"></i> Confirmar'
+                    }
+                },
+                //El input que va a indicar al administrador las opciones de roles disponibles
+                inputType: 'select',
+                inputOptions: response,
+                //Guardamos la opcion elegida y la enviamos a la funcion
+                callback: function (result) {
+                    let arreglo = { 'idusuario': idusuario, 'idrol': result };
+                    editarEliminar(arreglo);
+                }
+            });
         }
     });
 });
@@ -339,9 +326,8 @@ function deshabilitar(idusuario) {
         url: '../Acciones/usuario/deshabilitarUsuario.php',
         data: { idusuario: idusuario, accion: 'deshabilitar'},
         success: function (response) {
-            console.log(response)
+            //console.log(response)
             var response = jQuery.parseJSON(response);
-            console.log(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({
@@ -406,9 +392,8 @@ function habilitar(idusuario) {
         url: '../Acciones/usuario/deshabilitarUsuario.php',
         data: {idusuario: idusuario, accion: 'habilitar'},
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             var response = jQuery.parseJSON(response);
-            console.log(response);
             if (response) {
                 // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
                 var dialog = bootbox.dialog({

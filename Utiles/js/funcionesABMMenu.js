@@ -134,35 +134,35 @@ $(document).on("click", ".convertirSimple", function () {
     inputType: 'select',
     inputOptions: [{
       text: 'Tabla Menu Roles',
-      value: '../Admin/tablaMenuRoles.php'
+      value: './tablaMenuRoles.php'
     },
     {
       text: 'Tabla Roles',
-      value: '../Admin/tablaRoles.php'
+      value: './tablaRoles.php'
     },
     {
       text: 'Tabla Usuarios',
-      value: '../Admin/tablaUsuarios.php'
+      value: './tablaUsuarios.php'
     },
     {
       text: 'Ver Carrito',
-      value: '../Cliente/carrito.php'
+      value: './carrito.php'
     },
     {
       text: 'Ver Mis Compras',
-      value: '../Cliente/listaCompras.php'
+      value: './listaCompras.php'
     },
     {
       text: 'Ver Mi Perfil',
-      value: '../Cliente/modificarPerfil.php'
+      value: './modificarPerfil.php'
     },
     {
       text: 'Tabla Compras',
-      value: '../Deposito/tablaCompras.php'
+      value: './tablaCompras.php'
     },
     {
       text: 'Tabla Productos',
-      value: '../Deposito/tablaProductos.php'
+      value: './tablaProductos.php'
     }],
     callback: function (result) {
       cambiarDescripcion(idmenu, result);
@@ -296,13 +296,11 @@ function eliminar(idmenu) {
 }
 /*
 //################################### DESHABILITAR MENÚ ################################
-
 $(document).on("click", ".deshabilitar", function () {
   var fila = $(this).closest("tr");
   var idmenu = fila[0].children[0].innerHTML;
   var menombre = fila[0].children[1].innerHTML;
   var idpadre = fila[0].children[3].innerHTML;
-
   if (idpadre === "") {
     bootbox.alert({
       message: "No puedes deshabilitar menu padre!",
@@ -338,7 +336,6 @@ $(document).on("click", ".deshabilitar", function () {
     });
   }
 });
-
 function eliminar(idmenu) {
   $.ajax({
     type: "POST",
@@ -365,120 +362,4 @@ function eliminar(idmenu) {
     },
   });
 }
-
-//################################### AGREGAR MENÚ ################################
-function agregar(array) {
-  $.ajax({
-    type: "POST",
-    url: "./accionMenu/agregarMenu.php",
-    data: array,
-    success: function (response) {
-      console.log(response);
-      var response = jQuery.parseJSON(response);
-
-      if (response) {
-        // CARTEL LIBRERIA, ESPERA 1,5 SEG Y LUEGO HACE EL RELOAD
-        var dialog = bootbox.dialog({
-          message:
-            '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Cargando Producto...</div>',
-          closeButton: false,
-        });
-        dialog.init(function () {
-          setTimeout(function () {
-            location.reload();
-          }, 1500);
-        });
-      } else {
-        bootbox.alert({
-          message: "Respuesta: No Se Pudo",
-          size: "small",
-          closeButton: false,
-        });
-      }
-    },
-  });
-}
-
-// MODIFICAR MENU
-
-$(document).on("click", ".editar", function () {
-  document.getElementById("editarMenu").classList.remove("d-none");
-
-  var fila = $(this).closest("tr");
-  var idMenu, menombre, medescripcion, idpadre;
-  /*  $.each(fila, function (index, value) { 
-    console.log(value);     
-  }); 
-  idMenu = fila[0].children[0].innerHTML;
-  menombre = fila[0].children[1].innerHTML;
-  medescripcion = fila[0].children[2].innerHTML;
-  idpadre = fila[0].children[3].innerHTML;
-  rol = fila[0].children[4].innerHTML;
-  medeshabilitado = fila[0].children[5].innerHTML;
-
-  var i = 0;
-  var bool = true;
-  var form = document.getElementById("editarM");
-  var inputs = form.getElementsByTagName("input");
-  var option = form.getElementsByTagName("option");
-
-  if (idpadre !== "") {
-    document.getElementById("padre").style.display = "block";
-    document.getElementById("selecRol").style.display = "none";
-  } else {
-    document.getElementById("selecRol").style.display = "block";
-    document.getElementById("padre").style.display = "none";
-  }
-
-  while (bool && i < option.length) {
-    if (option[i].text == rol) {
-      option[i].setAttribute("selected", true);
-    }
-    i++;
-  }
-
-  document.getElementById("idmenu").innerHTML = idMenu;
-
-  inputs[0].value = idMenu;
-  inputs[1].value = menombre;
-  inputs[2].value = medescripcion;
-  inputs[3].value = medeshabilitado;
-  inputs[4].value = idpadre;
-});
-
-$(document).on("click", "#cancelar", function () {
-  document.getElementById("editarMenu").classList.add("d-none");
-});
-
-$(document).ready(function () {
-  $("form").submit(function (e) {
-    e.preventDefault();
-    console.log($(this).serialize());
-
-    $.ajax({
-      type: "POST",
-      url: "./accionMenu/editarMenu.php",
-      data: $(this).serialize(),
-
-      success: function (response) {
-        console.log(response);
-        var response = jQuery.parseJSON(response);
-
-        if (response) {
-          var dialog = bootbox.dialog({
-            message:
-              '<div class="text-center"><i class="fa fa-spin fa-spinner me-2"></i>Editando Producto...</div>',
-            closeButton: false,
-          });
-          dialog.init(function () {
-            setTimeout(function () {
-              location.reload();
-            }, 1500);
-          });
-        } else {
-          console.log(response);
-        }
-      },
-    });
-  });
-});*/
+*/

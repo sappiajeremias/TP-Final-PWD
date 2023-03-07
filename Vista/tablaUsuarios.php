@@ -11,7 +11,6 @@ if (!$sesion->verificarPermiso('./tablaUsuarios.php')) {
     $listaRoles = $objRol->buscar(null);
     if (count($listaUsuario) > 0) {
 ?>
-<script src="../Utiles/js/md5.js"></script>
         <div class="container my-2">
             <div class="table-responsive">
                 <table class="table table-hover caption-top align-middle text-center" id="tablaUsuarios">
@@ -25,6 +24,24 @@ if (!$sesion->verificarPermiso('./tablaUsuarios.php')) {
                             <th width="125">Roles</th>
                             <th width="425">Acciones</th>
                         </tr>
+                        <tr class="table-active">
+                            <td><input class="form-control" type="number" placeholder="#" readonly></td>
+                            <td><input class="form-control" type="text" placeholder="Nombre"></td>
+                            <td><input class="form-control" type="text" placeholder="Mail"></td>
+                            <td><input class="form-control" type="text" placeholder="null" readonly></td>
+                            <td>
+                                <select class="form-control">
+                                    <?php foreach($listaRoles as $rol){ ?>
+                                    <option value=<?php echo $rol->getID() ?>><?php echo $rol->getRolDescripcion() ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                            <td>
+                                <a href="#" class="agregar">
+                                    <button class="btn btn-outline-success"><i class="fa-solid fa-folder-plus me-2"></i>Agregar</button>
+                                </a>
+                            </td>
+                        </tr>
                     </thead>
                     <tbody class="table-group-divider">
                         <!-- AQUI SE AÑADEN LOS USUARIOS DINÁMICAMENTE -->
@@ -36,6 +53,7 @@ if (!$sesion->verificarPermiso('./tablaUsuarios.php')) {
         </div>
 
         <script src="../Utiles/js/funcionesABMUsuario.js"></script>
+        <script src="../Utiles/js/md5.js"></script>
     <?php } else {
     ?>
         <div class="container p-2">

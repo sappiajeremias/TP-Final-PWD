@@ -14,14 +14,14 @@
                         <label for="medescripcion" class="form-label">Seleccionar Permiso:</label>
                         <select class="form-select" id="idrol" name="medescripcion" aria-label="Default select example">
                             <option selected disabled>Elegir...</option>
-                            <option value="../Admin/tablaMenuRoles.php">Tabla Menu-Roles</option>
-                            <option value="../Admin/tablaRoles.php">Tabla Roles</option>
-                            <option value="../Admin/tablaUsuarios.php">Tabla Usuarios</option>
-                            <option value="../Cliente/carrito.php">Ver Carrito</option>
-                            <option value="../Cliente/listaCompras.php">Ver Compras</option>
-                            <option value="../Cliente/modificarPerfil.php">Ver Perfil </option>
-                            <option value="../Deposito/tablaCompras.php">Tabla Compras</option>
-                            <option value="../Deposito/tablaProductos.php">Tabla Productos</option>
+                            <option value="./tablaMenuRoles.php">Tabla Menu-Roles</option>
+                            <option value="./tablaRoles.php">Tabla Roles</option>
+                            <option value="./tablaUsuarios.php">Tabla Usuarios</option>
+                            <option value="./carrito.php">Ver Carrito</option>
+                            <option value="./listaCompras.php">Ver Compras</option>
+                            <option value="./modificarPerfil.php">Ver Perfil </option>
+                            <option value="./tablaCompras.php">Tabla Compras</option>
+                            <option value="./tablaProductos.php">Tabla Productos</option>
                         </select>
                     </div>
                     <div class="form-group col-md-12">

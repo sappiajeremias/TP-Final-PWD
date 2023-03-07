@@ -281,17 +281,7 @@ class abmUsuario
                 $roles = '';
 
                 foreach ($rolesUs as $rolActual) {
-                    switch ($rolActual->getObjRol()->getRolDescripcion()) {
-                        case 'admin':
-                            $roles .= 'admin ';
-                            break;
-                        case 'deposito':
-                            $roles .= 'deposito ';
-                            break;
-                        case 'cliente':
-                            $roles .= 'cliente';
-                            break;
-                    }
+                    $roles.= $rolActual->getObjRol()->getRolDescripcion()." ";
                 }
 
                 $nuevoElem = [
@@ -383,5 +373,34 @@ class abmUsuario
         
         } 
         return $arreglo_salida;
+    }
+
+    public function traerRoles($data){
+        $arreglo = [];
+        if (!empty($data['idusuario'])){
+            $abmUR = new abmUsuarioRol();
+            $list = $abmUR->buscar(['idusuario'=>$data['idusuario']]);
+            foreach ($list as $urActual){
+                $item = [
+                    'text' => $urActual->getObjRol()->getRolDescripcion(),
+                    'value' => $urActual->getObjRol()->getID()
+                ];
+    
+                array_push($arreglo, $item);
+            }
+        } else {
+            $abmRol = new abmRol();
+            $list = $abmRol->buscar(null);
+            foreach ($list as $rol){
+                $item = [
+                    'text' => $rol->getRolDescripcion(),
+                    'value' => $rol->getID()
+                ];
+    
+                array_push($arreglo, $item);
+            }
+        }
+
+        return $arreglo;
     }
 }
