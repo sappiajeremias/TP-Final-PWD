@@ -3,26 +3,27 @@
 class abmCompra
 {
 
-    public function abm($datos){
-        $resp=false;
-        if($datos['action']== 'eliminar'){
-            if($this->baja($datos)){
-                $resp=true;
+    public function abm($datos)
+    {
+        $resp = false;
+        if ($datos['action'] == 'eliminar') {
+            if ($this->baja($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'modificar'){
-            if($this->modificacion($datos)){
-                $resp=true;
+        if ($datos['action'] == 'modificar') {
+            if ($this->modificacion($datos)) {
+                $resp = true;
             }
         }
-        if($datos['action']== 'alta'){
-            if($this->alta($datos)){
-                $resp=true;
+        if ($datos['action'] == 'alta') {
+            if ($this->alta($datos)) {
+                $resp = true;
             }
         }
         return $resp;
     }
-    
+
     /**
      * Espera como parametro un arreglo asociativo donde las claves coinciden
      * con los nombres de las variables instancias del objeto
@@ -35,8 +36,9 @@ class abmCompra
         $objUsuario->setID($param['objusuario']);
         $objUsuario->cargar();
         $obj = null;
-        if (array_key_exists('idcompra', $param) &&
-            array_key_exists('cofecha', $param)&&
+        if (
+            array_key_exists('idcompra', $param) &&
+            array_key_exists('cofecha', $param) &&
             array_key_exists('objusuario', $param)
         ) {
             $obj = new compra();
@@ -49,7 +51,7 @@ class abmCompra
         $obj = null;
         if (
             array_key_exists('cofecha', $param) &&
-            array_key_exists('idusuario', $param) 
+            array_key_exists('idusuario', $param)
         ) {
             $objusuario = new usuario();
 
@@ -61,7 +63,6 @@ class abmCompra
             $obj->setearSinID($param['cofecha'], $objusuario);
         }
         return $obj;
-        
     }
 
     /**
@@ -104,7 +105,7 @@ class abmCompra
         // $param['idrol'] =null;
         $objcompra = $this->cargarObjeto($param);
         // verEstructura($Objrol);
-        if ($objcompra!=null and $objcompra->insertar()) {
+        if ($objcompra != null and $objcompra->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -113,9 +114,9 @@ class abmCompra
     public function altaSinID($param)
     {
         $resp = false;
-       
+
         $objCompra = $this->cargarObjetoSinID($param);
-        if ($objCompra!=null and $objCompra->insertar()) {
+        if ($objCompra != null and $objCompra->insertar()) {
             $resp = true;
         }
         return $resp;
@@ -131,7 +132,7 @@ class abmCompra
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompra = $this->cargarObjetoConClave($param);
-            if ($objcompra!=null and $objcompra->eliminar()) {
+            if ($objcompra != null and $objcompra->eliminar()) {
                 $resp = true;
             }
         }
@@ -151,7 +152,7 @@ class abmCompra
         $resp = false;
         if ($this->seteadosCamposClaves($param)) {
             $objcompra = $this->cargarObjeto($param);
-            if ($objcompra!=null and $objcompra->modificar()) {
+            if ($objcompra != null and $objcompra->modificar()) {
                 $resp = true;
             }
         }
@@ -166,15 +167,15 @@ class abmCompra
     public function buscar($param)
     {
         $where = " true ";
-        if ($param<>null) {
+        if ($param <> null) {
             if (isset($param['idcompra'])) {
-                $where.=" and idcompra ='".$param['idcompra']."'";
+                $where .= " and idcompra ='" . $param['idcompra'] . "'";
             }
             if (isset($param['cofecha'])) {
-                $where.=" and cofecha ='".$param['cofecha']."'";
+                $where .= " and cofecha ='" . $param['cofecha'] . "'";
             }
             if (isset($param['idusuario'])) {
-                $where.=" and idusuario ='".$param['idusuario']."'";
+                $where .= " and idusuario ='" . $param['idusuario'] . "'";
             }
         }
         $objC =  new compra();
@@ -198,113 +199,114 @@ class abmCompra
             $respuesta = $this->verificarStockProd($carrito, $data);
             if ($respuesta) {
                 $respuesta = $this->sumarProdCarrito($carrito, $data);
-            } 
+            }
         } else { //si el carrito no existe lo creo
             $carritoNuevo = $this->crearCarrito($idUserLogueado);
             if ($carritoNuevo <> null) {
                 //y agrego el producto
                 $respuesta = $this->sumarProdCarrito($carritoNuevo, $data);
-            } 
-        }   
+            }
+        }
 
         return $respuesta;
-        
     }
 
 
     public function sumarProdCarrito($objCompraCarrito, $data)
     {
-    //Agrega el producto con cantidad 1 si no existe
-    //Si el producto existe, le suma 1 a su cantidad
-    $respuesta=false;
-    $objAbmCompraItem = new abmCompraItem();
-    $idCompra = $objCompraCarrito->getID();
-    $param = array(
-        'idproducto' => $data['idproducto'],
-        'idcompra' => $idCompra
-    );
-    $listaCompraItem = $objAbmCompraItem->buscar($param);
-    if (count($listaCompraItem) > 0) { //si existe el producto ya en el carrito solo lo seteo
-        $objCompraItem = $listaCompraItem[0];
-        $idCI = $objCompraItem->getID();
-        $cantidadCI = $objCompraItem->getCiCantidad();
-        $nuevaCantCI = $cantidadCI + 1;
-        $paramCI = array(
-            'idcompraitem' => $idCI,
+        //Agrega el producto con cantidad 1 si no existe
+        //Si el producto existe, le suma 1 a su cantidad
+        $respuesta = false;
+        $objAbmCompraItem = new abmCompraItem();
+        $idCompra = $objCompraCarrito->getID();
+        $param = array(
             'idproducto' => $data['idproducto'],
-            'idcompra' => $idCompra,
-            'cicantidad' => $nuevaCantCI
+            'idcompra' => $idCompra
         );
-        //print_r($paramCI);
-        $respuesta=$objAbmCompraItem->modificacion($paramCI);
-        if(!$respuesta){
-            echo "no se modifico";
+        $listaCompraItem = $objAbmCompraItem->buscar($param);
+        if (count($listaCompraItem) > 0) { //si existe el producto ya en el carrito solo lo seteo
+            $objCompraItem = $listaCompraItem[0];
+            $idCI = $objCompraItem->getID();
+            $cantidadCI = $objCompraItem->getCiCantidad();
+            $nuevaCantCI = $cantidadCI + 1;
+            $paramCI = array(
+                'idcompraitem' => $idCI,
+                'idproducto' => $data['idproducto'],
+                'idcompra' => $idCompra,
+                'cicantidad' => $nuevaCantCI
+            );
+            //print_r($paramCI);
+            $respuesta = $objAbmCompraItem->modificacion($paramCI);
+            if (!$respuesta) {
+                echo "no se modifico";
+            }
+        } else { //si no lo creo y lo uno con el carrito
+            $data['idcompra'] = $idCompra;
+            $respuesta = $objAbmCompraItem->altaSinID($data);
         }
-    }else{//si no lo creo y lo uno con el carrito
-        $data['idcompra'] = $idCompra;
-        $respuesta = $objAbmCompraItem->altaSinID($data);
+        return $respuesta;
     }
-    return $respuesta;
-}
 
-public function crearCarrito($idUser){
-    date_default_timezone_set('America/Argentina/Buenos_Aires');
-    $carrito=null;
-    $objAbmCompra = new abmCompra();
-    $param= array(
-        'cofecha'=>date('Y-m-d H:i:s'),
-        'idusuario'=>$idUser
-    );
-    $respuesta=$this->altaSinID($param);
-    if(!$respuesta){
-        echo "no se creo el carrito";
-    }
-    if($respuesta){//si se creo el carrito creo el estadocompra
-        $paramIDUsuario['idusuario']=$idUser;
-        $objAbmCompraEstado= new abmCompraEstado();
-        $listaCompras=$this->buscar($paramIDUsuario);
-        $posCompra=count($listaCompras)-1;//la ultima compra que cree es el carrito
-        $idCompra=$listaCompras[$posCompra]->getID();
-        $paramCompraEstado= array(
-            'idcompra'=>$idCompra, 
-            'idcompraestadotipo'=>5, 
-            'cefechaini'=>date('Y-m-d H:i:s'),//ver lo de la hora actual
-            'cefechafin'=>'0000-00-00 00:00:00');// ver el null
-        $respuesta=$objAbmCompraEstado->altaSinID($paramCompraEstado);
-        if($respuesta){//si se creo el estado compra, devuelvo el carrito
-            $carrito=$listaCompras[$posCompra];
+    public function crearCarrito($idUser)
+    {
+        date_default_timezone_set('America/Argentina/Buenos_Aires');
+        $carrito = null;
+        $objAbmCompra = new abmCompra();
+        $param = array(
+            'cofecha' => date('Y-m-d H:i:s'),
+            'idusuario' => $idUser
+        );
+        $respuesta = $this->altaSinID($param);
+        if (!$respuesta) {
+            echo "no se creo el carrito";
         }
-    }
-    return $carrito;
- }
-
- public function verificarStockProd($objCompraCarrito, $data)
-{//Verifica que la cantidad de stock del producto sea mayor o igual a la nueva cicantidad
-    $respuesta = false;
-    $objAbmCompraItem = new abmCompraItem();
-    $idCompra = $objCompraCarrito->getID();
-    $param = array(
-        'idproducto' => $data['idproducto'],
-        'idcompra' => $idCompra
-    );
-    $listaCompraItem = $objAbmCompraItem->buscar($param);
-    if (count($listaCompraItem) > 0) { //si existe el producto en el carrito chequeo con su cicantidad
-        $objCompraItem = $listaCompraItem[0];
-        $nuevaCantCI = $objCompraItem->getCiCantidad() + 1;
-        $objAbmProd = new abmProducto();
-        $param['idproducto'] = $data['idproducto'];
-        $listaProd = $objAbmProd->buscar($param);
-        if (count($listaProd)) {
-            $cantStockProd = $listaProd[0]->getProCantStock();
-            if ($cantStockProd >= $nuevaCantCI) {
-                $respuesta = true;
+        if ($respuesta) { //si se creo el carrito creo el estadocompra
+            $paramIDUsuario['idusuario'] = $idUser;
+            $objAbmCompraEstado = new abmCompraEstado();
+            $listaCompras = $this->buscar($paramIDUsuario);
+            $posCompra = count($listaCompras) - 1; //la ultima compra que cree es el carrito
+            $idCompra = $listaCompras[$posCompra]->getID();
+            $paramCompraEstado = array(
+                'idcompra' => $idCompra,
+                'idcompraestadotipo' => 5,
+                'cefechaini' => date('Y-m-d H:i:s'), //ver lo de la hora actual
+                'cefechafin' => '0000-00-00 00:00:00'
+            ); // ver el null
+            $respuesta = $objAbmCompraEstado->altaSinID($paramCompraEstado);
+            if ($respuesta) { //si se creo el estado compra, devuelvo el carrito
+                $carrito = $listaCompras[$posCompra];
             }
         }
-    } else { //si no existe el producto en el carrito no tengo que chequear ningun stock
-        $respuesta = true;
+        return $carrito;
     }
-    return $respuesta;
-}
+
+    public function verificarStockProd($objCompraCarrito, $data)
+    { //Verifica que la cantidad de stock del producto sea mayor o igual a la nueva cicantidad
+        $respuesta = false;
+        $objAbmCompraItem = new abmCompraItem();
+        $idCompra = $objCompraCarrito->getID();
+        $param = array(
+            'idproducto' => $data['idproducto'],
+            'idcompra' => $idCompra
+        );
+        $listaCompraItem = $objAbmCompraItem->buscar($param);
+        if (count($listaCompraItem) > 0) { //si existe el producto en el carrito chequeo con su cicantidad
+            $objCompraItem = $listaCompraItem[0];
+            $nuevaCantCI = $objCompraItem->getCiCantidad() + 1;
+            $objAbmProd = new abmProducto();
+            $param['idproducto'] = $data['idproducto'];
+            $listaProd = $objAbmProd->buscar($param);
+            if (count($listaProd)) {
+                $cantStockProd = $listaProd[0]->getProCantStock();
+                if ($cantStockProd >= $nuevaCantCI) {
+                    $respuesta = true;
+                }
+            }
+        } else { //si no existe el producto en el carrito no tengo que chequear ningun stock
+            $respuesta = true;
+        }
+        return $respuesta;
+    }
 
     /* FIN METODOS PARA AGREGAR PRODUCTO AL CARRITO */
 
@@ -373,47 +375,48 @@ public function crearCarrito($idUser){
         $idUserLogueado = $objSession->getIDUsuarioLogueado();
         $carrito = $objAbmUsuario->obtenerCarrito($idUserLogueado);
         return ($this->iniciarCompra($carrito));
-        
     }
 
 
-    public function iniciarCompra($carrito){
+    public function iniciarCompra($carrito)
+    {
         //modificar fechafin del carrito y crear nueva instancia de compraestado, con idcompraestadotipo =1, unido a la compra.
         date_default_timezone_set('America/Argentina/Buenos_Aires');
-        $respuesta=false;
-        $objAbmCompraEstado= new abmCompraEstado();
-        $idCompra=$carrito->getID();
-        $paramCompra= array(
-            'idcompra'=>$idCompra,
-            'idcompraestadotipo'=>1,
-            'cefechaini'=>date('Y-m-d H:i:s'),
-            'cefechafin'=>'0000-00-00 00:00:00'
+        $respuesta = false;
+        $objAbmCompraEstado = new abmCompraEstado();
+        $idCompra = $carrito->getID();
+        $paramCompra = array(
+            'idcompra' => $idCompra,
+            'idcompraestadotipo' => 1,
+            'cefechaini' => date('Y-m-d H:i:s'),
+            'cefechafin' => '0000-00-00 00:00:00'
         );
-    
-        $respuesta=$objAbmCompraEstado->altaSinID($paramCompra);
-        
+
+        $respuesta = $objAbmCompraEstado->altaSinID($paramCompra);
+
         if ($respuesta) {
-            $param= array(
-                'idcompra'=>$idCompra,
-                'idcompraestadotipo'=>5,
-                'cefechafin'=>null
+            $param = array(
+                'idcompra' => $idCompra,
+                'idcompraestadotipo' => 5,
+                'cefechafin' => null
             );
             $listaCompraEstado = $objAbmCompraEstado->buscar($param);
             if (count($listaCompraEstado) > 0) {
                 $idCompraEstado = $listaCompraEstado[0]->getID();
                 $paramEdicion = array(
                     'idcompraestado' => $idCompraEstado,
-                    'idcompra'=>$idCompra,
-                    'idcompraestadotipo'=>5,
-                    'cefechaini'=>$listaCompraEstado[0]->getCeFechaIni(),
+                    'idcompra' => $idCompra,
+                    'idcompraestadotipo' => 5,
+                    'cefechaini' => $listaCompraEstado[0]->getCeFechaIni(),
                     'cefechafin' => date('Y-m-d H:i:s')
                 );
                 $respuesta = $objAbmCompraEstado->modificacion($paramEdicion);
             }
-            
-        } 
-        return ['idcompra'=>$idCompra, 'respuesta'=>$respuesta];
-     }
+            // METODO PHPMAILER PARA EL ENVIO DE CORREO
+            enviarMail(['idcompra' => $idCompra, 'idcompraestadotipo' => 1]);
+        }
+        return ['idcompra' => $idCompra, 'respuesta' => $respuesta];
+    }
 
     /* FIN EJECUTAR COMPRA CARRITO */
 
@@ -421,7 +424,7 @@ public function crearCarrito($idUser){
 
     public function listadoProdCarrito($carrito)
     {
-        $arreglo_salida=[];
+        $arreglo_salida = [];
         if ($carrito <> null) {
             $objCI = new abmCompraItem();
             $arreglo_salida = [];
@@ -446,16 +449,16 @@ public function crearCarrito($idUser){
 
                 array_push($arreglo_salida, $nuevoElem);
             }
-           
+        }
+        return $arreglo_salida;
     }
-    return $arreglo_salida;
-}
 
-/* FIN LISTAR PRODUCTOS CARRITO */
+    /* FIN LISTAR PRODUCTOS CARRITO */
 
-/* VACIAR CARRITO */
+    /* VACIAR CARRITO */
 
-public function vaciarCarrito($idCarrito){
+    public function vaciarCarrito($idCarrito)
+    {
 
         $respuesta = false;
         $objCI = new abmCompraItem();
@@ -465,10 +468,54 @@ public function vaciarCarrito($idCarrito){
                 $objCI->baja(['idcompraitem' => $compraItem->getID()]);
             }
             $respuesta = true;
-        } 
+        }
         return $respuesta;
-}
+    }
 
-/* FIN VACIAR CARRITO */
+    /* FIN VACIAR CARRITO */
 
+    public function listarComprasUsuarios()
+    {
+        //Lista todos los datos de compra y compraestado referidos a todos los usuarios
+        $arreglo = [];
+        $abmUsuario = new abmUsuario();
+        $users = $abmUsuario->buscar(null);
+        if (count($users) > 0) {
+            foreach ($users as $user) {
+                $arrDatos = $this->listarCompras($user->getID());
+                array_push($arreglo, $arrDatos);
+            }
+        }
+
+        return $arreglo;
+    }
+
+    public function listarCompras($idUsuario)
+    {
+        //Lista las compras con su ultimo estadocompra referidas al usuario con idUsuario
+        $arreglo_salida =  [];
+        $listaCompras = $this->buscar(['idusuario' => $idUsuario]);
+        if (count($listaCompras) > 0) {
+
+            foreach ($listaCompras as $elem) {
+                $objCE = new abmCompraEstado;
+                $listaCE = $objCE->buscar(['idcompra' => $elem->getID()]);
+                $lastPosCE = count($listaCE) - 1;
+                //RECORREMOS EL LISTADO DE COMPRAS ESTADO Y SOLO MOSTRAMOS LA ULTIMA CE
+                //SI ES CARRITO NO LO MOSTRAMOS
+                if (!($listaCE[$lastPosCE]->getObjCompraEstadoTipo()->getCetDescripcion() === "carrito")) {
+                    $nuevoElem = [
+                        "idcompra" => $listaCE[$lastPosCE]->getObjCompra()->getID(),
+                        "cofecha" => $listaCE[$lastPosCE]->getCeFechaIni(),
+                        "finfecha" => $listaCE[$lastPosCE]->getCeFechaFin(),
+                        "usnombre" => $listaCE[$lastPosCE]->getObjCompra()->getObjUsuario()->getUsNombre(),
+                        "estado" => $listaCE[$lastPosCE]->getObjCompraEstadoTipo()->getCetDescripcion(),
+                        "idcompraestado" => $listaCE[$lastPosCE]->getID()
+                    ];
+                    array_push($arreglo_salida, $nuevoElem);
+                }
+            }
+        }
+        return $arreglo_salida;
+    }
 }

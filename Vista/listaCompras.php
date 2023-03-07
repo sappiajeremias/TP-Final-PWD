@@ -16,11 +16,10 @@ if (!$sesion->verificarPermiso('./listaCompras.php')) {
 
                     <thead class="table-dark">
                         <tr>
-                            <th>ID Transaccion</th>
+                            <th>ID Compra</th>
                             <th>Productos lista</th>
                             <th>Estado</th>
-                            <th>Fecha inicio transaccion</th>
-                            <th>Ultima fecha modificacion</th>
+                            <th>Fecha Modificación</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>

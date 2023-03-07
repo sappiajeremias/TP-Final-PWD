@@ -30,15 +30,13 @@ function armarTabla(arreglo) {
     $('#tablaCompras > tbody:last-child').empty();
 
     $.each(arreglo, function (index, compra) {
-       
-
         var estadoVista = null;
         var botones= null;
         if (compra.finfecha == null || compra.finfecha == "0000-00-00 00:00:00") {
             
             switch (compra.estado) {
                 case "iniciada":
-                    botones = "<td><a href='#' id='cancelarCompra' onclick='cancelarCompra(4,this.id)'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
+                    botones = "<td><a href='#' onclick='cancelarCompra(4,"+compra.idcompra+","+compra.idcompraestado+")'><button class='btn btn-outline-danger'><i class='fa-solid fa-xmark me-2'></i>Cancelar</button></a></td>";
                     break;
                 default:
                     botones = "<td>-</td>";
@@ -63,7 +61,7 @@ function armarTabla(arreglo) {
                 estadoVista = "<span class='badge rounded-pill text-bg-danger'>Cancelada</span>";
                 break;
         }
-        $('#tablaCompras > tbody:last-child').append('<tr><td style="display:none;">' + compra.idcompra + '</td><th scope="row">' + compra.idcompraestado + '</th><td hidden>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td><td>' + compra.finfecha + '</td>' +botones+ '</tr>');
+        $('#tablaCompras > tbody:last-child').append('<tr><td hidden>' + compra.idcompraestado + '</td><th scope="row">' + compra.idcompra + '</th><td hidden>' + compra.usnombre + '</td><td><a href="#" class="verProductos"><button class="btn btn-outline-info col-8"><i class="fa-solid fa-list-ul mx-2"></i></button></a></td><td>' + estadoVista + '</td><td>' + compra.cofecha + '</td>' +botones+ '</tr>');
     });
 }
 
@@ -73,9 +71,8 @@ function armarTabla(arreglo) {
 $(document).on('click', '.verProductos', function () {
 
     var fila = $(this).closest('tr');
-    var idcompra = fila[0].children[0].innerHTML;
+    var idcompra = fila[0].children[1].innerHTML;
     var pronombre = fila[0].children[2].innerHTML;
-
 
     $.ajax({
         type: "POST",
@@ -121,11 +118,7 @@ $(document).on('click', '#cerrar', function () {
 
 /*################################# CAMBIAR ESTADO COMPRA #################################*/
 
-function cancelarCompra(idcompraestadotipo,idboton) {
-    console.log(idboton);
-    var fila = $('#' + idboton + '').closest('tr');
-    var idcompra = fila[0].children[0].innerHTML;
-    var idcompraestado = fila[0].children[1].innerHTML;
+function cancelarCompra(idcompraestadotipo,idboton,idcompraestado) {
 
     bootbox.confirm({
         title: "Cancelar Compra",
@@ -146,7 +139,7 @@ function cancelarCompra(idcompraestadotipo,idboton) {
                 $.ajax({
                     type: "POST",
                     url: '../Acciones/compra/cancelarCompra.php',
-                    data: { idcompraestado: idcompraestado, idcompra: idcompra, idcompraestadotipo:idcompraestadotipo},
+                    data: { idcompraestado: idcompraestado, idcompra: idboton, idcompraestadotipo:idcompraestadotipo},
                     success: function (response) {
                         console.log(response);
                         var response = jQuery.parseJSON(response);

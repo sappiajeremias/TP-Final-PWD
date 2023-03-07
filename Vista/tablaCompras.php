@@ -15,12 +15,11 @@ if (!$sesion->verificarPermiso('./tablaCompras.php')) {
                     <caption>Compras</caption>
                     <thead class="table-dark">
                         <tr>
-                            <th>ID CE</th>
+                            <th>ID Compra</th>
                             <th>Usuario</th>
-                            <th>Productos lista</th>
+                            <th>Lista Productos</th>
                             <th>Estado</th>
-                            <th>Fecha Inicio</th>
-                            <th>Fecha Fin</th>
+                            <th>Fecha cambio de Estado</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>

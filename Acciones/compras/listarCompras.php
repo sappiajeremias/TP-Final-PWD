@@ -1,7 +1,7 @@
 <?php
 include_once "../../configuracion.php";
 $data = data_submitted();
-$objCE = new abmCompraEstado;
+$objC = new abmCompra;
 
-echo json_encode($objCE->listarCompras($data));
+echo json_encode($objC->listarComprasUsuarios());
 ?>
